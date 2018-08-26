@@ -2,7 +2,7 @@
 
 - Start Date: 2018-08-20
 - Master Issue: [#2](https://github.com/assister-ai/assister/issues/2)
-- RFC PR: [#3](https://github.com/assister-ai/assister/pull/3)
+- RFC PR: [#4](https://github.com/assister-ai/assister/pull/4)
 
 ## Summary
 [summary]: #summary

@@ -83,4 +83,4 @@ likely the the authors themselves. "Docs" and "Tests" will get a
 
 | Date       | Title       | Authors | Champions | Tests | Docs | Included in |
 | ---------- | ----------- | ------- | --------- | ----- | ---- | ----------- |
-| 2018-07-22 | [Assister - The Concept](https://github.com/assister-ai/assister/blob/master/rfcs/text/assister-conception) | [keyvan-m-sadeghi] | [hamidreza-mahyar], [sasanahmadi] | | | |
+| 2018-08-20 | [Assister - The Concept](https://github.com/assister-ai/assister/blob/master/rfcs/text/assister-conception) | [keyvan-m-sadeghi] | [hamidreza-mahyar], [sasanahmadi] | | | |
