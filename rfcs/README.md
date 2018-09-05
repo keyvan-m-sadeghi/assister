@@ -69,6 +69,8 @@ merged into the repository as a markdown file. At that point the RFC is
 - Following the implementation and inclusion, the master issue will be closed
   and the version number that contains the feature is put on the RFC table.
 
+**Assister's RFC process owes its inspiration to the [Rust RFC process](https://github.com/rust-lang/rfcs)**
+
 ## RFC table
 [RFC table]: #rfc-table
 
