@@ -1,0 +1,37 @@
+{
+  "name": "asst",
+  "version": "0.0.2",
+  "description": "Assister CLI",
+  "main": "index.js",
+  "scripts": {
+    "lint": "xo",
+    "test": "clear && jest && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/assister-ai/assister.git"
+  },
+  "keywords": [
+    "assistant",
+    "AI",
+    "cli"
+  ],
+  "license": "MIT",
+  "bin": {
+    "asst": "cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/assister-ai/assister/issues"
+  },
+  "homepage": "http://assister.ai/asst",
+  "devDependencies": {
+    "jest": "24.1.0",
+    "xo": "0.24.0"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "xo": {
+    "space": 2
+  }
+}
