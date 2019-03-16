@@ -7,6 +7,8 @@
 ## Summary
 [summary]: #summary
 
+![Assister Overview](overview.svg "Assister")
+
 ## Motivation
 [motivation]: #motivation
 
