@@ -7,19 +7,24 @@
 ## Summary
 [summary]: #summary
 
-Assister will provide a new standards for the web, the Web of Functions, and in doing so will take on the problem of creating meaningful conversational user interfaces.
+Assister is a collaborative, community driven open source platform for enabling command execution over the web. Assister consists of a new standard for the web, the **Web of Functions**, and the embodying software for creating context-aware conversational user interfaces, the **Assister Agent**.
 
 ![Assister Overview](overview.svg "Assister")
 
 ## Motivation
 [motivation]: #motivation
 
+User scenarios:
+
+I don't want to memorize where "Format cell as Date" is in all spreadsheet applications.
+Show me the potential customers that I marked as lead between January and February.
+
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
 ### Web of Functions (WoF)
 
-The "Web of Functions" (WoF) is an open source extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web)
+The "Web of Functions" (WoF) is an open source extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
 focusing on providing a means for "Function Interaction" over the web.
 
 The web is well capable of communicating:
@@ -91,7 +96,7 @@ In case there are more than one state meta tags, the first one is assumed to rep
 
 ### Intent
 
-An "intent" is a [stateful](https://en.wikipedia.org/wiki/State_(computer_science)) semantic unit representing a function embedded in a web application.
+An "intent" is a [stateful](https://en.wikipedia.org/wiki/State_(computer_science)) semantic unit representing a function embedded in a web application. An intent `IsA` function. The term for calling the function is "intent execution". 
 
 #### URI
 
