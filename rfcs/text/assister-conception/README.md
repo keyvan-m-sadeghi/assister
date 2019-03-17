@@ -7,6 +7,8 @@
 ## Summary
 [summary]: #summary
 
+Assister will provide a new standards for the web, the Web of Functions, and in doing so will take on the problem of creating meaningful conversational user interfaces.
+
 ![Assister Overview](overview.svg "Assister")
 
 ## Motivation
@@ -56,16 +58,18 @@ A meta tag denoting the adopted WoF version determined the current version of As
 
 ### Scope
 
-The execution context for the JavaScript references in the "wof" meta tags.
-JavaScript variables defined in the scope can also be used as a "type".
-
-JavaScript global objects, e.g. Boolean, Number, String, etc.
-Variables imported from the "wof:types" meta tag:
+The execution context for the JavaScript references in "wof" HTML attributes.
 
 ```html
 <meta property="wof:scope" scope="./scope-module.js" />
 ```
 
+### Type
+
+A "type" is either a JavaScript variable defined in the scope or a string denoting a schema protocol:
+
+JavaScript global objects, e.g. Boolean, Number, String, Promise, etc.
+Variables defined in the scope, e.g. AwesomeClass
 Types defined in Schema.org, accessed by the "schema" protocol:
 
 ```js
@@ -111,6 +115,15 @@ http://example.com:['schema:email']
 
 #### Signature
 
+```js
+{
+    name: 'subscribeEmail',
+    domain: ['schema:Email'],
+    range: Promise,
+    state: 'Any'
+}
+```
+
 "function": The reference to the corresponding JavaScript function
 "state" (optional): The state in which the function can be executed, represented by a string, defaults to the reserved state of "Any"
 "domain" (optional): A JavaScript array of "types", default: []
@@ -130,6 +143,10 @@ Examples:
 
 TODO: unsubscribeEmail, states: 'Any', 'subscribing', 'subscribed'
 
+
+## Discovery
+
+### Compose
 
 ### Command
 
@@ -152,18 +169,51 @@ https://intent.land/social/subscribe-email.html
 "wof:command" follows the Promise design principles.
 A neat way to have the effect applied is to export a "changeState" function in "./types.js", as demonstrated above.
 
+## Ontology
+
+### Standard intents
+
+intent.land
+
+### Inter-app integrations via intents
+
+Share
+
+overloading: share(['schema:URL']), share(['schema:image']), share(['schema:video'])
+
+User personalization determines which share targets they have.
+
+```html
+<button type="button" intent="share('./image.png')" overloads="[['schema:URL'], ['schema:image']]">Share</button>
+```
+
+Depending on the overload implemented by a target application, the parameter will be received as either an image (e.g. a photo editing app) or a URL (e.g. a social media). User's preferences could be taken into account, e.g. whether someone most likely shares on Facebook or Twitter.
+
+### Agent
+
+browser extension
+
 ## Drawbacks
 [drawbacks]: #drawbacks
 
 ## Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
+Why not just use a `<script>` tag for inter-app integrations?
+
+Standards. Write 'share' once, integrate with all.
+
 ## Prior art
 [prior-art]: #prior-art
+
+Wikipedia links
+Semantic Web
+Google Now
+Siri, Alexa, Google Assistant
 
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-Should cards be Web Components? Not until html import is undecided? React?
+Should cards be Web Components? Not until HTML import is decided? Don't forget React!
 
 WoF state and page state are the same thing? Author decides in the function?
