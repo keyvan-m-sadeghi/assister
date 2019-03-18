@@ -29,10 +29,10 @@ focusing on providing a means for "Function Interaction" over the web.
 
 The web is well capable of communicating:
 Structured content, in form of HTML
-Structured data, by standards such as Schema.org which represent bits and pieces of data that the contents are made of
+Structured data, by decentralized standards like JSON or centralized ones such as Schema.org, representing bits and pieces of the data that the contents are made of
 Structured code via JavaScript
 
-The next logical step might be "Structured Functions".
+The next logical step might be "Structured Functions" covering both decentralized and centralized aspects.
 The WoF is a proposal for executing on creating "universally understandable
 representation of functions that the code is made of" and enabler
 technologies for inter-application interaction between these functions.
