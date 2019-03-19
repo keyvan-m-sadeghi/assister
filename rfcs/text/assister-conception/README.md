@@ -7,7 +7,7 @@
 ## Summary
 [summary]: #summary
 
-Assister is a collaborative, community driven open source platform for enabling command execution over the web. Assister consists of a new standard for the web, the **Web of Functions**, and the embodying software for creating context-aware conversational user interfaces, the **Assister Agent**.
+Assister is a collaborative, community driven open source platform, enabling command execution over the web. Assister consists of a new standard for the web, the **Web of Functions**, and the reference implementation of the embodying software for integrating context-aware conversational user interfaces, the **Assister Agent**.
 
 ![Assister Overview](overview.svg "Assister")
 
@@ -25,7 +25,7 @@ Show me the potential customers that I marked as lead between January and Februa
 ### Web of Functions (WoF)
 
 The "Web of Functions" (WoF) is an open source extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
-focusing on providing a means for "Function Interaction" over the web.
+focusing on providing a means of "Function Interaction" over the web.
 
 The web is well capable of communicating:
 Structured content, in form of HTML
@@ -49,9 +49,15 @@ Assister Agent: user interface
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-### WoF protocol
+WoF declarations are located at the `<head>` of an HTML file within `<meta>` tags.
 
-Function related bodies of standardization happen within the "wof" protocol.
+### WoF URI scheme
+
+Function related bodies of standardization can be identified by the "wof" URI scheme:
+
+```
+wof:<standard>
+```
 
 ### Version
 
@@ -69,38 +75,52 @@ The execution context for the JavaScript references in "wof" HTML attributes.
 <meta property="wof:scope" scope="./scope-module.js" />
 ```
 
+Any JavaScript that intends to use an application's WoF variables can then do:
+
+```js
+import { aFunction, aType, dispatch } from './scope-module.js';
+```
+
 ### Type
 
-A "type" is either a JavaScript variable defined in the scope or a string denoting a schema protocol:
+A "type" is either a JavaScript variable defined in the scope or a string denoting a schema:
 
 JavaScript global objects, e.g. Boolean, Number, String, Promise, etc.
 Variables defined in the scope, e.g. AwesomeClass
-Types defined in Schema.org, accessed by the "schema" protocol:
+Types defined in [Schema.org](schema.org), accessed by the "schema" scheme:
 
 ```js
-"schema:Person"
+'schema:Person'
 // http://schema.org/Person
-"schema:Email"
+'schema:Email'
 // http://schema.org/Email
 ```
 
 ### State
 
-The meta tag representing the current state:
+Applications are responsible for managing their state whatever way they see fit.
+However, an "undo" button is a very reasonable end user expectation that WoF adheres to.
 
-```html
-<meta property="wof:state" state="<string representing the current state>" />
+WoF state interaction happens via the `dispatch` function that is imported from the scope.
+
+State interaction follows the `wof:apply` logic.
+Given `dispatch` and `action` (a string), `wof:apply` is defined as:
+
+```js
+function apply(action) {
+    if (action) {
+        dispatch(action);
+    }
+}
 ```
-
-In case there are more than one state meta tags, the first one is assumed to represent the current state.
 
 ### Intent
 
-An "intent" is a [stateful](https://en.wikipedia.org/wiki/State_(computer_science)) semantic unit representing a function embedded in a web application. An intent `IsA` function. The term for calling the function is "intent execution". 
+An "intent" is a [stateful](https://en.wikipedia.org/wiki/State_(computer_science)) semantic unit representing a function embedded in a web application. An intent `IsA` function. "Intent execution" is a semantically equivalent term for a "function call".
 
 #### URI
 
-An intent URI can be used for referencing the function of an intent:
+An intent URI can be used for referencing an intent:
 
 ```
 http://example.com:subscribeEmail
@@ -129,12 +149,28 @@ http://example.com:['schema:email']
 }
 ```
 
-"function": The reference to the corresponding JavaScript function
+"intent": The reference to the corresponding JavaScript function
 "state" (optional): The state in which the function can be executed, represented by a string, defaults to the reserved state of "Any"
 "domain" (optional): A JavaScript array of "types", default: []
-"range" (optional): "type", default: "Promise"
-"undo" (optional): Reference to the reverse intent
+"range" (optional): Return value "type", default: `undefined`
+"effect" (optional): The `action` to be `dispatched`, default: `undefined`
+"undo" (optional): Reference to the reverse function
 "card" (optional): The reference to a JavaScript function that returns a card (an "html div", string) when called with the same parameters as the function. The "html div" defaults to `https://intent.land/cards:<intent>(...params)`, `https://intent.land/cards:<domain>[0](...params)` or `https://intent.land/cards:label(<intent>)` respectively on each failure.
+
+
+Intent execution follows the `wof:execute` logic. Given an intent, `execute` is defined as:
+
+```js
+const intent = aFunction;
+const parameters = receivedParameters;
+
+function execute(intent) {
+    return Promise.try(() => intent(...parameters));
+}
+```
+
+Promisifying the intent is a design choice adopted to unify synchronous and asynchronous flows for users.
+Resolved value from the Promise would be of the "type" defined in "range".
 
 #### App state vs Assistant state
 
@@ -143,7 +179,7 @@ changeState
 Examples:
 
 ```html
-<meta property="wof:intent" function="subscribeEmail" domain="['schema:email']" undo="unsubscribeEmail"/>
+<meta property="wof:intent" intent="subscribeEmail" domain="['schema:email']" undo="unsubscribeEmail"/>
 ```
 
 TODO: unsubscribeEmail, states: 'Any', 'subscribing', 'subscribed'
@@ -184,6 +220,8 @@ intent.land
 
 Share
 
+Follow
+
 overloading: share(['schema:URL']), share(['schema:image']), share(['schema:video'])
 
 User personalization determines which share targets they have.
@@ -212,12 +250,15 @@ Standards. Write 'share' once, integrate with all.
 [prior-art]: #prior-art
 
 Wikipedia links
+https://schema.org/EntryPoint
 Semantic Web
 Google Now
 Siri, Alexa, Google Assistant
 
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
+
+Does/would `schema.org` offer a type analogous to `undefined`? Do we need one?
 
 Should cards be Web Components? Not until HTML import is decided? Don't forget React!
 
