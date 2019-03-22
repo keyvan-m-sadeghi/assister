@@ -7,7 +7,8 @@
 ## Summary
 [summary]: #summary
 
-Assister is a collaborative, community driven [open source](https://en.wikipedia.org/wiki/Open_source)
+[Assister](#the-assister-platform-tap-assister) is a collaborative, community
+driven [open source](https://en.wikipedia.org/wiki/Open_source)
 [platform](https://en.wikipedia.org/wiki/Open_platform) for integrating
 [context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
@@ -32,20 +33,21 @@ in some tests.
 CUIs are probably our best try yet at a [Natural User Interface](https://en.wikipedia.org/wiki/Natural_user_interface).
 
 ![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
-*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), manifestation of an ideal CUI! Image by [IMDB](https://www.imdb.com/)*
+*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), manifestation of an ideal CUI! Image by [IMDB](https://www.imdb.com/title/tt5848272/mediaviewer/rm559510784)*
 
 Despite showing promise in [lifestyle](https://en.wikipedia.org/wiki/Lifestyle_(sociology))
 use cases, [virtual assistants](https://en.wikipedia.org/wiki/Virtual_assistant)
 have been mostly unsuccessful in breaking new ground for [professionals](https://en.wikipedia.org/wiki/Professional).
 This is partly due to the complex variables at play in a professional setting,
-which are hard to comprehend without [context](https://en.wikipedia.org/wiki/Context_(language_use)).
+which are hard to comprehend without [context](https://en.wikipedia.org/wiki/Context_(language_use))
+(case study: [IBM Watson in Health](https://www.computerworld.com/article/3321138/did-ibm-put-too-much-stock-in-watson-health-too-soon.html)).
 
 Assister is an effort aimed at solving this problem over the web, by provision
 of [a standard](#web-of-functions-wof) for contextual [text annotations](https://en.wikipedia.org/wiki/Text_annotation),
 and [an accompanying](#assister-agent) [browser extension](https://en.wikipedia.org/wiki/Browser_extension)
 for CUIs to operate on these annotations.
 
-Examples of professional scenarios:
+Examples scenarios in professional web applications:
 
 * I don't want to memorize the position of `Format cell as Date` in all
 spreadsheet applications.
@@ -59,8 +61,8 @@ spreadsheet applications.
 (CLI) could be considered the [ancestor](https://en.wikipedia.org/wiki/Ancestor)
 of CUI.
 
-![DOS](https://upload.wikimedia.org/wikipedia/commons/8/8a/COMMAND_LINE.svg)
-*An MS DOS command line. Image by Wikimedia*
+![DOS CLI](https://upload.wikimedia.org/wikipedia/commons/8/8a/COMMAND_LINE.svg)
+*An MS DOS command line. Image by [Wikimedia](https://commons.wikimedia.org/wiki/File:COMMAND_LINE.svg)*
 
 A CUI receives a request from the user in [natural language](https://en.wikipedia.org/wiki/Natural_language)
 and emits a response in return.
@@ -112,8 +114,9 @@ From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wik
 to a desktop app.
 
 ### The Assister Platform (TAP/Assister)
+[the-assister-platform-tap-assister]: #the-assister-platform-tap-assister
 
-"The Assister Platform" (TAP, or simply Assister) is a collection of softwares and bodies of
+**The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and bodies of
 standardization for a WoF, developed by "The Assister Community" (TAC).
 
 Softwares:
