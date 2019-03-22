@@ -12,16 +12,37 @@ Assister is a collaborative, community driven [open source](https://en.wikipedia
 [context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 in [web applications](https://en.wikipedia.org/wiki/Web_application).
-Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/World_Wide_Web)
-, the [**Web of Functions**](#wof) , and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
-, the **Assister Agent**.
+Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
+the [**Web of Functions**](#web-of-functions-wof), and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
+the [**Assister Agent**](#assister-agent).
 
 ![Assister Overview](overview.svg)
 
 ## Motivation
 [motivation]: #motivation
 
-User scenarios:
+[Conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
+(CUIs) are a relatively new concept. An ideal CUI would be indistinguishable
+from a conversation with a real human. [Google Duplex](https://ai.googleblog.com/2018/05/duplex-ai-system-for-natural-conversation.html)
+is an example of an state-of-the-art CUI; human subjects did not grasp they
+were talking to an [Artificial Intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence)
+in some tests.
+
+![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
+*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), image by [IMDB](https://www.imdb.com/)*
+
+Despite showing promise in [lifestyle](https://en.wikipedia.org/wiki/Lifestyle_(sociology))
+use cases, [virtual assistants](https://en.wikipedia.org/wiki/Virtual_assistant)
+have been mostly unsuccessful in breaking new ground for [professionals](https://en.wikipedia.org/wiki/Professional).
+This is partly due to the complex variables at play in a professional setting;
+it is hard to comprehend the [context](https://en.wikipedia.org/wiki/Context_(language_use)).
+
+Assister is an effort aimed at solving this problem over the web, by provision
+of [a standard](#web-of-functions-wof) for contextual [text annotations](https://en.wikipedia.org/wiki/Text_annotation),
+and an accompanying [browser extension](#assister-agent) for CUIs to operate on
+these annotations.
+
+Examples of professional scenarios:
 
 * I don't want to memorize the position of `Format cell as Date` in all spreadsheet applications.
 * Show me the `potential customers` that `I` flagged as `lead` between `January` and `February`.
@@ -29,14 +50,11 @@ User scenarios:
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
-![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
-*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), image by [IMDB](https://www.imdb.com/)*
-
 ### Web of Functions (WoF)
-[wof]: #wof
+[web-of-functions-wof]: #web-of-functions-wof
 
 The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
-focusing on providing a means of "Function Interaction" over the web.
+focusing on provision of a mechanism for **Function Interaction** over the web.
 
 The web is adequately equipped for communicating:
 
