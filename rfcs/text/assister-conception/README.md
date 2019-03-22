@@ -7,35 +7,57 @@
 ## Summary
 [summary]: #summary
 
-Assister is a collaborative, community driven open source platform, enabling command execution over the web. Assister consists of a new standard for the web, the **Web of Functions**, and the reference implementation of the embodying software for integrating context-aware conversational user interfaces, the **Assister Agent**.
+Assister is a collaborative, community driven [open source](https://en.wikipedia.org/wiki/Open_source)
+[platform](https://en.wikipedia.org/wiki/Open_platform) for integrating
+[context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
+[conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
+in [web applications](https://en.wikipedia.org/wiki/Web_application).
+Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/World_Wide_Web)
+, the [**Web of Functions**](#wof) , and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
+, the **Assister Agent**.
 
-![Assister Overview](overview.svg "Assister")
+![Assister Overview](overview.svg)
 
 ## Motivation
 [motivation]: #motivation
 
 User scenarios:
 
-* I don't want to memorize where "Format cell as Date" is in all spreadsheet applications.
-* Show me the potential customers that I marked as lead between January and February.
+* I don't want to memorize the position of `Format cell as Date` in all spreadsheet applications.
+* Show me the `potential customers` that `I` flagged as `lead` between `January` and `February`.
 
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
-### Web of Functions (WoF)
+![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
+*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), image by [IMDB](https://www.imdb.com/)*
 
-The **Web of Functions (WoF)** is an open source extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
+### Web of Functions (WoF)
+[wof]: #wof
+
+The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
 focusing on providing a means of "Function Interaction" over the web.
 
-The web is well capable of communicating:
-* Structured content, as HTML
-* Structured data, representing bits and pieces of the data that the contents are made of, by decentralized standards like [JSON](https://www.json.org/) or centralized ones such as [schema.org](schema.org)
-* Structured code via [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+The web is adequately equipped for communicating:
 
-The next logical step might be **Structured Functions**.
+* Structured content
 
-WoF is a proposal on how to create *"universally understandable
-representation of **functions**, the unit that the code is made of"*, covering both decentralized and centralized aspects and how to enable inter-application interactions between these functions.
+  [HTML](https://en.wikipedia.org/wiki/HTML)
+
+* Structured data, representing data fragments that make up the content
+
+  Decentralized standards like [JSON](https://www.json.org/) or centralized
+  ones in the Semantic Web such as [schema.org](https://schema.org)
+
+* Structured code
+
+  [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+The next logical step might be **Structured Functions**, fragments that make up the code.
+
+WoF is a proposal on how to create *"universally understandable representation
+of **functions**"*, covering both decentralized and centralized aspects,
+enabling inter-application interactions between these functions.
 
 From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
 to a desktop app.
