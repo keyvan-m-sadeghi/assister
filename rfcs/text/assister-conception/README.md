@@ -13,42 +13,72 @@ Assister is a collaborative, community driven [open source](https://en.wikipedia
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 in [web applications](https://en.wikipedia.org/wiki/Web_application).
 Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
-the [**Web of Functions**](#web-of-functions-wof), and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
+the [**Web of Functions (WoF)**](#web-of-functions-wof), and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
 the [**Assister Agent**](#assister-agent).
 
 ![Assister Overview](overview.svg)
+*Assister, architecture*
 
 ## Motivation
 [motivation]: #motivation
 
 [Conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
-(CUIs) are a relatively new concept. An ideal CUI would be indistinguishable
-from a conversation with a real human. [Google Duplex](https://ai.googleblog.com/2018/05/duplex-ai-system-for-natural-conversation.html)
-is an example of an state-of-the-art CUI; human subjects did not grasp they
+(CUIs) are a relatively new concept. Conversing with an ideal CUI would be
+indistinguishable from a conversation with a real human. [Google Duplex](https://ai.googleblog.com/2018/05/duplex-ai-system-for-natural-conversation.html)
+is an example of a state-of-the-art CUI; human subjects did not grasp they
 were talking to an [Artificial Intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence)
 in some tests.
 
+CUIs are probably our best try yet at a [Natural User Interface](https://en.wikipedia.org/wiki/Natural_user_interface).
+
 ![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
-*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), image by [IMDB](https://www.imdb.com/)*
+*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), manifestation of an ideal CUI! Image by [IMDB](https://www.imdb.com/)*
 
 Despite showing promise in [lifestyle](https://en.wikipedia.org/wiki/Lifestyle_(sociology))
 use cases, [virtual assistants](https://en.wikipedia.org/wiki/Virtual_assistant)
 have been mostly unsuccessful in breaking new ground for [professionals](https://en.wikipedia.org/wiki/Professional).
-This is partly due to the complex variables at play in a professional setting;
-it is hard to comprehend the [context](https://en.wikipedia.org/wiki/Context_(language_use)).
+This is partly due to the complex variables at play in a professional setting,
+which are hard to comprehend without [context](https://en.wikipedia.org/wiki/Context_(language_use)).
 
 Assister is an effort aimed at solving this problem over the web, by provision
 of [a standard](#web-of-functions-wof) for contextual [text annotations](https://en.wikipedia.org/wiki/Text_annotation),
-and an accompanying [browser extension](#assister-agent) for CUIs to operate on
-these annotations.
+and [an accompanying](#assister-agent) [browser extension](https://en.wikipedia.org/wiki/Browser_extension)
+for CUIs to operate on these annotations.
 
 Examples of professional scenarios:
 
-* I don't want to memorize the position of `Format cell as Date` in all spreadsheet applications.
-* Show me the `potential customers` that `I` flagged as `lead` between `January` and `February`.
+* I don't want to memorize the position of `Format cell as Date` in all
+spreadsheet applications.
+* Show me the `potential customers` that `I` flagged as `lead` between
+`January` and `February`.
 
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
+
+[Command Line User Interface](https://en.wikipedia.org/wiki/Command-line_interface)
+(CLI) could be considered the [ancestor](https://en.wikipedia.org/wiki/Ancestor)
+of CUI.
+
+![DOS](https://upload.wikimedia.org/wikipedia/commons/8/8a/COMMAND_LINE.svg)
+*An MS DOS command line. Image by Wikimedia*
+
+A CUI receives a request from the user in [natural language](https://en.wikipedia.org/wiki/Natural_language)
+and emits a response in return.
+
+A CLI provides an interface for receiving [commands](https://en.wikipedia.org/wiki/Command_(computing))
+from the user and outputs the corresponding result after execution.
+
+A CUI shares the characteristics of a CLI if one comes to think of comparing
+the two. By [analogy](https://en.wikipedia.org/wiki/Analogy) with a CLI,
+request and response in a CUI correspond to command and result in a CLI,
+respectively.
+
+Assister strives to create [a CLI](#assister-agent) for the web, and enable
+creation of CUIs over this CLI in the process.
+
+### Assister Agent
+
+Assister [Agent](#agent) is a browser extension for interpreting the [WoF](#web-of-functions-wof).
 
 ### Web of Functions (WoF)
 [web-of-functions-wof]: #web-of-functions-wof
@@ -62,7 +92,7 @@ The web is adequately equipped for communicating:
 
   [HTML](https://en.wikipedia.org/wiki/HTML)
 
-* Structured data, representing data fragments that make up the content
+* Structured data, fragments that make up the content
 
   Decentralized standards like [JSON](https://www.json.org/) or centralized
   ones in the Semantic Web such as [schema.org](https://schema.org)
@@ -71,11 +101,12 @@ The web is adequately equipped for communicating:
 
   [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-The next logical step might be **Structured Functions**, fragments that make up the code.
+The next logical step could be **Structured Functions**, fragments that make up
+the code.
 
-WoF is a proposal on how to create *"universally understandable representation
-of **functions**"*, covering both decentralized and centralized aspects,
-enabling inter-application interactions between these functions.
+WoF is a proposal on how to create *"universally understandable annotations of
+**functions**"*, covering both decentralized and centralized aspects, enabling
+inter-application interactions between these functions.
 
 From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
 to a desktop app.
