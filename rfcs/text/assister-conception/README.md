@@ -7,7 +7,7 @@
 ## Summary
 [summary]: #summary
 
-[Assister](#the-assister-platform-tap-assister) is a collaborative, community
+[Assister](#the-assister-platform-tapassister) is a collaborative, community
 driven [open source](https://en.wikipedia.org/wiki/Open_source)
 [platform](https://en.wikipedia.org/wiki/Open_platform) for integrating
 [context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
@@ -114,16 +114,34 @@ From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wik
 to a desktop app.
 
 ### The Assister Platform (TAP/Assister)
-[the-assister-platform-tap-assister]: #the-assister-platform-tap-assister
+[the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
 **The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and bodies of
-standardization for a WoF, developed by "The Assister Community" (TAC).
+standardization for a WoF, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
 
-Softwares:
+A WoF implementation needs to provide three components:
 
-* Assister Map: discovery
-* intent.land: the external ontology
-* Assister Agent: user interface
+* Discovery: A software for mapping Natural Language Commands to Syntactic Commands
+* Ontology: WoF HTML annotations
+* Agent: A Command Line User Interface
+
+Assister ships with all three:
+
+* Assister Map: Discovery
+* WoF: Assister provides the standard for the Ontology, application authors integrate
+* Assister Agent: CLI
+
+Despite being [batteries included](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
+Assister follows an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
+design:
+
+* Assister Map could be swapped, for example with proprietary solutions like
+[Apple Siri](https://www.apple.com/siri/),
+[Google Assistant](https://assistant.google.com/),
+[Amazon Alexa](https://developer.amazon.com/alexa)
+or enterprise solutions such as [clinc](https://clinc.com/)
+* External Ontology could be added to a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
+* Assister Agent can be extended for specialized use cases
 
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
