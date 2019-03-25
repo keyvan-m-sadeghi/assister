@@ -17,8 +17,8 @@ Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/
 the [**Web of Functions (WoF)**](#web-of-functions-wof), and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
 the [**Assister Agent**](#assister-agent).
 
-![Assister Overview](overview.svg)
-*Assister, architecture*
+![Assister Architecture](architecture.svg)
+*Assister Architecture*
 
 ## Motivation
 [motivation]: #motivation
@@ -56,6 +56,45 @@ spreadsheet applications.
 
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
+
+```xml
+<function name="format" pattern="format ${unit} as ${type}">
+    <value intent="formatRange(getRange(unit), type)"/>
+    <value intent="formatCell(getCell(unit), type)"/>
+
+    <example command="format as Date" intent="formatCell(currentCell, types.Date)"/>
+    <example command="format column as Date" intent="formatRange(currentColumn, types.Date)"/>
+    <example command="format A24:A42 as Date" intent="formatRange(getRange(getCell('A24'), getCell('A42')), types.Date)"/>
+
+    <imports scope="./sheet.js">
+        <function name="formatCell"/>
+        <function name="getCell" scope="./cell.js">    <!-- overrides scope -->
+            <example command="A42" intent="getCell('A42')"/>
+        </function>
+
+        <variable name="currentCell"/>
+        <variable name="currentColumn"/>
+        <variable name="currentRow"/>
+    </imports>
+
+    <variable name="unit">
+        <value intent="getRange(unit)"/>
+        <value intent="getCell(unit)"/>
+        <value intent="{'cell': currentCell, 'column': currentColumn, 'row': currentRow}[unit]"/>
+        <value intent="currentCell"/>
+
+        <meta property="wof:function" function="getRange" pattern="${start}:${end}">
+            <meta property="wof:value" intent="getRange(start, end)"/>
+            <meta property="wof:variable" variable="start">
+                <meta property="wof:value"  intent="getCell(start)">
+            </meta>
+            <meta property="wof:variable" variable="end">
+                <meta property="wof:value"  intent="getCell(end)">
+            </meta>
+        </meta>
+    </meta>
+</function>
+```
 
 [Command Line User Interface](https://en.wikipedia.org/wiki/Command-line_interface)
 (CLI) could be considered the [ancestor](https://en.wikipedia.org/wiki/Ancestor)
@@ -123,25 +162,25 @@ A WoF implementation needs to provide three components:
 
 * Discovery: A software for mapping Natural Language Commands to Syntactic Commands
 * Ontology: WoF HTML annotations
-* Agent: A Command Line User Interface
+* Agent: A Command Line User Interface as a browser extension
 
 Assister ships with all three:
 
 * Assister Map: Discovery
-* WoF: Assister provides the standard for the Ontology, application authors integrate
+* WoF: Assister standardizes the Ontology
 * Assister Agent: CLI
 
 Despite being [batteries included](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
 Assister follows an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
 design:
 
-* Assister Map could be swapped, for example with proprietary solutions like
+* Assister Map could be swapped for another Discovery, for example with proprietary solutions like
 [Apple Siri](https://www.apple.com/siri/),
 [Google Assistant](https://assistant.google.com/),
 [Amazon Alexa](https://developer.amazon.com/alexa)
 or enterprise solutions such as [clinc](https://clinc.com/)
 * External Ontology could be added to a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
-* Assister Agent can be extended for specialized use cases
+* Assister Agent can be extended for specialized use cases or swapped for another Agent
 
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
