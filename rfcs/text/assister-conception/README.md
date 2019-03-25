@@ -13,12 +13,15 @@ driven [open source](https://en.wikipedia.org/wiki/Open_source)
 [context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 in [web applications](https://en.wikipedia.org/wiki/Web_application).
-Assister consists of a new standard for [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
-the [**Web of Functions (WoF)**](#web-of-functions-wof), and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
+Assister is composed of a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage)
+for [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
+the [**Web of Functions (WoF)**](#web-of-functions-wof)
+[language](#wof-language),
+and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
 the [**Assister Agent**](#assister-agent).
 
 ![Assister Architecture](architecture.svg)
-*Assister Architecture*
+*Assister Architecture, references: [Request](#request), [Discovery](#Discovery), [Command](#command), [Ontology](#ontology), [Intent](#intent), [Execution](#execution), [Response](#response)*
 
 ## Motivation
 [motivation]: #motivation
@@ -56,45 +59,6 @@ spreadsheet applications.
 
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
-
-```xml
-<function name="format" pattern="format ${unit} as ${type}">
-    <value intent="formatRange(getRange(unit), type)"/>
-    <value intent="formatCell(getCell(unit), type)"/>
-
-    <example command="format as Date" intent="formatCell(currentCell, types.Date)"/>
-    <example command="format column as Date" intent="formatRange(currentColumn, types.Date)"/>
-    <example command="format A24:A42 as Date" intent="formatRange(getRange(getCell('A24'), getCell('A42')), types.Date)"/>
-
-    <imports scope="./sheet.js">
-        <function name="formatCell"/>
-        <function name="getCell" scope="./cell.js">    <!-- overrides scope -->
-            <example command="A42" intent="getCell('A42')"/>
-        </function>
-
-        <variable name="currentCell"/>
-        <variable name="currentColumn"/>
-        <variable name="currentRow"/>
-    </imports>
-
-    <variable name="unit">
-        <value intent="getRange(unit)"/>
-        <value intent="getCell(unit)"/>
-        <value intent="{'cell': currentCell, 'column': currentColumn, 'row': currentRow}[unit]"/>
-        <value intent="currentCell"/>
-
-        <meta property="wof:function" function="getRange" pattern="${start}:${end}">
-            <meta property="wof:value" intent="getRange(start, end)"/>
-            <meta property="wof:variable" variable="start">
-                <meta property="wof:value"  intent="getCell(start)">
-            </meta>
-            <meta property="wof:variable" variable="end">
-                <meta property="wof:value"  intent="getCell(end)">
-            </meta>
-        </meta>
-    </meta>
-</function>
-```
 
 [Command Line User Interface](https://en.wikipedia.org/wiki/Command-line_interface)
 (CLI) could be considered the [ancestor](https://en.wikipedia.org/wiki/Ancestor)
@@ -152,6 +116,67 @@ inter-application interactions between these functions.
 From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
 to a desktop app.
 
+#### WoF Language
+[wof-language]: #wof-language
+
+**sheet.js**
+
+```js
+const types = {
+    date: Date,
+    // etc.
+};
+
+const [currentRange, setCurrentRange] = useState('A1');
+
+function formatRange(range, type) {
+    // formats range as type
+    // e.g. range = 'A24:B42'
+    // e.g. type = types.date
+}
+
+export {currentRange, setCurrentRange, formatRange};
+```
+
+**sheet.wof**
+
+```xml
+<module default="./sheet.js"/>
+
+<function name="formatRange"/>
+
+<variable name="currentCell"/>
+<variable name="currentColumn"/>
+<variable name="currentRow"/>
+
+<function name="format" arguments="[unit, type]" pattern="format ${unit} as ${type}">
+    <value intent="formatRange(getRange(unit), type)"/>
+    <value intent="formatCell(getCell(unit), type)"/>
+
+    <example command="format as date" intent="formatCell(currentCell, types.Date)"/>
+    <example command="format column as date" intent="formatRange(currentColumn, types.Date)"/>
+    <example command="format a24 to b42 as date" intent="formatRange(getCell('a24'), getCell('b42'), types.Date)"/>
+
+
+    <variable name="unit">
+        <value intent="getRange(unit)"/>
+        <value intent="getCell(unit)"/>
+        <value intent="{'cell': currentCell, 'column': currentColumn, 'row': currentRow}[unit]"/>
+        <value intent="currentCell"/>
+
+        <function name="getRange" arguments="[start, end]" pattern="${start} to ${end}">
+            <value intent="${start}:${end}"/>
+            <variable name="start">
+                <value  intent="getCell(start)">
+            </variable>
+            <variable name="end">
+                <value  intent="getCell(end)">
+            </variable>
+        </function>
+    </variable>
+</function>
+```
+
 ### The Assister Platform (TAP/Assister)
 [the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
@@ -160,14 +185,15 @@ standardization for a WoF, developed by [**The Assister Community (TAC)**](https
 
 A WoF implementation needs to provide three components:
 
-* Discovery: A software for mapping Natural Language Commands to Syntactic Commands
-* Ontology: WoF HTML annotations
+* Discovery: A software for mapping Natural Language Requests to Commands
+* [Ontology (Knowledge Graph)](https://en.wikipedia.org/wiki/Ontology_(information_science)):
+WoF HTML annotations
 * Agent: A Command Line User Interface as a browser extension
 
 Assister ships with all three:
 
 * Assister Map: Discovery
-* WoF: Assister standardizes the Ontology
+* WoF: Assister standardizes the WoF language
 * Assister Agent: CLI
 
 Despite being [batteries included](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
