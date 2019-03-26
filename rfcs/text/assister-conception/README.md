@@ -116,7 +116,7 @@ inter-application interactions between these functions.
 From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
 to a desktop app.
 
-#### WoF Language
+#### Knowledge Graph Language
 [wof-language]: #wof-language
 
 **sheet.js**
@@ -124,57 +124,53 @@ to a desktop app.
 ```js
 const types = {
     date: Date,
+    number: Number,
     // etc.
 };
 
-const [currentRange, setCurrentRange] = useState('A1');
+const [currentSelection, setCurrentSelection] = useState('A1');
 
-function formatRange(range, type) {
-    // formats range as type
-    // e.g. range = 'A24:B42'
+function format(selection, type) {
+    // formats selection as type
+    // e.g. selection = 'J9:K14,L9,M9,N9:O14,K17:N25'
     // e.g. type = types.date
 }
 
-export {currentRange, setCurrentRange, formatRange};
+export {currentSelection, setCurrentSelection, format, types};
 ```
 
-**sheet.wof**
+**sheet.kgl**
 
 ```xml
-<module default="./sheet.js"/>
+<term name="type">
+    <case pattern="number">
+    <case pattern="date">
+</term>
 
-<function name="formatRange"/>
+<term name="cell" pattern="${#A..#Z}${#integer>0}"/> <!-- range -->
+<term name="cellComma" pattern="${cell},"/>
+<term name="range" description="a ${range} is a collection of ${cell}s" more="https://www.computerhope.com/jargon/r/range.htm"/>
+    <term name="start" isa="cell"/>
+    <term name="end" isa="cell"/>
+    <case pattern="${start}:${end}"/>
+    <case pattern="${cellComma ..+ cell}"/> <!-- repetition, termination -->
+</term>
+<term name="rangeComma" pattern="${range},"/>
+<term name="selection" pattern="${(cellComma | rangeComma) ..* cell | range}"/> <!-- grouping -->
 
-<variable name="currentCell"/>
-<variable name="currentColumn"/>
-<variable name="currentRow"/>
+<import module="./sheet.js">
+    <function name="format"/>
+    <function name="setCurrentSelection"/>
 
-<function name="format" arguments="[unit, type]" pattern="format ${unit} as ${type}">
-    <value intent="formatRange(getRange(unit), type)"/>
-    <value intent="formatCell(getCell(unit), type)"/>
+    <variable name="types"/>
+    <variable name="currentSelection"/>
+</import>
 
-    <example command="format as date" intent="formatCell(currentCell, types.Date)"/>
-    <example command="format column as date" intent="formatRange(currentColumn, types.Date)"/>
-    <example command="format a24 to b42 as date" intent="formatRange(getCell('a24'), getCell('b42'), types.Date)"/>
-
-
-    <variable name="unit">
-        <value intent="getRange(unit)"/>
-        <value intent="getCell(unit)"/>
-        <value intent="{'cell': currentCell, 'column': currentColumn, 'row': currentRow}[unit]"/>
-        <value intent="currentCell"/>
-
-        <function name="getRange" arguments="[start, end]" pattern="${start} to ${end}">
-            <value intent="${start}:${end}"/>
-            <variable name="start">
-                <value  intent="getCell(start)">
-            </variable>
-            <variable name="end">
-                <value  intent="getCell(end)">
-            </variable>
-        </function>
-    </variable>
-</function>
+<command name="format" pattern="format ${selection | #empty} as ${type}">
+    <intent given="[selection, type]" value="format(selection, types[type])" then="setCurrentSelection(selection)"/>
+    <intent given="[type]" value="format(currentSelection, types[type])"/>
+    <!-- <example/> -->
+</command>
 ```
 
 ### The Assister Platform (TAP/Assister)
