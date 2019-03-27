@@ -132,12 +132,13 @@ Assister [Agent](#agent) is a browser extension for interpreting the [WoF](#web-
 In short, a `Functional Knowledge Graph` is an [executable](https://en.wikipedia.org/wiki/Executable)
 [Ontology](https://en.wikipedia.org/wiki/Ontology_(information_science)).
 
-#### Terms and Functions Language (TFX)
+### Terms and Functions Language (TFX)
 [terms-and-functions-language-tfx]: #terms-and-functions-language-tfx
 
 **Terms and Functions (TFX)** is a language for describing the terms used by
 the users of an application and the relation of these terms with the code that
-the application is made of. In another words, encoding the [`terminology`](https://en.wikipedia.org/wiki/Terminology)
+the application is made of. In another words, encoding the [domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
+[`terminology`](https://en.wikipedia.org/wiki/Terminology)
 and its correspondence with [`execution`](https://en.wikipedia.org/wiki/Execution_(computing)).
 The intersection of a terminology and its software [implementation](https://en.wikipedia.org/wiki/Implementation) 
 constitutes a FKG.
@@ -146,12 +147,15 @@ More technically, TFX is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_progr
 [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming)
 [language](https://en.wikipedia.org/wiki/Programming_language).
 TFX's [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
-can describes both a natural and a programming [object](https://en.wikipedia.org/wiki/Object_language)
-language and their relations. The FKG metasyntax is standardized by [TAC](#the-assister-community-tac).
+can describes the connection between the domain-specific and the programming
+[object](https://en.wikipedia.org/wiki/Object_language)
+languages. The FKG metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
 
 **sheet.js**
 
 ```js
+import { useState } from 'react';
+
 const types = {
     date: Date,
     number: Number,
@@ -169,7 +173,11 @@ function format(selection, type) {
 export {currentSelection, setCurrentSelection, format, types};
 ```
 
-**sheet.kgl**
+[useState](https://reactjs.org/docs/hooks-state.html) is an example of state
+management in [React](https://reactjs.org/).
+
+The following TFX code exposes a `command`, `format`, for this code, addressing
+the `format as date` user scenario mentioned in the [motivation section](#motivation).
 
 ```xml
 <terminology uri="spreadsheet:terms/sheet">
@@ -213,40 +221,20 @@ export {currentSelection, setCurrentSelection, format, types};
     </intent>
     <intent given="[type]" value="format(currentSelection, type)">
         <example command="format as date" given="[type]" equals="[types['date']]">
-    <intent/>
+    </intent>
 </command>
 ```
 
 ### The Assister Platform (TAP/Assister)
 [the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
-**The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and bodies of
-standardization for FKGs, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
-
-A WoF implementation needs to provide three components:
-
-* Discovery: A software for mapping Natural Language Requests to Commands
-* [Ontology (Knowledge Graph)](https://en.wikipedia.org/wiki/Ontology_(information_science)):
-WoF HTML annotations
-* Agent: A Command Line User Interface as a browser extension
-
-Assister ships with all three:
-
-* Assister Map: Discovery
-* WoF: Assister standardizes the WoF language
-* Assister Agent: CLI
-
-Despite being [batteries included](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
-Assister follows an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
-design:
-
-* External Ontology could be added to a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
-* Assister Agent can be extended for specialized use cases or swapped for another Agent
+**The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and
+standards for FKGs, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
 
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-WoF declarations are located at the `<head>` of an [HTML file](https://www.w3schools.com/html/html_intro.asp)
+FKG declarations are located at the `<head>` of an [HTML file](https://www.w3schools.com/html/html_intro.asp)
 within [`<meta>`](https://www.w3schools.com/tags/tag_meta.asp) tags.
 
 ### WoF URI scheme
@@ -300,6 +288,8 @@ A `type` is either a JavaScript variable defined in the scope or a string denoti
 [TODO](https://en.wikibooks.org/wiki/Computer_Programming/Function_overloading)
 
 ### State
+
+* The FKG could be modified in a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
 
 Applications are responsible for managing their state in whatever way they see fit.
 However, `undo` and `redo` are very reasonable end user expectations that WoF adheres to.
