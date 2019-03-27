@@ -1,4 +1,4 @@
-# Assister - Web Technologies for the Web of Functions
+# Assister - Functional Knowledge Graph and its implementation
 
 - Start Date: 2018-08-20
 - Master Issue: [#2](https://github.com/assister-ai/assister/issues/2)
@@ -7,21 +7,29 @@
 ## Summary
 [summary]: #summary
 
-[Assister](#the-assister-platform-tapassister) is a collaborative, community
-driven [open source](https://en.wikipedia.org/wiki/Open_source)
-[platform](https://en.wikipedia.org/wiki/Open_platform) for integrating
+[Assister](#the-assister-platform-tapassister) is an
+[open source](https://en.wikipedia.org/wiki/Open_source),
+[open platform](https://en.wikipedia.org/wiki/Open_platform) for integrating
 [context-sensitive](https://en.wikipedia.org/wiki/Context-sensitive_user_interface)
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
-in [web applications](https://en.wikipedia.org/wiki/Web_application).
-Assister is composed of a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage)
-for [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
-the [**Web of Functions (WoF)**](#web-of-functions-wof)
-[language](#wof-language),
-and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation),
+and [command line user interfaces](https://en.wikipedia.org/wiki/Command-line_interface)
+in [application softwares](https://en.wikipedia.org/wiki/Application_software).
+Assister is composed of a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage),
+the [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
+[language](#fkg-language),
+and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
+for [web applications](https://en.wikipedia.org/wiki/Web_application),
 the [**Assister Agent**](#assister-agent).
 
 ![Assister Architecture](architecture.svg)
-*Assister Architecture, references: [Request](#request), [Discovery](#Discovery), [Command](#command), [Ontology](#ontology), [Intent](#intent), [Execution](#execution), [Response](#response)*
+
+*Assister Architecture, references: [Request](#request),
+[Discovery](#discovery),
+[Command](#command),
+[Terminology](#terminology),
+[Intent](#intent),
+[Execution](#execution),
+[Response](#response)*
 
 ## Motivation
 [motivation]: #motivation
@@ -36,7 +44,11 @@ in some tests.
 CUIs are probably our best try yet at a [Natural User Interface](https://en.wikipedia.org/wiki/Natural_user_interface).
 
 ![KnowsMore](https://m.media-amazon.com/images/M/MV5BMjM2NjYzMzY2NV5BMl5BanBnXkFtZTgwMzI3OTYwNzM@._V1_SX1777_CR0,0,1777,744_AL_.jpg)
-*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138), an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/), manifestation of an ideal CUI! Image by [IMDB](https://www.imdb.com/title/tt5848272/mediaviewer/rm559510784)*
+
+*[KnowsMore](https://www.imdb.com/title/tt5848272/characters/nm0876138),
+an animated character in [Ralph Breaks the Internet](https://www.imdb.com/title/tt5848272/),
+manifestation of an ideal CUI!
+Image by [IMDB](https://www.imdb.com/title/tt5848272/mediaviewer/rm559510784)*
 
 Despite showing promise in [lifestyle](https://en.wikipedia.org/wiki/Lifestyle_(sociology))
 use cases, [virtual assistants](https://en.wikipedia.org/wiki/Virtual_assistant)
@@ -50,9 +62,9 @@ of [a standard](#web-of-functions-wof) for contextual [text annotations](https:/
 and [an accompanying](#assister-agent) [browser extension](https://en.wikipedia.org/wiki/Browser_extension)
 for CUIs to operate on these annotations.
 
-Examples scenarios in professional web applications:
+Examples scenarios in professional applications:
 
-* I don't want to memorize the position of `Format cell as Date` in all
+* I don't want to memorize the position of `format as date` in all
 spreadsheet applications.
 * Show me the `potential customers` that `I` flagged as `lead` between
 `January` and `February`.
@@ -119,6 +131,8 @@ to a desktop app.
 #### Knowledge Graph Language
 [wof-language]: #wof-language
 
+dynamic
+
 **sheet.js**
 
 ```js
@@ -142,34 +156,48 @@ export {currentSelection, setCurrentSelection, format, types};
 **sheet.kgl**
 
 ```xml
-<term name="type">
-    <case pattern="number">
-    <case pattern="date">
-</term>
+<terminology uri="spreadsheet:terms/sheet">
+    <term name="type">
+        <case pattern="number">
+        <case pattern="date">
+    </term>
 
-<term name="cell" pattern="${#A..#Z}${#integer>0}"/> <!-- range -->
-<term name="cellComma" pattern="${cell},"/>
-<term name="range" description="a ${range} is a collection of ${cell}s" more="https://www.computerhope.com/jargon/r/range.htm"/>
-    <term name="start" isa="cell"/>
-    <term name="end" isa="cell"/>
-    <case pattern="${start}:${end}"/>
-    <case pattern="${cellComma ..+ cell}"/> <!-- repetition, termination -->
-</term>
-<term name="rangeComma" pattern="${range},"/>
-<term name="selection" pattern="${(cellComma | rangeComma) ..* cell | range}"/> <!-- grouping -->
+    <term name="cell" pattern="${'A':'Z' 0:N}"/>
+    <term name="range"
+        description="A ${range} is an (interval)[https://en.wikipedia.org/wiki/Interval_(mathematics)] of ${cell}s with a ${start} and an ${end}"
+        more="https://www.computerhope.com/jargon/r/range.htm"
+    />
+        <term name="start" isa="cell"/>
+        <term name="end" isa="cell"/>
+        <case pattern="${start ':' end}"/>
+        <case pattern="${(cell ',') ... cell}"/>
+    </term>
+    <term name="selection"
+        pattern="${((cell ',') | (range ',')) ..* cell | range}"
+    />
+</terminology>
 
-<import module="./sheet.js">
+<execution uri="spreadsheet:sheet" module="./sheet.js">
     <function name="format"/>
     <function name="setCurrentSelection"/>
 
     <variable name="types"/>
     <variable name="currentSelection"/>
-</import>
+</execution>
 
-<command name="format" pattern="format ${selection | #empty} as ${type}">
-    <intent given="[selection, type]" value="format(selection, types[type])" then="setCurrentSelection(selection)"/>
-    <intent given="[type]" value="format(currentSelection, types[type])"/>
-    <!-- <example/> -->
+<command name="format" pattern="format ${'' | selection} as ${type}">
+    <variable name="selection" term="selection">
+    <variable name="type" term="type" map="type => types[type]">
+    <intent given="[selection, type]" value="format(selection, type)">
+        <effect then="() => setCurrentSelection(selection)"/>
+        <example command="format J9:K14,L9,M9,N9:O14,K17:N25 as date"
+            given="[selection, type]"
+            equals="['J9:K14,L9,M9,N9:O14,K17:N25', types['date']]"
+        />
+    </intent>
+    <intent given="[type]" value="format(currentSelection, type)">
+        <example command="format as date" given="[type]" equals="[types['date']]">
+    <intent/>
 </command>
 ```
 
