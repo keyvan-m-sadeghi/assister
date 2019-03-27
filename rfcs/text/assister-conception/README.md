@@ -23,20 +23,21 @@ the [**Assister Agent**](#assister-agent).
 
 ![Assister Architecture](architecture.svg)
 
-*Assister Architecture, references: [Request](#request),
+*Assister Architecture, references: [Request](#guide-level-explanation),
 [Discovery](#discovery),
-[Command](#command),
+[Command](#guide-level-explanation),
 [Terminology](#terminology),
 [Intent](#intent),
 [Execution](#execution),
-[Response](#response)*
+[Response](#guide-level-explanation)*
 
 ## Motivation
 [motivation]: #motivation
 
 [Conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 (CUIs) are a relatively new concept. Conversing with an ideal CUI would be
-indistinguishable from a conversation with a real human. [Google Duplex](https://ai.googleblog.com/2018/05/duplex-ai-system-for-natural-conversation.html)
+indistinguishable from a conversation with a real human.
+[Google Duplex](https://ai.googleblog.com/2018/05/duplex-ai-system-for-natural-conversation.html)
 is an example of a state-of-the-art CUI; human subjects did not grasp they
 were talking to an [Artificial Intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence)
 in some tests.
@@ -57,10 +58,12 @@ This is partly due to the complex variables at play in a professional setting,
 which are hard to comprehend without [context](https://en.wikipedia.org/wiki/Context_(language_use))
 (case study: [IBM Watson in Health](https://www.computerworld.com/article/3321138/did-ibm-put-too-much-stock-in-watson-health-too-soon.html)).
 
-Assister is an effort aimed at solving this problem over the web, by provision
-of [a standard](#web-of-functions-wof) for contextual [text annotations](https://en.wikipedia.org/wiki/Text_annotation),
-and [an accompanying](#assister-agent) [browser extension](https://en.wikipedia.org/wiki/Browser_extension)
-for CUIs to operate on these annotations.
+Assister is an effort aimed at solving this problem over [the web](https://en.wikipedia.org/wiki/World_Wide_Web),
+by provision of [a standard](#functional-knowledge-graph-fkg)
+for contextual [text annotations](https://en.wikipedia.org/wiki/Text_annotation),
+and [an accompanying](#assister-agent)
+[browser extension](https://en.wikipedia.org/wiki/Browser_extension)
+for creating CUIs that operate on these annotations.
 
 Examples scenarios in professional applications:
 
@@ -72,28 +75,34 @@ spreadsheet applications.
 ## Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
-[Command Line User Interface](https://en.wikipedia.org/wiki/Command-line_interface)
-(CLI) could be considered the [ancestor](https://en.wikipedia.org/wiki/Ancestor)
-of CUI.
+A [Conversational User Interface (CUI)](](https://en.wikipedia.org/wiki/Conversational_user_interfaces))
+receives a `request` from the [user](https://en.wikipedia.org/wiki/User_(computing))
+in form of [natural language](https://en.wikipedia.org/wiki/Natural_language)
+and emits a human-understandable `response`, either as [visuals](https://en.wikipedia.org/wiki/Visual_communication)
+or [simulated human voice](https://en.wikipedia.org/wiki/Speech_synthesis)),
+in return, all within an [operating system](https://en.wikipedia.org/wiki/Operating_system).
+
+![Siri CUI](https://upload.wikimedia.org/wikipedia/en/5/50/Siri_on_iOS.png)
+
+*Siri. Image by [Wikimedia](https://en.wikipedia.org/wiki/File:Siri_on_iOS.png)*
+
+A [Command Line user Interface (CLI)](https://en.wikipedia.org/wiki/Command-line_interface)
+provides an interface for receiving [`commands`](https://en.wikipedia.org/wiki/Command_(computing))
+from the user and outputs the corresponding `result` after execution.
 
 ![DOS CLI](https://upload.wikimedia.org/wikipedia/commons/8/8a/COMMAND_LINE.svg)
+
 *An MS DOS command line. Image by [Wikimedia](https://commons.wikimedia.org/wiki/File:COMMAND_LINE.svg)*
 
-A CUI receives a request from the user in [natural language](https://en.wikipedia.org/wiki/Natural_language)
-and emits a response in return.
+A CUI can be thought of an *extension* of a CLI if one comes to comparing the
+two. CUI takes a `request`, runs a series of `commands` and outputs a
+`response` based on the `results` of those commands.
 
-A CLI provides an interface for receiving [commands](https://en.wikipedia.org/wiki/Command_(computing))
-from the user and outputs the corresponding result after execution.
-
-A CUI shares the characteristics of a CLI if one comes to think of comparing
-the two. By [analogy](https://en.wikipedia.org/wiki/Analogy) with a CLI,
-request and response in a CUI correspond to command and result in a CLI,
-respectively.
-
-Assister strives to create [a CLI](#assister-agent) for the web, and enable
-creation of CUIs over this CLI in the process.
+Assister strives to create [a CLI](#assister-agent) for the web, and automate
+the creation of CUIs over this CLI.
 
 ### Assister Agent
+[assister-agent]: #assister-agent
 
 Assister [Agent](#agent) is a browser extension for interpreting the [WoF](#web-of-functions-wof).
 
