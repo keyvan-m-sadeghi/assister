@@ -1,4 +1,4 @@
-# Assister - Functional Knowledge Graph and its implementation
+# Assister - Terms and Functions Language and the Functional Knowledge Graph
 
 - Start Date: 2018-08-20
 - Master Issue: [#2](https://github.com/assister-ai/assister/issues/2)
@@ -14,12 +14,13 @@
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 and [command line user interfaces](https://en.wikipedia.org/wiki/Command-line_interface)
 in [application softwares](https://en.wikipedia.org/wiki/Application_software).
-Assister is composed of a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage),
-the [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
-[language](#fkg-language),
-and its [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
-for [web applications](https://en.wikipedia.org/wiki/Web_application),
-the [**Assister Agent**](#assister-agent).
+Assister introduces the concept of the [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
+and standardizes a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage),
+the [**Terms and Functions (TFX)** language](#terms-and-functions-language-tfx)
+for creating FKGs. In addition, Assister ships with the [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
+of TFX, the [**Assister Agent**](#assister-agent),
+for [web applications](https://en.wikipedia.org/wiki/Web_application).
+
 
 ![Assister Architecture](architecture.svg)
 
@@ -79,8 +80,8 @@ A [Conversational User Interface (CUI)](](https://en.wikipedia.org/wiki/Conversa
 receives a `request` from the [user](https://en.wikipedia.org/wiki/User_(computing))
 in form of [natural language](https://en.wikipedia.org/wiki/Natural_language)
 and emits a human-understandable `response`, either as [visuals](https://en.wikipedia.org/wiki/Visual_communication)
-or [simulated human voice](https://en.wikipedia.org/wiki/Speech_synthesis)),
-in return, all within an [operating system](https://en.wikipedia.org/wiki/Operating_system).
+or [simulated human voice](https://en.wikipedia.org/wiki/Speech_synthesis),
+in return. All within an [operating system](https://en.wikipedia.org/wiki/Operating_system).
 
 ![Siri CUI](https://upload.wikimedia.org/wikipedia/en/5/50/Siri_on_iOS.png)
 
@@ -96,51 +97,57 @@ from the user and outputs the corresponding `result` after execution.
 
 A CUI can be thought of an *extension* of a CLI if one comes to comparing the
 two. CUI takes a `request`, runs a series of `commands` and outputs a
-`response` based on the `results` of those commands.
+`response` based on the `results`.
 
 Assister strives to create [a CLI](#assister-agent) for the web, and automate
 the creation of CUIs over this CLI.
+
+### Discovery
+[discovery]: #discovery
+
+A `discovery` is a any software that maps `requests` to `commands`. Following a
+[batteries included philosophy](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
+[Assister](#the-assister-platform-tapassister) comes pre-equipped with an open
+source discovery, the [Assister Map](#assister-map).
+Being an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
+design however, Assister accommodates swapping for another discovery, for
+example with proprietary solutions like [Apple Siri](https://www.apple.com/siri/),
+[Google Assistant](https://assistant.google.com/) or
+[Amazon Alexa](https://developer.amazon.com/alexa).
+
+### Assister Map
+[assister-map]: #assister-map
+
+Assister Map is discussed in detail in [its own](#todo)
+[RFC](https://github.com/assister-ai/assister/blob/master/rfcs/README.md).
 
 ### Assister Agent
 [assister-agent]: #assister-agent
 
 Assister [Agent](#agent) is a browser extension for interpreting the [WoF](#web-of-functions-wof).
 
-### Web of Functions (WoF)
-[web-of-functions-wof]: #web-of-functions-wof
+### Functional Knowledge Graph (FKG)
+[functional-knowledge-graph-fkg]: #functional-knowledge-graph-fkg
 
-The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
-focusing on provision of a mechanism for **Function Interaction** over the web.
+In short, a `Functional Knowledge Graph` is an [executable](https://en.wikipedia.org/wiki/Executable)
+[Ontology](https://en.wikipedia.org/wiki/Ontology_(information_science)).
 
-The web is adequately equipped for communicating:
+#### Terms and Functions Language (TFX)
+[terms-and-functions-language-tfx]: #terms-and-functions-language-tfx
 
-* Structured content
+**Terms and Functions (TFX)** is a language for describing the terms used by
+the users of an application and the relation of these terms with the code that
+the application is made of. In another words, encoding the [`terminology`](https://en.wikipedia.org/wiki/Terminology)
+and its correspondence with [`execution`](https://en.wikipedia.org/wiki/Execution_(computing)).
+The intersection of a terminology and its software [implementation](https://en.wikipedia.org/wiki/Implementation) 
+constitutes a FKG.
 
-  [HTML](https://en.wikipedia.org/wiki/HTML)
-
-* Structured data, fragments that make up the content
-
-  Decentralized standards like [JSON](https://www.json.org/) or centralized
-  ones in the Semantic Web such as [schema.org](https://schema.org)
-
-* Structured code
-
-  [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-
-The next logical step could be **Structured Functions**, fragments that make up
-the code.
-
-WoF is a proposal on how to create *"universally understandable annotations of
-**functions**"*, covering both decentralized and centralized aspects, enabling
-inter-application interactions between these functions.
-
-From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
-to a desktop app.
-
-#### Knowledge Graph Language
-[wof-language]: #wof-language
-
-dynamic
+More technically, TFX is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
+[metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming)
+[language](https://en.wikipedia.org/wiki/Programming_language).
+TFX's [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
+can describes both a natural and a programming [object](https://en.wikipedia.org/wiki/Object_language)
+language and their relations. The FKG metasyntax is standardized by [TAC](#the-assister-community-tac).
 
 **sheet.js**
 
@@ -214,7 +221,7 @@ export {currentSelection, setCurrentSelection, format, types};
 [the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
 **The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and bodies of
-standardization for a WoF, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
+standardization for FKGs, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
 
 A WoF implementation needs to provide three components:
 
@@ -233,11 +240,6 @@ Despite being [batteries included](https://www.python.org/dev/peps/pep-0206/#bat
 Assister follows an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
 design:
 
-* Assister Map could be swapped for another Discovery, for example with proprietary solutions like
-[Apple Siri](https://www.apple.com/siri/),
-[Google Assistant](https://assistant.google.com/),
-[Amazon Alexa](https://developer.amazon.com/alexa)
-or enterprise solutions such as [clinc](https://clinc.com/)
 * External Ontology could be added to a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
 * Assister Agent can be extended for specialized use cases or swapped for another Agent
 
@@ -458,7 +460,35 @@ Standards. Write 'share' once, integrate with all.
 ## Prior art
 [prior-art]: #prior-art
 
-Previous efforts don't realize that intent === function
+The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
+focusing on provision of a mechanism for **Function Interaction** over the web.
+
+The web is adequately equipped for communicating:
+
+* Structured content
+
+  [HTML](https://en.wikipedia.org/wiki/HTML)
+
+* Structured data, fragments that make up the content
+
+  Decentralized standards like [JSON](https://www.json.org/) or centralized
+  ones in the Semantic Web such as [schema.org](https://schema.org)
+
+* Structured code
+
+  [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+The next logical step could be **Structured Functions**, fragments that make up
+the code.
+
+WoF is a proposal on how to create *"universally understandable annotations of
+**functions**"*, covering both decentralized and centralized aspects, enabling
+inter-application interactions between these functions.
+
+From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
+to a desktop app.
+
+Previous efforts don't realize that intent === function()
 
 [Web Intents](https://www.w3.org/TR/web-intents/)
 
@@ -478,3 +508,8 @@ Does/would `schema.org` offer a type analogous to `undefined`? Do we need one?
 Should cards be Web Components? Not until HTML import is decided? Don't forget React!
 
 WoF state and page state are the same thing? Author decides in the function?
+
+### TODO
+[todo]: #todo
+
+* Assister Map RFC
