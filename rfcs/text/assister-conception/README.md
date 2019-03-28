@@ -15,16 +15,19 @@
 and [command line user interfaces](https://en.wikipedia.org/wiki/Command-line_interface)
 in [application softwares](https://en.wikipedia.org/wiki/Application_software).
 Assister introduces the concept of the [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
-and standardizes a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage),
-the [**Terms and Functions (TFX)** language](#terms-and-functions-language-tfx)
-for creating FKGs. In addition, Assister ships with the [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
-of TFX, the [**Assister Agent**](#assister-agent),
-for [web applications](https://en.wikipedia.org/wiki/Web_application).
+and standardizes a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage)
+for creating FKGs, the [**Terms and Functions (TFx)** language](#terms-and-functions-language-tfx).
+Assister ships with the [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
+of TFx for [web applications](https://en.wikipedia.org/wiki/Web_application),
+the [**Assister Agent**](#assister-agent).
 
+### Assister Pipeline
+[assister-pipeline]: (#assister-pipeline)
 
-![Assister Architecture](architecture.svg)
+![Assister Pipeline](pipeline.svg)
 
-*Assister Architecture, references: [Request](#guide-level-explanation),
+*Assister [Pipeline](https://en.wikipedia.org/wiki/Pipeline_(computing)),
+references: [Request](#guide-level-explanation),
 [Discovery](#discovery),
 [Command](#guide-level-explanation),
 [Terminology](#terminology),
@@ -66,7 +69,8 @@ and [an accompanying](#assister-agent)
 [browser extension](https://en.wikipedia.org/wiki/Browser_extension)
 for creating CUIs that operate on these annotations.
 
-Examples scenarios in professional applications:
+### User-level requirements
+[user-level-requirements]: #user-level-requirements
 
 * I don't want to memorize the position of `format as date` in all
 spreadsheet applications.
@@ -95,9 +99,9 @@ from the user and outputs the corresponding `result` after execution.
 
 *An MS DOS command line. Image by [Wikimedia](https://commons.wikimedia.org/wiki/File:COMMAND_LINE.svg)*
 
-A CUI can be thought of an *extension* of a CLI if one comes to comparing the
-two. CUI takes a `request`, runs a series of `commands` and outputs a
-`response` based on the `results`.
+A CUI can be thought of an *extension* of a CLI if one compares the two. CUI
+takes a request, runs a series of commands and outputs a response based
+on the results.
 
 Assister strives to create [a CLI](#assister-agent) for the web, and automate
 the creation of CUIs over this CLI.
@@ -105,8 +109,15 @@ the creation of CUIs over this CLI.
 ### Discovery
 [discovery]: #discovery
 
-A `discovery` is a any software that maps `requests` to `commands`. Following a
-[batteries included philosophy](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
+A `discovery` is any software that maps requests to commands. Using
+[Natural Language Understanding](https://en.wikipedia.org/wiki/Natural-language_understanding)
+coupled with [Machine Learning](https://en.wikipedia.org/wiki/Machine_learning)
+over the [Terms and Functions](#terms-and-functions-language-tfx)
+contextual annotations embedded in an application, a discovery can translate a
+request to the corresponding command. The command will then be executed within
+the [Assister Pipeline](#assister-pipeline).
+
+Following a [batteries included philosophy](https://www.python.org/dev/peps/pep-0206/#batteries-included-philosophy),
 [Assister](#the-assister-platform-tapassister) comes pre-equipped with an open
 source discovery, the [Assister Map](#assister-map).
 Being an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
@@ -115,43 +126,50 @@ example with proprietary solutions like [Apple Siri](https://www.apple.com/siri/
 [Google Assistant](https://assistant.google.com/) or
 [Amazon Alexa](https://developer.amazon.com/alexa).
 
-### Assister Map
-[assister-map]: #assister-map
-
-Assister Map is discussed in detail in [its own](#todo)
-[RFC](https://github.com/assister-ai/assister/blob/master/rfcs/README.md).
-
-### Assister Agent
-[assister-agent]: #assister-agent
-
-Assister [Agent](#agent) is a browser extension for interpreting the [WoF](#web-of-functions-wof).
-
 ### Functional Knowledge Graph (FKG)
 [functional-knowledge-graph-fkg]: #functional-knowledge-graph-fkg
 
 In short, a `Functional Knowledge Graph` is an [executable](https://en.wikipedia.org/wiki/Executable)
 [Ontology](https://en.wikipedia.org/wiki/Ontology_(information_science)).
 
-### Terms and Functions Language (TFX)
+### Terms and Functions Language (TFx)
 [terms-and-functions-language-tfx]: #terms-and-functions-language-tfx
 
-**Terms and Functions (TFX)** is a language for describing the terms used by
+**Terms and Functions (TFx)** is a language for describing the terms used by
 the users of an application and the relation of these terms with the code that
-the application is made of. In another words, encoding the [domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
+the application is made of. In other words, TFx enables encoding of the
+[domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
 [`terminology`](https://en.wikipedia.org/wiki/Terminology)
-and its correspondence with [`execution`](https://en.wikipedia.org/wiki/Execution_(computing)).
+and its correspondence with the [`execution`](https://en.wikipedia.org/wiki/Execution_(computing)).
 The intersection of a terminology and its software [implementation](https://en.wikipedia.org/wiki/Implementation) 
 constitutes a FKG.
 
-More technically, TFX is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
+More technically, TFx is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
 [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming)
 [language](https://en.wikipedia.org/wiki/Programming_language).
-TFX's [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
-can describes the connection between the domain-specific and the programming
-[object](https://en.wikipedia.org/wiki/Object_language)
-languages. The FKG metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
+with a [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
+that can describes the connection between the domain-specific and the
+programming [object](https://en.wikipedia.org/wiki/Object_language)
+languages. The TFx metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
 
-**sheet.js**
+#### TFx Example
+[tfx-example]: #tfx-example
+
+TFx declarations are located at the `<head>` of an [HTML file](https://www.w3schools.com/html/html_intro.asp)
+within [`<meta>`](https://www.w3schools.com/tags/tag_meta.asp) tags, though an
+[XML](https://en.wikipedia.org/wiki/XML) equivalent will be used for the example.
+
+Some TFx attributes reference JavaScript variables:
+
+```html
+<meta property="tfx:function" name="format"/>
+```
+
+Here `format` is a JavaScript function referenced in the `name` attribute.
+
+Consider the following JavaScript code, `sheet.js`, for a hypothetical
+[spreadsheet](https://en.wikipedia.org/wiki/Spreadsheet)
+application as the basis for the example:
 
 ```js
 import { useState } from 'react';
@@ -170,14 +188,14 @@ function format(selection, type) {
     // e.g. type = types.date
 }
 
-export {currentSelection, setCurrentSelection, format, types};
+export { types, currentSelection, setCurrentSelection, format };
 ```
 
 [useState](https://reactjs.org/docs/hooks-state.html) is an example of state
 management in [React](https://reactjs.org/).
 
-The following TFX code exposes a `command`, `format`, for this code, addressing
-the `format as date` user scenario mentioned in the [motivation section](#motivation).
+The following TFx annotation exposes a `command`, `format`, for this JavaScript code,
+addressing the `format as date` user scenario [mentioned earlier](#user-level-requirements).
 
 ```xml
 <terminology uri="spreadsheet:terms/sheet">
@@ -209,14 +227,14 @@ the `format as date` user scenario mentioned in the [motivation section](#motiva
     <variable name="currentSelection"/>
 </execution>
 
-<command name="format" pattern="format ${'' | selection} as ${type}">
+<command name="format" pattern="format ${selection| ''} as ${type}">
     <variable name="selection" term="selection">
     <variable name="type" term="type" map="type => types[type]">
     <intent given="[selection, type]" value="format(selection, type)">
         <effect then="() => setCurrentSelection(selection)"/>
-        <example command="format J9:K14,L9,M9,N9:O14,K17:N25 as date"
+        <example command="format J9:K14,L9,M9,N9:O14,K17:N25 as number"
             given="[selection, type]"
-            equals="['J9:K14,L9,M9,N9:O14,K17:N25', types['date']]"
+            equals="['J9:K14,L9,M9,N9:O14,K17:N25', types['number']]"
         />
     </intent>
     <intent given="[type]" value="format(currentSelection, type)">
@@ -225,11 +243,79 @@ the `format as date` user scenario mentioned in the [motivation section](#motiva
 </command>
 ```
 
+The language used in the `pattern` attributes is [PTRN](#ptrn-grammar).
+
+Two methods for invoking the `format` function are addressed in the above
+example, one which formats the `currentSelection` and another where the
+user specifies which cells are to be formatted.
+
+Initial proposals for the TFx metasyntax are discussed in [Reference-level explanation](#reference-level-explanation).
+
+#### TFx and Context
+[tfx-and-context]: (#tfx-and-context)
+
+The advantage of having TFx declarations inside HTML is that an application
+author can design context-sensitive commands. This can be achieved by the
+widely popular [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
+techniques via JavaScript. The author can fill JavaScript variables based on
+the previous command interactions and accordingly add or remove TFx annotations
+in the appropriate context.
+
+### PTRN Grammar
+[ptrn-grammar]: (#ptrn-grammar)
+
+Parsing Term Returning Name (PTRN) Grammar is a [high-level](https://en.wikipedia.org/wiki/High-level_programming_language)
+derivative of [Parsing Expression Grammar (PEG)](https://en.wikipedia.org/wiki/Parsing_expression_grammar)
+for describing patterns in the terminology. PTRN is standardized and developed
+specifically for usage in TFx by TAC. The most important factor in PTRN's
+design is its [ergonomics](https://en.wikipedia.org/wiki/Human_factors_and_ergonomics),
+PTRN should strive to have minimal [cognitive load](https://en.wikipedia.org/wiki/Cognitive_load),
+as expected from annotation languages. Therefore, alternatives like
+[JavaScript Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+are out of question. Initial proposals for PTRN are discussed in [Reference-level explanation](#reference-level-explanation).
+
+### Assister Agent
+[assister-agent]: #assister-agent
+
+Assister [Agent](#agent) is the CLI for running commands annotated by TFx. As
+opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface),
+Agent is a browser extension that emulates [instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
+where one is conversing with the application.
+
+![Telegram Messenger](https://lh3.googleusercontent.com/W8iDC5yfF_a4rS_S9jAHCqRDSSRPrmKL7QArfIRIGvp6DSELII5oNoMo-xDLFVTNoA=w2560-h1156-rw)
+
+*Instant messaging in Telegram Messenger. Image by [Telegram](https://telegram.org/)*
+
+### Assister Map
+[assister-map]: #assister-map
+
+Assister Map is discussed in detail in [its own](#todo)
+[RFC](https://github.com/assister-ai/assister/blob/master/rfcs/README.md).
+MAP ships with Agent as the default discovery.
+
 ### The Assister Platform (TAP/Assister)
 [the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
-**The Assister Platform (TAP)**, or simply **Assister** is a collection of softwares and
-standards for FKGs, developed by [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
+**The Assister Platform (TAP)**, or simply **Assister** is the collection of
+the softwares, designs and standards enabling FKGs over the web, developed by
+[**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
+
+TAP is [MIT licensed](https://github.com/assister-ai/assister/blob/master/LICENSE)
+and distributed freely encouraging forks, extensions and adoptions in domains
+other than the ones that originally intended by TAC. TAP's mission is to
+provide FKGs over the web by creating mechanisms for mapping domain-specific
+languages to JavaScript. The same design could be adopted elsewhere, for
+example in [Mobile applications](https://en.wikipedia.org/wiki/Mobile_app)
+that target other programming languages. As well as embracing, TAC might be
+willing to contribute to such efforts.
+
+#### TAP Components
+[tap-components]: (#tap-components)
+
+* TFx Language
+* PTRN Grammar
+* Assister Map
+* Assister Agent
 
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
@@ -289,9 +375,6 @@ A `type` is either a JavaScript variable defined in the scope or a string denoti
 
 ### State
 
-* The FKG could be modified in a web page by [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
-
-Applications are responsible for managing their state in whatever way they see fit.
 However, `undo` and `redo` are very reasonable end user expectations that WoF adheres to.
 
 ```html
