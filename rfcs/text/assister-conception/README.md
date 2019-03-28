@@ -14,7 +14,7 @@
 [conversational user interfaces](https://en.wikipedia.org/wiki/Conversational_user_interfaces)
 and [command line user interfaces](https://en.wikipedia.org/wiki/Command-line_interface)
 in [application softwares](https://en.wikipedia.org/wiki/Application_software).
-Assister introduces the concept of the [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
+Assister introduces the concept of [**Functional Knowledge Graph (FKG)**](#functional-knowledge-graph-fkg)
 and standardizes a new [metalanguage](https://en.wikipedia.org/wiki/Metalanguage)
 for creating FKGs, the [**Terms and Functions (TFx)** language](#terms-and-functions-language-tfx).
 Assister ships with the [reference implementation](https://en.wikipedia.org/wiki/Reference_implementation)
@@ -73,7 +73,7 @@ for creating CUIs that operate on these annotations.
 [user-level-requirements]: #user-level-requirements
 
 * I don't want to memorize the position of `format as date` in all
-spreadsheet applications.
+[spreadsheet]((https://en.wikipedia.org/wiki/Spreadsheet)) applications.
 * Show me the `potential customers` that `I` flagged as `lead` between
 `January` and `February`.
 
@@ -103,8 +103,8 @@ A CUI can be thought of an *extension* of a CLI if one compares the two. CUI
 takes a request, runs a series of commands and outputs a response based
 on the results.
 
-Assister strives to create [a CLI](#assister-agent) for the web, and automate
-the creation of CUIs over this CLI.
+Assister creates [a CLI](#assister-agent) for the web, and automate the
+creation of CUIs over this CLI.
 
 ### Discovery
 [discovery]: #discovery
@@ -129,35 +129,57 @@ example with proprietary solutions like [Apple Siri](https://www.apple.com/siri/
 ### Functional Knowledge Graph (FKG)
 [functional-knowledge-graph-fkg]: #functional-knowledge-graph-fkg
 
-In short, a `Functional Knowledge Graph` is an [executable](https://en.wikipedia.org/wiki/Executable)
-[Ontology](https://en.wikipedia.org/wiki/Ontology_(information_science)).
+Knowledge Graph (also known as [ontology](https://en.wikipedia.org/wiki/Ontology_(information_science)))
+is the [de facto standard](https://en.wikipedia.org/wiki/De_facto_standard)
+in context provision for virtual assistants. A Knowledge Graph describes the
+entities and relations that a virtual assistant should operate upon. A
+Knowledge Graph is then hardwired in an operating system's predefined
+[execution](https://en.wikipedia.org/wiki/Execution_(computing))
+capabilities to provide a set of functionalities offered by the [vendor](https://en.wikipedia.org/wiki/Vendor).
+
+A `Functional Knowledge Graph` (FKG) extends the Knowledge Graph concept by
+including the references to pieces of [executable](https://en.wikipedia.org/wiki/Executable)
+software that carry out the functionalities.
+
+More technically, an FKG is an Ontology that encompasses the execution context
+as well as the entities and relations with respect to which functionalities are
+being offered.
 
 ### Terms and Functions Language (TFx)
 [terms-and-functions-language-tfx]: #terms-and-functions-language-tfx
 
 **Terms and Functions (TFx)** is a language for describing the terms used by
 the users of an application and the relation of these terms with the code that
-the application is made of. In other words, TFx enables encoding of the
-[domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
-[`terminology`](https://en.wikipedia.org/wiki/Terminology)
-and its correspondence with the [`execution`](https://en.wikipedia.org/wiki/Execution_(computing)).
-The intersection of a terminology and its software [implementation](https://en.wikipedia.org/wiki/Implementation) 
-constitutes a FKG.
+the application is made of. The intersection of a terminology and its software
+[implementation](https://en.wikipedia.org/wiki/Implementation) constitutes an
+FKG.
 
-More technically, TFx is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
+In more technical terms, TFx is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
 [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming)
-[language](https://en.wikipedia.org/wiki/Programming_language).
+[language](https://en.wikipedia.org/wiki/Programming_language)
 with a [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
 that can describes the connection between the domain-specific and the
 programming [object](https://en.wikipedia.org/wiki/Object_language)
-languages. The TFx metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
+languages. TFx enables the encoding of [domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
+[`terminology`](https://en.wikipedia.org/wiki/Terminology)
+and its correspondence with the [`execution`](#execution).
+
+The TFx metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
+
+#### Execution
+[execution]: #execution
+
+Execution in TFx is defined as the subset of functions and variables from an
+object programming language that are used to deliver the functionality of
+its commands.
 
 #### TFx Example
 [tfx-example]: #tfx-example
 
 TFx declarations are located at the `<head>` of an [HTML file](https://www.w3schools.com/html/html_intro.asp)
 within [`<meta>`](https://www.w3schools.com/tags/tag_meta.asp) tags, though an
-[XML](https://en.wikipedia.org/wiki/XML) equivalent will be used for the example.
+[XML](https://en.wikipedia.org/wiki/XML) equivalent will be used in this
+example for reader's comfort.
 
 Some TFx attributes reference JavaScript variables:
 
@@ -168,8 +190,7 @@ Some TFx attributes reference JavaScript variables:
 Here `format` is a JavaScript function referenced in the `name` attribute.
 
 Consider the following JavaScript code, `sheet.js`, for a hypothetical
-[spreadsheet](https://en.wikipedia.org/wiki/Spreadsheet)
-application as the basis for the example:
+spreadsheet application as the basis for the example:
 
 ```js
 import { useState } from 'react';
@@ -212,10 +233,9 @@ addressing the `format as date` user scenario [mentioned earlier](#user-level-re
         <term name="start" isa="cell"/>
         <term name="end" isa="cell"/>
         <case pattern="${start ':' end}"/>
-        <case pattern="${(cell ',') ... cell}"/>
     </term>
     <term name="selection"
-        pattern="${((cell ',') | (range ',')) ..* cell | range}"
+        pattern="${((cell ',') | (range ',')) ... cell | range}"
     />
 </terminology>
 
@@ -257,7 +277,7 @@ Initial proposals for the TFx metasyntax are discussed in [Reference-level expla
 The advantage of having TFx declarations inside HTML is that an application
 author can design context-sensitive commands. This can be achieved by the
 widely popular [DOM manipulation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
-techniques via JavaScript. The author can fill JavaScript variables based on
+technique via JavaScript. The author can fill JavaScript variables based on
 the previous command interactions and accordingly add or remove TFx annotations
 in the appropriate context.
 
@@ -266,21 +286,23 @@ in the appropriate context.
 
 Parsing Term Returning Name (PTRN) Grammar is a [high-level](https://en.wikipedia.org/wiki/High-level_programming_language)
 derivative of [Parsing Expression Grammar (PEG)](https://en.wikipedia.org/wiki/Parsing_expression_grammar)
-for describing patterns in the terminology. PTRN is standardized and developed
-specifically for usage in TFx by TAC. The most important factor in PTRN's
+for describing patterns in a terminology. PTRN is standardized and developed
+by TAC specifically for usage in TFx. The most important factor in PTRN's
 design is its [ergonomics](https://en.wikipedia.org/wiki/Human_factors_and_ergonomics),
 PTRN should strive to have minimal [cognitive load](https://en.wikipedia.org/wiki/Cognitive_load),
-as expected from annotation languages. Therefore, alternatives like
+as expected from an annotation language. Alternatives like
 [JavaScript Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
-are out of question. Initial proposals for PTRN are discussed in [Reference-level explanation](#reference-level-explanation).
+are therefore dismissed. Initial proposals for PTRN are discussed in
+[Reference-level explanation](#reference-level-explanation).
 
 ### Assister Agent
 [assister-agent]: #assister-agent
 
 Assister Agent is the CLI for running commands annotated by TFx. As
-opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface),
-Agent is a browser extension that emulates [instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
-where one is conversing with the application.
+opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface)
+where CLIs normally operate, the Agent is a browser extension that emulates
+[instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
+emulating a conversation with the application.
 
 ![Telegram Messenger](https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/c5/25/de/c525de2b-9a9a-a329-cd0f-f55708489d48/mzl.zmstycee.png/460x0w.jpg)
 
@@ -292,8 +314,9 @@ Response would be presented to the user as a [`card`](https://material.io/design
 
 *Card interface. Image by [material.io](https://material.io/design/components/cards.html)*
 
-Commands can provide their own custom card or have it automatically generated
-if the variable or the return value of the JavaScript function denoted by the
+Application authors can ship their own custom card for a command. Optionally
+they can have cards that are automatically generated by the Agent, given
+the variable or the return value of the JavaScript function denoted by the
 command `intent` is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
 format and its TFx declaration is annotated by a type from
 [shema.org](https://schema.org/):
@@ -307,20 +330,20 @@ format and its TFx declaration is annotated by a type from
 
 Assister Map is discussed in detail in [its own](#todo)
 [RFC](https://github.com/assister-ai/assister/blob/master/rfcs/README.md).
-MAP ships with Agent as the default discovery.
+MAP ships with the Agent as the default discovery.
 
 ### The Assister Platform (TAP/Assister)
 [the-assister-platform-tapassister]: #the-assister-platform-tapassister
 
 **The Assister Platform (TAP)**, or simply **Assister** is the collection of
-the softwares, designs and standards enabling FKGs over the web, developed by
+softwares, designs and standards enabling FKGs over the web, developed by
 [**The Assister Community (TAC)**](https://github.com/assister-ai/assister/graphs/contributors).
 
 TAP is [MIT licensed](https://github.com/assister-ai/assister/blob/master/LICENSE)
 and distributed freely encouraging forks, extensions and adoptions in domains
 other than the ones that originally intended by TAC. TAP's mission is to
 provide FKGs over the web by creating mechanisms for mapping domain-specific
-languages to JavaScript. The same design could be adopted elsewhere, for
+terminology to JavaScript. The same design could be adopted elsewhere, for
 example in [Mobile applications](https://en.wikipedia.org/wiki/Mobile_app)
 that target other programming languages. As well as embracing, TAC might be
 willing to contribute to such efforts.
@@ -363,7 +386,8 @@ To be discovered in the future RFCs.
 ## Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-Discussed in detail in [motivation](#motivation) and [Guide-level explanation](#guide-level-explanation).
+Discussed in detail in [motivation](#motivation)
+and [Guide-level explanation](#guide-level-explanation).
 
 ## Prior art
 [prior-art]: #prior-art
@@ -375,7 +399,9 @@ Discussed in detail in [motivation](#motivation) and [Guide-level explanation](#
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-* Should cards be Web Components? Not until HTML import is decided? Don't forget React!
+* Should cards be [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)?
+Not until [HTML import](https://developer.mozilla.org/en-US/docs/Web/Web_Components/HTML_Imports)
+is decided? React compatibility should be taken into account!
 
 ### Interesting future directions
 [interesting-future-directions]: #interesting-future-directions
@@ -386,10 +412,11 @@ Discussed in detail in [motivation](#motivation) and [Guide-level explanation](#
 #### Web of Functions (WoF)
 [web-of-functions-wof]: #web-of-functions-wof
 
-This RFC initially included the concept of inter-application integrations.
-This would hypothetically be possible when via the Agent and presence of
-functions in namespaces, though immediate plans for pursuing this objective are
-canceled for the time being. Below is an excerpt:
+This RFC initially included the concept of inter-application integrations via
+a concept named the Web of Functions (WoF). This would be hypothetically
+possible via Agent and the presence of functions in namespaces, though
+immediate plans for pursuing this objective are now canceled. Below is an
+excerpt:
 
 The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
 focusing on provision of a mechanism for **Function Interaction** over the web.
