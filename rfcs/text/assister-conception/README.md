@@ -277,7 +277,7 @@ are out of question. Initial proposals for PTRN are discussed in [Reference-leve
 ### Assister Agent
 [assister-agent]: #assister-agent
 
-Assister [Agent](#agent) is the CLI for running commands annotated by TFx. As
+Assister Agent is the CLI for running commands annotated by TFx. As
 opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface),
 Agent is a browser extension that emulates [instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
 where one is conversing with the application.
@@ -285,6 +285,21 @@ where one is conversing with the application.
 ![Telegram Messenger](https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/c5/25/de/c525de2b-9a9a-a329-cd0f-f55708489d48/mzl.zmstycee.png/460x0w.jpg)
 
 *Instant messaging in Telegram Messenger. Image by [Telegram](https://telegram.org/)*
+
+Response would be presented to the user as a [`card`](https://material.io/design/components/cards.html).
+
+![Card interface](https://storage.googleapis.com/spec-host-backup/mio-design%2Fassets%2F0B6xUSjjSulxca3J1cWoxa003amc%2Fcards-elements-1.png)
+
+*Card interface. Image by [material.io](https://material.io/design/components/cards.html)*
+
+Commands can provide their own custom card or have it automatically generated
+if the return value of the JavaScript function denoted by the command `intent`
+is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
+format and the function itself is annotated by a type from [shema.org](https://schema.org/):
+
+```xml
+<function name="getAge" schema="http://schema.org/Number"/>
+```
 
 ### Assister Map
 [assister-map]: #assister-map
@@ -515,10 +530,6 @@ User personalization may determines which share targets they have.
 ```
 
 Depending on the overload implemented by a target application, the parameter will be received as either an image (e.g. a photo editing app) or a URL (e.g. a social media). User's preferences could be taken into account, e.g. whether someone most likely shares on Facebook or Twitter.
-
-### Agent
-
-browser extension
 
 ## Drawbacks
 [drawbacks]: #drawbacks
