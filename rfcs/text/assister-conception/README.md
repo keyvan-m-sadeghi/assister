@@ -282,7 +282,7 @@ opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki
 Agent is a browser extension that emulates [instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
 where one is conversing with the application.
 
-![Telegram Messenger](https://lh3.googleusercontent.com/W8iDC5yfF_a4rS_S9jAHCqRDSSRPrmKL7QArfIRIGvp6DSELII5oNoMo-xDLFVTNoA=w2560-h1156-rw)
+![Telegram Messenger](https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/c5/25/de/c525de2b-9a9a-a329-cd0f-f55708489d48/mzl.zmstycee.png/460x0w.jpg)
 
 *Instant messaging in Telegram Messenger. Image by [Telegram](https://telegram.org/)*
 
