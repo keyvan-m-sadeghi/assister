@@ -227,7 +227,7 @@ addressing the `format as date` user scenario [mentioned earlier](#user-level-re
     <variable name="currentSelection"/>
 </execution>
 
-<command name="format" pattern="format ${selection| ''} as ${type}">
+<command name="format" pattern="format ${selection | ''} as ${type}">
     <variable name="selection" term="selection">
     <variable name="type" term="type" map="type => types[type]">
     <intent given="[selection, type]" value="format(selection, type)">
@@ -293,9 +293,10 @@ Response would be presented to the user as a [`card`](https://material.io/design
 *Card interface. Image by [material.io](https://material.io/design/components/cards.html)*
 
 Commands can provide their own custom card or have it automatically generated
-if the return value of the JavaScript function denoted by the command `intent`
-is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
-format and the function itself is annotated by a type from [shema.org](https://schema.org/):
+if the variable or the return value of the JavaScript function denoted by the
+command `intent` is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
+format and its TFx declaration is annotated by a type from
+[shema.org](https://schema.org/):
 
 ```xml
 <function name="getAge" schema="http://schema.org/Number"/>
@@ -335,214 +336,60 @@ willing to contribute to such efforts.
 ## Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-FKG declarations are located at the `<head>` of an [HTML file](https://www.w3schools.com/html/html_intro.asp)
-within [`<meta>`](https://www.w3schools.com/tags/tag_meta.asp) tags.
+[TODO](#todo) in parallel with implementation.
 
-### WoF URI scheme
+### TFx URI scheme
 
-Function related bodies of standardization can be identified by the `wof` URI scheme:
+TFx declarations are identified by the `tfx` URI scheme:
 
 ```
-wof:<standard>
+tfx:<keyword>
 ```
 
 ### Version
 
-A meta tag denoting the adopted WoF version.
+A meta tag denoting the adopted TFx version and optionally the version of the
+commands.
 
 ```html
-<meta property="wof:version" version="0.0.1" />
+<meta property="tfx:version" tfx="0.0.1" commands="0.1.0"/>
 ```
-
-### Scope
-
-The [execution context](https://developer.mozilla.org/en-US/docs/Glossary/Scope) for the JavaScript variables in `wof` HTML attributes.
-
-```html
-<meta property="wof:scope" scope="./my-module.js" />
-```
-
-Any JavaScript that intends to use an application's WoF variables can then do:
-
-```js
-import { aFunction, aType, dispatchFunction } from './my-module.js';
-```
-
-### Type
-
-A `type` is either a JavaScript variable defined in the scope or a string denoting a schema:
-
-* JavaScript global objects, e.g. `Boolean`, `Number`, `String`, `Promise`, etc.
-* Variables defined in the scope, e.g. `AwesomeClass`
-* Types defined in [schema.org](schema.org), accessed by the "schema" URI scheme:
-
-```js
-'schema:Person'
-// http://schema.org/Person
-
-'schema:email'
-// http://schema.org/email
-```
-
-#### Overload
-
-[TODO](https://en.wikibooks.org/wiki/Computer_Programming/Function_overloading)
-
-### State
-
-However, `undo` and `redo` are very reasonable end user expectations that WoF adheres to.
-
-```html
-<meta property="wof:apply" apply="dispatchFunction" undo="dispatchFunction('UNDO')" redo="dispatchFunction('REDO')" />
-```
-
-Where `dispatchFunction` is a variable defined in the scope.
-
-Reference implementation for applying an action:
-
-```js
-const dispatch = dispatchFunction; // Given
-const action = anAction; // Given
-
-function apply(action) {
-    if (action) {
-        dispatch(action);
-    }
-}
-```
-
-### Intent
-
-An `intent` is a [stateful](https://en.wikipedia.org/wiki/State_(computer_science)) semantic unit representing a function embedded in a web application. An intent `IsA` JavaScript function, accompanied by its annotations. `Intent execution` is a semantically equivalent term for a `function call`.
-
-Examples:
-
-```html
-<meta property="wof:intent" intent="subscribe" domain="[['email', 'schema:email']]"/>
-```
-
-`subscribe` is a function defined in the scope, the intent inherits this name.
-
-#### URI
-
-An intent URI can be used for referencing an intent:
-
-```
-http://example.com:subscribe
-```
-
-Or calling the function of an intent:
-
-```
-http://example.com:subscribe('john.smith@example.com')
-```
-
-Or getting an Array of functions matching an overload:
-
-```
-http://example.com:['schema:email']
-```
-
-Intent attributes:
-* `intent`
-
-  The reference to the corresponding JavaScript function
-
-* `domain` (optional)
-
-  A JavaScript array of `parameter, type` pairs, default: []
-
-* `range` (optional)
-
-  Return value's "type", default: `undefined`
-
-* `action` (optional)
-
-  The `action` to be `applied` after execution, default: `undefined`
-
-* `render` (optional)
-
-  A JavaScript function that returns a card (an "html div", string) when called with the same parameters as the function. The card defaults to `https://intent.land/cards:<intent>(...params)`, `https://intent.land/cards:<domain>[0](...params)` or `https://intent.land/cards:label(<intent>)` respectively on each failure.
-
-
-Reference implementation for executing an intent:
-
-```js
-const intent = aFunction; // Given
-const action = anAction; // Given
-const parameters = receivedParameters;  // Given
-
-function execute(intent) {
-    const result = Promise.try(() => intent(...parameters));
-    result.then(() => apply(action));
-    return result;
-}
-```
-
-Note that `wof:apply` is called after a successful intent execution.
-Promisifying the intent is a design choice adopted to unify synchronous and
-asynchronous flows, also facilitates catching possible errors.
-It is analogous to a common practice all the way back from [`0 and 1 exit status`](https://en.wikipedia.org/wiki/Exit_status)
-to [`std::result`](https://doc.rust-lang.org/std/result/) in modern day Rust.
-Resolved value from the Promise would be of the "type" denoted by "range".
-
-#### App state vs Assistant state
-
-TODO: unsubscribe, states: 'Any', 'subscribing', 'subscribed'
-
-
-### Discovery
-
-#### Compose
-
-#### Command
-
-A string in natural language representing a request for intent execution.
-
-```html
-<meta property="wof:command" keywords="['subscribe', 'follow']" intent="subscribe">
-    <meta property="wof:chain" triggers="['subscribe', 'follow']" card="./subscribe-email.html" effect="changeState('taking-email')" />
-    <meta property="wof:then" card="./.html" effect="changeState('taking-email')" />
-</meta>
-```
-
-"wof:command" follows the Promise design principles.
-A neat way to have the effect applied is to export a "changeState" function in "./types.js", as demonstrated above.
-
-### Ontology
-
-#### Standard intents
-
-intent.land
-
-#### Inter-app integrations via intents
-
-Share
-
-Follow
-
-overloading: share(['schema:URL']), share(['schema:image']), share(['schema:video'])
-
-User personalization may determines which share targets they have.
-
-```html
-<button type="button" intent="share('./image.png')" overloads="[['schema:URL'], ['schema:image']]">Share</button>
-```
-
-Depending on the overload implemented by a target application, the parameter will be received as either an image (e.g. a photo editing app) or a URL (e.g. a social media). User's preferences could be taken into account, e.g. whether someone most likely shares on Facebook or Twitter.
 
 ## Drawbacks
 [drawbacks]: #drawbacks
 
+To be discovered in the future RFCs.
+
 ## Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-Why not just use a `<script>` tag for inter-app integrations?
-
-Standards. Write 'share' once, integrate with all.
+Discussed in detail in [motivation](#motivation) and [Guide-level explanation](#guide-level-explanation).
 
 ## Prior art
 [prior-art]: #prior-art
+
+* [clinc](https://clinc.com/)
+* [Google Now](https://en.wikipedia.org/wiki/Google_Now)
+* Siri, Alexa, Google Assistant
+
+## Unresolved questions
+[unresolved-questions]: #unresolved-questions
+
+* Should cards be Web Components? Not until HTML import is decided? Don't forget React!
+
+### Interesting future directions
+[interesting-future-directions]: #interesting-future-directions
+
+* TFx integration in other target programming languages
+* Web of Functions
+
+#### Web of Functions (WoF)
+[web-of-functions-wof]: #web-of-functions-wof
+
+This RFC initially included the concept of inter-application integrations.
+This would hypothetically be possible when via the Agent and presence of
+functions in namespaces, though immediate plans for pursuing this objective are
+canceled for the time being. Below is an excerpt:
 
 The **Web of Functions (WoF)** is an extension of the [Semantic Web](https://en.wikipedia.org/wiki/Semantic_Web),
 focusing on provision of a mechanism for **Function Interaction** over the web.
@@ -569,31 +416,16 @@ WoF is a proposal on how to create *"universally understandable annotations of
 **functions**"*, covering both decentralized and centralized aspects, enabling
 inter-application interactions between these functions.
 
+Previous attempts:
+
+* [Web Intents](https://www.w3.org/TR/web-intents/)
+* [EntryPoint in schema.org](https://schema.org/EntryPoint)
+
 From the old terminology, WoF to a web app is [SDK](https://en.wikipedia.org/wiki/Software_development_kit)
 to a desktop app.
-
-Previous efforts don't realize that intent === function()
-
-[Web Intents](https://www.w3.org/TR/web-intents/)
-
-[`schema:EntryPoint`](https://schema.org/EntryPoint)
-
-Semantic Web
-
-Google Now
-
-Siri, Alexa, Google Assistant
-
-## Unresolved questions
-[unresolved-questions]: #unresolved-questions
-
-Does/would `schema.org` offer a type analogous to `undefined`? Do we need one?
-
-Should cards be Web Components? Not until HTML import is decided? Don't forget React!
-
-WoF state and page state are the same thing? Author decides in the function?
 
 ### TODO
 [todo]: #todo
 
+* Reference-level explanation
 * Assister Map RFC
