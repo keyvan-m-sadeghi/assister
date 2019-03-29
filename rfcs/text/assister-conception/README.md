@@ -33,7 +33,7 @@ references: [Request](#guide-level-explanation),
 [Terminology](#terminology),
 [Intent](#intent),
 [Execution](#execution),
-[Response](#command)*
+[Response](#response)*
 
 ## Motivation
 [motivation]: #motivation
@@ -189,7 +189,7 @@ A command in TFx is a term in a domain that is `executable` by its `intent`.
 [intent]: #intent
 
 An `intent` is a a reference to a variable or a function call from variables
-and functions defined in execution to be evaluated at execution time
+and functions defined in execution to be evaluated at the execution stage
 conditioned by presence of a set of variables specified by the intent.
 
 #### TFx Example
