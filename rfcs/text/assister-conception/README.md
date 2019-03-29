@@ -29,11 +29,11 @@ the [**Assister Agent**](#assister-agent).
 *Assister [Pipeline](https://en.wikipedia.org/wiki/Pipeline_(computing)),
 references: [Request](#guide-level-explanation),
 [Discovery](#discovery),
-[Command](#guide-level-explanation),
+[Command](#command),
 [Terminology](#terminology),
 [Intent](#intent),
 [Execution](#execution),
-[Response](#guide-level-explanation)*
+[Response](#command)*
 
 ## Motivation
 [motivation]: #motivation
@@ -141,37 +141,56 @@ A `Functional Knowledge Graph` (FKG) extends the Knowledge Graph concept by
 including the references to pieces of [executable](https://en.wikipedia.org/wiki/Executable)
 software that carry out the functionalities.
 
-More technically, an FKG is an Ontology that encompasses the execution context
-as well as the entities and relations with respect to which functionalities are
-being offered.
+An FKG is an Ontology that encompasses the [implementation](https://en.wikipedia.org/wiki/Implementation)
+context as well as the [data model](https://en.wikipedia.org/wiki/Data_model)
+in a [domain](https://en.wikipedia.org/wiki/Domain_(software_engineering)).
 
 ### Terms and Functions Language (TFx)
 [terms-and-functions-language-tfx]: #terms-and-functions-language-tfx
 
-**Terms and Functions (TFx)** is a language for describing the terms used by
-the users of an application and the relation of these terms with the code that
-the application is made of. The intersection of a terminology and its software
-[implementation](https://en.wikipedia.org/wiki/Implementation) constitutes an
-FKG.
+**Terms and Functions (TFx)** is a [domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
+metalanguage for describing the terms used by the users of an application and
+the relation of these terms with the code that an application is made of.
+
+TFx offloads the task of describing the entities and relations to an [object](https://en.wikipedia.org/wiki/Object_language)
+programming language and the native data model of an application. TFx
+constitutes an FKG by directly referencing the functions and variables in an
+application's code and encoding their relation with a domain's [`terminology`](https://en.wikipedia.org/wiki/Terminology).
 
 In more technical terms, TFx is a [dynamic](https://en.wikipedia.org/wiki/Dynamic_programming_language)
 [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming)
 [language](https://en.wikipedia.org/wiki/Programming_language)
 with a [metasyntax](https://en.wikipedia.org/wiki/Metasyntax)
-that can describes the connection between the domain-specific and the
-programming [object](https://en.wikipedia.org/wiki/Object_language)
-languages. TFx enables the encoding of [domain-specific](https://en.wikipedia.org/wiki/Domain-specific_language)
-[`terminology`](https://en.wikipedia.org/wiki/Terminology)
-and its correspondence with the [`execution`](#execution).
+that can describes the connection between a domain and a programming object
+languages. TFx enables the encoding of a domain-specific terminology and its
+correspondence with its [`execution`](#execution) context.
 
 The TFx metasyntax is standardized by [TAC](#the-assister-platform-tapassister).
+
+#### Terminology
+[terminology]: #terminology
+
+In TFx, a `terminology` is a set of terms in a domain which are used in [`commands`](#command)
+along with their [parsing](https://en.wikipedia.org/wiki/Parsing) mechanism.
 
 #### Execution
 [execution]: #execution
 
-Execution in TFx is defined as the subset of functions and variables from an
+An `execution` is defined as a subset of functions and variables from an
 object programming language that are used to deliver the functionality of
-its commands.
+commands.
+
+#### Command
+[command]: #command
+
+A command in TFx is a term in a domain that is `executable` by its `intent`.
+
+#### Intent
+[intent]: #intent
+
+An `intent` is a a reference to a variable or a function call from variables
+and functions defined in execution to be evaluated at execution time
+conditioned by presence of a set of variables specified by the intent.
 
 #### TFx Example
 [tfx-example]: #tfx-example
@@ -263,7 +282,7 @@ addressing the `format as date` user scenario [mentioned earlier](#user-level-re
 </command>
 ```
 
-The language used in the `pattern` attributes is [PTRN](#ptrn-grammar).
+The grammar used in the `pattern` attributes is [PTRN](#ptrn-grammar).
 
 Two methods for invoking the `format` function are addressed in the above
 example, one which formats the `currentSelection` and another where the
@@ -300,15 +319,20 @@ are therefore dismissed. Initial proposals for PTRN are discussed in
 
 Assister Agent is the CLI for running commands annotated by TFx. As
 opposed to a traditional [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface)
-where CLIs normally operate, the Agent is a browser extension that emulates
-[instant messaging](https://en.wikipedia.org/wiki/Instant_messaging),
+where CLIs normally operate, the Agent is a browser extension with an
+[instant messaging](https://en.wikipedia.org/wiki/Instant_messaging) interface,
 emulating a conversation with the application.
 
 ![Telegram Messenger](https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/c5/25/de/c525de2b-9a9a-a329-cd0f-f55708489d48/mzl.zmstycee.png/460x0w.jpg)
 
 *Instant messaging in Telegram Messenger. Image by [Telegram](https://telegram.org/)*
 
-Response would be presented to the user as a [`card`](https://material.io/design/components/cards.html).
+#### Response
+[response]: #response
+
+A `response` is a value resulted from a [command](#command) execution.
+
+Responses are presented to the user as [`cards`](https://material.io/design/components/cards.html).
 
 ![Card interface](https://storage.googleapis.com/spec-host-backup/mio-design%2Fassets%2F0B6xUSjjSulxca3J1cWoxa003amc%2Fcards-elements-1.png)
 
@@ -317,7 +341,7 @@ Response would be presented to the user as a [`card`](https://material.io/design
 Application authors can ship their own custom card for a command. Optionally
 they can have cards that are automatically generated by the Agent, given
 the variable or the return value of the JavaScript function denoted by the
-command `intent` is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
+command's intent is in [JSON-LD](https://en.wikipedia.org/wiki/JSON-LD)
 format and its TFx declaration is annotated by a type from
 [shema.org](https://schema.org/):
 
