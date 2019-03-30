@@ -283,6 +283,9 @@ addressing the `format as date` user scenario [mentioned earlier](#user-level-re
 </command>
 ```
 
+The command tag describes a [class](https://en.wikipedia.org/wiki/Categorical_variable)
+of commands and their mapping to their intents.
+
 The grammar used in the `pattern` attributes is [PTRN](#ptrn-grammar).
 
 Two methods for invoking the `format` function are addressed in the above
