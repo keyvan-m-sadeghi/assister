@@ -123,8 +123,9 @@ source discovery, the [Assister Map](#assister-map).
 Being an [open architecture](https://en.wikipedia.org/wiki/Open_architecture)
 design however, Assister accommodates swapping for another discovery, for
 example with proprietary solutions like [Apple Siri](https://www.apple.com/siri/),
-[Google Assistant](https://assistant.google.com/) or
-[Amazon Alexa](https://developer.amazon.com/alexa).
+[Google Assistant](https://assistant.google.com/),
+[Amazon Alexa](https://developer.amazon.com/alexa) or
+[Microsoft Cortana](https://www.microsoft.com/en-ca/windows/cortana).
 
 ### Functional Knowledge Graph (FKG)
 [functional-knowledge-graph-fkg]: #functional-knowledge-graph-fkg
@@ -418,7 +419,6 @@ and [Guide-level explanation](#guide-level-explanation).
 
 * [clinc](https://clinc.com/)
 * [Google Now](https://en.wikipedia.org/wiki/Google_Now)
-* Siri, Alexa, Google Assistant
 
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
