@@ -1,0 +1,11 @@
+{
+  "name": "Assister Agent",
+  "version": "0.1.0",
+  "browser_action": {
+    "default_title": "Assister Agent",
+    "default_popup": "index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-eAbM2Wd9MSBLiqBuYNk5fQYyW96sTHAoHdvEs2UVM+c='; object-src 'self'",
+  "manifest_version": 2
+  
+}

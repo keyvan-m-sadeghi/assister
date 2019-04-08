@@ -1,0 +1,102 @@
+.appContainer{
+  width: 400px;
+  background-color: rgba(250,250,250);
+}
+
+.optionsContainer{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.optionsContainer button{
+  border: 1px #5555 solid;
+  background: none;
+  display: flex;
+  justify-content: space-evenly;
+  width: 90px;
+  height: 40px;
+}
+
+.messagesListContainer{
+  border-top: 1px #5555 solid;
+  padding: 10px;
+  background-color: rgba(240,240,240);
+  height: 350px;
+  overflow-y: auto;
+  border-bottom: 1px #5555 solid;
+  display: flex;
+  flex-direction: column;  
+}
+
+.conversation{
+  background-color: lightsteelblue;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 2px auto 2px 2px;
+  max-width: 360px;
+  word-break: break-word;
+  position: relative;
+}
+
+.conversation:after{
+  content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-right-color: lightsteelblue;
+	border-left: 0;
+	margin-top: -6px;
+	margin-left: -6px;
+}
+
+.messageCard{
+  background-color: ghostwhite;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 2px 2px 2px auto;
+  max-width: 360px;
+  word-break: break-word;
+  position: relative;
+}
+
+.messageCard:after{
+  content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-left-color: ghostwhite;
+	border-right: 0;
+	margin-top: -6px;
+	margin-right: -6px;
+}
+
+.messageFormContainer{
+  padding: 0;
+  border-bottom: 1px #5555 solid;
+}
+
+.messageFormContainer input{
+  width: 100%;
+  border: none;
+  height: 35px;
+  font-size: 1.3em;
+}
+
+.messageFormContainer form{
+  display: flex;
+}
+
+.messageFormContainer button{
+  background: none;
+  border: 1px #5555 solid;
+  width: 50px;
+  font-size: 1.3em;
+  color: darkslategray;
+}
