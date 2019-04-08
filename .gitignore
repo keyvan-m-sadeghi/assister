@@ -111,3 +111,7 @@ typings/
 
 # next.js build output
 .next
+
+
+# build folder for agent
+packages/agent/build

@@ -1,5 +1,4 @@
 import React, { useState, useReducer } from 'react';
-import logo from './logo.svg';
 import CommandHintBox from './components/CommandHintBox';
 import MessagesList from './components/MessagesList';
 import OptionsBox from './components/OptionsBox';
