@@ -19,16 +19,12 @@ export class AssisterChat {
       <ion-button href="/profile/ionic" expand="block">Profile page</ion-button>
 
       <ion-list>
-        <ion-card>
-          <ion-card-content>
-            sege
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-content>
-            soote
-          </ion-card-content>
-        </ion-card>
+        <assister-message>
+            sege <b>bold</b>
+        </assister-message>
+        <assister-message>
+          soote        
+        </assister-message>
         <ion-card>
           <ion-card-content>
             khare
