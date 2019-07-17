@@ -8,24 +8,19 @@ import { Component, h, Prop } from '@stencil/core';
 export class Message {
   @Prop() status: 'none' | 'pending' | 'sent' | 'delivered' = 'none';
 
-  @Prop() triangle: 'none' | 'top' | 'bottom' = 'none';
+  @Prop() triangle: 'none' | 'top' | 'bottom' = 'bottom';
   @Prop() alignment: 'left' | 'right' = 'right';
 
-  getClassForBubble() {
-    return `bubble
-    triangle-${this.triangle}-${this.alignment}
-    align-${this.alignment}`;
-  }
-
   render() {
-    return (
-      <div class="container">
-        <div class={this.getClassForBubble()}>
+    return (      
+      <ion-item lines="none" class={`container`}>
+        <div slot={this.alignment === 'left' ? 'start' : 'end'}
+          class={`bubble triangle-${this.triangle}-${this.alignment}`}>
           <p>
             <slot />
           </p>
         </div>
-      </div>
+      </ion-item>
     );
   }
 }

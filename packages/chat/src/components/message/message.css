@@ -1,10 +1,9 @@
 .container {
-  display: inline-block;
-  width: 100%;
+  padding: 0.1em;
 }
 
 .bubble {
-  padding: 0 1em 0 1em;
+  padding: 0 1em 0 1em ;
   position: relative;
   background-color: cyan;
   border-radius: 1em;

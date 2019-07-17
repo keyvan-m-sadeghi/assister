@@ -2,9 +2,9 @@ import { Component, h } from '@stencil/core';
 
 @Component({
   tag: 'assister-chat',
-  styleUrl: 'assister-chat.css'
+  styleUrl: 'chat.css'
 })
-export class AssisterChat {
+export class Chat {
 
   render() {
     return [
@@ -18,12 +18,15 @@ export class AssisterChat {
 
       <ion-button href="/profile/ionic" expand="block">Profile page</ion-button>
 
-      <ion-list>
+      <assister-conversation>
         <assister-message>
-            sege <b>bold</b>
+            <h1>Status</h1>
+            <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
+            <h2>Legit?</h2>
+            <p>To be seen!</p>
         </assister-message>
         <assister-message>
-          soote        
+          soote
         </assister-message>
         <ion-card>
           <ion-card-content>
@@ -40,12 +43,7 @@ export class AssisterChat {
             shaghale
           </ion-card-content>
         </ion-card>
-      </ion-list>
-
-      <ion-infinite-scroll threshold="100px" id="infinite-scroll">
-        <ion-infinite-scroll-content loading-spinner="bubbles" loading-text="Loading more data...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+      </assister-conversation>
       
       </ion-content>
 

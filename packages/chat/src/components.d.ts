@@ -14,6 +14,9 @@ export namespace Components {
   }
   interface AppRoot {}
   interface AssisterChat {}
+  interface AssisterConversation {
+    'foo': string;
+  }
   interface AssisterMessage {
     'alignment': 'left' | 'right';
     'status': 'none' | 'pending' | 'sent' | 'delivered';
@@ -42,6 +45,12 @@ declare global {
     new (): HTMLAssisterChatElement;
   };
 
+  interface HTMLAssisterConversationElement extends Components.AssisterConversation, HTMLStencilElement {}
+  var HTMLAssisterConversationElement: {
+    prototype: HTMLAssisterConversationElement;
+    new (): HTMLAssisterConversationElement;
+  };
+
   interface HTMLAssisterMessageElement extends Components.AssisterMessage, HTMLStencilElement {}
   var HTMLAssisterMessageElement: {
     prototype: HTMLAssisterMessageElement;
@@ -51,6 +60,7 @@ declare global {
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
     'assister-chat': HTMLAssisterChatElement;
+    'assister-conversation': HTMLAssisterConversationElement;
     'assister-message': HTMLAssisterMessageElement;
   }
 }
@@ -61,6 +71,9 @@ declare namespace LocalJSX {
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {}
+  interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {
+    'foo'?: string;
+  }
   interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
     'alignment'?: 'left' | 'right';
     'status'?: 'none' | 'pending' | 'sent' | 'delivered';
@@ -71,6 +84,7 @@ declare namespace LocalJSX {
     'app-profile': AppProfile;
     'app-root': AppRoot;
     'assister-chat': AssisterChat;
+    'assister-conversation': AssisterConversation;
     'assister-message': AssisterMessage;
   }
 }
