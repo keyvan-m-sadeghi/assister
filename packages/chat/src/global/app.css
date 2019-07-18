@@ -29,3 +29,11 @@
   More info about color theming using Ionic:
   https://beta.ionicframework.com/docs/theming/color-generator
 */
+
+:root {
+  --message-fill-color: cyan;
+  --message-padding-content: 0.5em;
+  --message-padding-between: 0.1em;
+  --message-round-size: 0.5em;
+  --message-round-size-negative: calc(-1 * var(--message-round-size));
+}

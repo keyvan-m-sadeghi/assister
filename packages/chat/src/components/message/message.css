@@ -1,21 +1,21 @@
 .container {
-  padding: 0.1em;
+  padding: var(--message-padding-between);
 }
 
 .bubble {
-  padding: 0 1em 0 1em ;
+  padding: 0 var(--message-padding-content) 0 var(--message-padding-content) ;
   position: relative;
-  background-color: cyan;
-  border-radius: 1em;
+  background-color: var(--message-fill-color);
+  border-radius: var(--message-round-size);
 }
 
 .align-left {
-  margin: 0 0 0 1em;
+  margin: 0 0 0 var(--message-padding-content);
   float: left;
 }
 
 .align-right {
-  margin: 0 1em 0 0;
+  margin: 0 var(--message-padding-content) 0 0;
   float: right;
 }
 
@@ -24,10 +24,10 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-	border: 1em solid;
-  border-color: cyan transparent transparent transparent;
+	border: var(--message-round-size) solid;
+  border-color: var(--message-fill-color) transparent transparent transparent;
   top: 0;
-	right: -1em;
+	right: var(--message-round-size-negative);
 }
 
 .triangle-bottom-right:after {
@@ -35,10 +35,10 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-	border: 1em solid;
-  border-color: transparent transparent cyan transparent;
+	border: var(--message-round-size) solid;
+  border-color: transparent transparent var(--message-fill-color) transparent;
   bottom: 0;
-	right: -1em;
+	right: var(--message-round-size-negative);
 }
 
 .triangle-bottom-left:after {
@@ -46,10 +46,10 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-	border: 1em solid;
-  border-color: transparent transparent cyan transparent;
+	border: var(--message-round-size) solid;
+  border-color: transparent transparent var(--message-fill-color) transparent;
   bottom: 0;
-	left: -1em;
+	left: var(--message-round-size-negative);
 }
 
 .triangle-top-left:after {
@@ -57,8 +57,8 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-	border: 1em solid;
-  border-color: cyan transparent transparent transparent;
+	border: var(--message-round-size) solid;
+  border-color: var(--message-fill-color) transparent transparent transparent;
   top: 0;
-  left: -1em;
+  left: var(--message-round-size-negative);
 }
