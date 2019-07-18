@@ -17,6 +17,7 @@ export namespace Components {
   interface AssisterConversation {
     'foo': string;
   }
+  interface AssisterInput {}
   interface AssisterMessage {
     'alignment': 'left' | 'right';
     'status': 'none' | 'pending' | 'sent' | 'delivered';
@@ -51,6 +52,12 @@ declare global {
     new (): HTMLAssisterConversationElement;
   };
 
+  interface HTMLAssisterInputElement extends Components.AssisterInput, HTMLStencilElement {}
+  var HTMLAssisterInputElement: {
+    prototype: HTMLAssisterInputElement;
+    new (): HTMLAssisterInputElement;
+  };
+
   interface HTMLAssisterMessageElement extends Components.AssisterMessage, HTMLStencilElement {}
   var HTMLAssisterMessageElement: {
     prototype: HTMLAssisterMessageElement;
@@ -61,6 +68,7 @@ declare global {
     'app-root': HTMLAppRootElement;
     'assister-chat': HTMLAssisterChatElement;
     'assister-conversation': HTMLAssisterConversationElement;
+    'assister-input': HTMLAssisterInputElement;
     'assister-message': HTMLAssisterMessageElement;
   }
 }
@@ -74,6 +82,7 @@ declare namespace LocalJSX {
   interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {
     'foo'?: string;
   }
+  interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {}
   interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
     'alignment'?: 'left' | 'right';
     'status'?: 'none' | 'pending' | 'sent' | 'delivered';
@@ -85,6 +94,7 @@ declare namespace LocalJSX {
     'app-root': AppRoot;
     'assister-chat': AssisterChat;
     'assister-conversation': AssisterConversation;
+    'assister-input': AssisterInput;
     'assister-message': AssisterMessage;
   }
 }
