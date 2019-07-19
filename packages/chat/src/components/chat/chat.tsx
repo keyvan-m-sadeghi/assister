@@ -5,6 +5,9 @@ import { Component, h } from '@stencil/core';
   styleUrl: 'chat.css'
 })
 export class Chat {
+  handleSend(event) {
+    console.log(event.detail.value);
+  }
 
   render() {
     return [
@@ -44,7 +47,9 @@ export class Chat {
         </assister-conversation>
       </ion-content>,
 
-      <assister-input />
+      <ion-footer>
+        <assister-input onSend={event => this.handleSend(event)} />
+      </ion-footer>
     ];
   }
 }

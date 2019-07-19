@@ -6,6 +6,9 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
+import {
+  AssisterInputChangeEventDetail,
+} from './interfaces';
 
 
 export namespace Components {
@@ -82,7 +85,9 @@ declare namespace LocalJSX {
   interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {
     'foo'?: string;
   }
-  interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {}
+  interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {
+    'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
+  }
   interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
     'alignment'?: 'left' | 'right';
     'status'?: 'none' | 'pending' | 'sent' | 'delivered';
