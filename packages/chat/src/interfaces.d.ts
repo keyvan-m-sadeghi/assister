@@ -1,3 +1,3 @@
 export interface AssisterInputChangeEventDetail {
-    value: string;
+  value: string;
 }

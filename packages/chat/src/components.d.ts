@@ -18,7 +18,8 @@ export namespace Components {
   interface AppRoot {}
   interface AssisterChat {}
   interface AssisterConversation {
-    'foo': string;
+    'insertToBottom': (content: any) => Promise<unknown>;
+    'insertToTop': (content: any) => Promise<void>;
   }
   interface AssisterInput {}
   interface AssisterMessage {
@@ -82,9 +83,7 @@ declare namespace LocalJSX {
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {}
-  interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {
-    'foo'?: string;
-  }
+  interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {}
   interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }

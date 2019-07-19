@@ -5,8 +5,17 @@ import { Component, h } from '@stencil/core';
   styleUrl: 'chat.css'
 })
 export class Chat {
+  private content?: HTMLIonContentElement;
+  private conversation?: HTMLAssisterConversationElement;
   handleSend(event) {
-    console.log(event.detail.value);
+    const text = event.detail.value;
+    const message = (
+      <assister-message alignment="right" triangle="bottom">
+        { text }
+      </assister-message>
+    );
+    this.conversation.insertToBottom(message)
+      .then(() => this.content.scrollToBottom());
   }
 
   render() {
@@ -17,9 +26,13 @@ export class Chat {
         </ion-toolbar>
       </ion-header>,
 
-      <ion-content>
-        <ion-button href="/profile/ionic" expand="block">Profile page</ion-button>
-        <assister-conversation>
+      <ion-content
+        ref={element => this.content = element}
+      >
+        {/* <ion-button href="/profile/ionic" expand="block">Profile page</ion-button> */}
+        <assister-conversation
+          ref={element => this.conversation = element}
+        >
           <assister-message>
               <h1>Status</h1>
               <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
@@ -32,16 +45,6 @@ export class Chat {
           <ion-card>
             <ion-card-content>
               khare
-            </ion-card-content>
-          </ion-card>
-          <ion-card>
-            <ion-card-content>
-              gave
-            </ion-card-content>
-          </ion-card>
-          <ion-card>
-            <ion-card-content>
-              shaghale
             </ion-card-content>
           </ion-card>
         </assister-conversation>
