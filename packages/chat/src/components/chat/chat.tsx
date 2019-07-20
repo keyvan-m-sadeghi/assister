@@ -2,11 +2,14 @@ import { Component, h } from '@stencil/core';
 
 @Component({
   tag: 'assister-chat',
-  styleUrl: 'chat.css'
+  styleUrl: 'chat.css',
+  shadow: true
 })
 export class Chat {
+
   private content?: HTMLIonContentElement;
   private conversation?: HTMLAssisterConversationElement;
+
   handleSend(event) {
     const text = event.detail.value;
     const message = (
@@ -22,7 +25,7 @@ export class Chat {
     return [
       <ion-header>
         <ion-toolbar color="primary">
-          <ion-title>Home</ion-title>
+          <ion-title>Assister</ion-title>
         </ion-toolbar>
       </ion-header>,
 

@@ -16,11 +16,13 @@ export namespace Components {
     'name': string;
   }
   interface AppRoot {}
+  interface AppTest {}
   interface AssisterChat {}
   interface AssisterConversation {
     'insertToBottom': (content: any) => Promise<unknown>;
     'insertToTop': (content: any) => Promise<void>;
   }
+  interface AssisterFab {}
   interface AssisterInput {}
   interface AssisterMessage {
     'alignment': 'left' | 'right';
@@ -44,6 +46,12 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
+  interface HTMLAppTestElement extends Components.AppTest, HTMLStencilElement {}
+  var HTMLAppTestElement: {
+    prototype: HTMLAppTestElement;
+    new (): HTMLAppTestElement;
+  };
+
   interface HTMLAssisterChatElement extends Components.AssisterChat, HTMLStencilElement {}
   var HTMLAssisterChatElement: {
     prototype: HTMLAssisterChatElement;
@@ -54,6 +62,12 @@ declare global {
   var HTMLAssisterConversationElement: {
     prototype: HTMLAssisterConversationElement;
     new (): HTMLAssisterConversationElement;
+  };
+
+  interface HTMLAssisterFabElement extends Components.AssisterFab, HTMLStencilElement {}
+  var HTMLAssisterFabElement: {
+    prototype: HTMLAssisterFabElement;
+    new (): HTMLAssisterFabElement;
   };
 
   interface HTMLAssisterInputElement extends Components.AssisterInput, HTMLStencilElement {}
@@ -70,8 +84,10 @@ declare global {
   interface HTMLElementTagNameMap {
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'app-test': HTMLAppTestElement;
     'assister-chat': HTMLAssisterChatElement;
     'assister-conversation': HTMLAssisterConversationElement;
+    'assister-fab': HTMLAssisterFabElement;
     'assister-input': HTMLAssisterInputElement;
     'assister-message': HTMLAssisterMessageElement;
   }
@@ -82,8 +98,10 @@ declare namespace LocalJSX {
     'name'?: string;
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
+  interface AppTest extends JSXBase.HTMLAttributes<HTMLAppTestElement> {}
   interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {}
   interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {}
+  interface AssisterFab extends JSXBase.HTMLAttributes<HTMLAssisterFabElement> {}
   interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }
@@ -96,8 +114,10 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'app-profile': AppProfile;
     'app-root': AppRoot;
+    'app-test': AppTest;
     'assister-chat': AssisterChat;
     'assister-conversation': AssisterConversation;
+    'assister-fab': AssisterFab;
     'assister-input': AssisterInput;
     'assister-message': AssisterMessage;
   }

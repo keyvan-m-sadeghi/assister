@@ -1,0 +1,29 @@
+.fab {
+  transition: all 0.1s ease-in-out;
+  position: fixed;
+  right: 3em;
+  bottom: 3em;
+}
+  
+.fab:hover {
+  transform: scale(1.05);
+}
+
+.chat {
+  width: 400px;
+  height: 50%;
+  position: fixed;
+  right: 5%;
+  bottom: 25%;
+  box-shadow: 0 0 0.5em 0.2em #666;
+  z-index: 10000;
+}
+
+@media screen and (max-width: 600px) {
+  .chat {
+    width: 100%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+  }
+}
