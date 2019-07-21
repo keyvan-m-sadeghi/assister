@@ -8,7 +8,6 @@ import { Component, h, State } from '@stencil/core';
 export class Fab {
   @State() showChat = true;
   handleClick() {
-      console.log(this.showChat)
       this.showChat = !this.showChat;
   }
   render() {

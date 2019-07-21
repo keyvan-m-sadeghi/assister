@@ -23,39 +23,39 @@ export class Chat {
 
   render() {
     return [
-      <ion-header>
-        <ion-toolbar color="primary">
-          <ion-title>Assister</ion-title>
-        </ion-toolbar>
-      </ion-header>,
+        <ion-header class="header">
+          <ion-toolbar color="primary">
+            <ion-title>Assister</ion-title>
+          </ion-toolbar>
+        </ion-header>,
 
-      <ion-content
-        ref={element => this.content = element}
-      >
-        {/* <ion-button href="/profile/ionic" expand="block">Profile page</ion-button> */}
-        <assister-conversation
-          ref={element => this.conversation = element}
+        <ion-content class="content"
+          ref={element => this.content = element}
         >
-          <assister-message>
-              <h1>Status</h1>
-              <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
-              <h4>Legit?</h4>
-              <p>To be seen!</p>
-          </assister-message>
-          <assister-message>
-            soote
-          </assister-message>
-          <ion-card>
-            <ion-card-content>
-              khare
-            </ion-card-content>
-          </ion-card>
-        </assister-conversation>
-      </ion-content>,
+          {/* <ion-button href="/profile/ionic" expand="block">Profile page</ion-button> */}
+          <assister-conversation
+            ref={element => this.conversation = element}
+          >
+            <assister-message>
+                <h1>Status</h1>
+                <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
+                <h4>Legit?</h4>
+                <p>To be seen!</p>
+            </assister-message>
+            <assister-message>
+              soote
+            </assister-message>
+            <ion-card>
+              <ion-card-content>
+                khare
+              </ion-card-content>
+            </ion-card>
+          </assister-conversation>
+        </ion-content>,
 
-      <ion-footer>
-        <assister-input onSend={event => this.handleSend(event)} />
-      </ion-footer>
+        <ion-footer class="footer">
+          <assister-input onSend={event => this.handleSend(event)} />
+        </ion-footer>
     ];
   }
 }

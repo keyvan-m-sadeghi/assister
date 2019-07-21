@@ -1,0 +1,9 @@
+.header {
+  height: 56px;
+}
+.footer {
+  height: 56px;
+}
+.content {
+  height: calc(100% - 122px);
+}
