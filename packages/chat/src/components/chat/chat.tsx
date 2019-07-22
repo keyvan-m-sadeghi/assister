@@ -1,4 +1,5 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
+import { MessageTriangle } from '../../interfaces';
 
 @Component({
   tag: 'assister-chat',
@@ -6,6 +7,9 @@ import { Component, h } from '@stencil/core';
   shadow: true
 })
 export class Chat {
+  @Prop() mapInputTextToHtml = (text: string) =>
+    text.split('\n').map(line => <p style={{margin: '0'}}>{line}</p>);
+    @Prop() triangle: MessageTriangle = 'bottom';
 
   private content?: HTMLIonContentElement;
   private conversation?: HTMLAssisterConversationElement;
@@ -13,8 +17,8 @@ export class Chat {
   handleSend(event) {
     const text = event.detail.value;
     const message = (
-      <assister-message alignment="right" triangle="bottom">
-        { text }
+      <assister-message direction="outgoing" triangle={this.triangle}>
+        { this.mapInputTextToHtml(text) }
       </assister-message>
     );
     this.conversation.insertToBottom(message)
@@ -32,24 +36,10 @@ export class Chat {
         <ion-content class="content"
           ref={element => this.content = element}
         >
-          {/* <ion-button href="/profile/ionic" expand="block">Profile page</ion-button> */}
           <assister-conversation
             ref={element => this.conversation = element}
           >
-            <assister-message>
-                <h1>Status</h1>
-                <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
-                <h4>Legit?</h4>
-                <p>To be seen!</p>
-            </assister-message>
-            <assister-message>
-              soote
-            </assister-message>
-            <ion-card>
-              <ion-card-content>
-                khare
-              </ion-card-content>
-            </ion-card>
+            <slot />
           </assister-conversation>
         </ion-content>,
 

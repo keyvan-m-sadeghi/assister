@@ -33,6 +33,7 @@
 :root {
   --ion-color-base: #3880ff;
   --message-fill-color: cyan;
+  --message-checkmark-color: #399BF0;
   --message-padding-content: 0.5em;
   --message-padding-between: 0.1em;
   --message-round-size: 0.5em;

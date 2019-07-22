@@ -3,7 +3,7 @@
 }
 
 .bubble {
-  padding: 0 var(--message-padding-content) 0 var(--message-padding-content) ;
+  padding: var(--message-padding-content) var(--message-padding-content) 0 var(--message-padding-content) ;
   position: relative;
   background-color: var(--message-fill-color);
   border-radius: var(--message-round-size);

@@ -1,0 +1,51 @@
+.checkmark {
+    display:inline-block;
+    width: 9px;
+    height:18px;
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 14px;
+    background-color: var(--message-checkmark-color);
+    right: 0px;
+    bottom: 4px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 5px;
+    height: 2px;
+    background-color: var(--message-checkmark-color);
+    right: 1px;
+    bottom: 4px;
+}
+
+.checkmark_kick_half {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: var(--message-checkmark-color);
+    right: 1px;
+    bottom: 4px;
+}
+
+.checkmark_second_stem {
+    position: absolute;
+    width: 2px;
+    height: 14px;
+    background-color: var(--message-checkmark-color);
+    right: 4px;
+    bottom: 0px;
+}
+
+.checkmark_second_kick {
+    position: absolute;
+    width: 5px;
+    height: 2px;
+    background-color: var(--message-checkmark-color);
+    right: 4px;
+    bottom: 0px;
+}

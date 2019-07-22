@@ -2,7 +2,6 @@ import { Component, h, State, Method } from '@stencil/core';
 
 @Component({
   tag: 'assister-conversation',
-  styleUrl: 'conversation.css',
   shadow: true
 })
 export class Conversation {

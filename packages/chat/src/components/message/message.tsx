@@ -1,4 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
+import { MessageTriangle, MessageDirection, MessageState } from '../../interfaces';
 
 @Component({
   tag: 'assister-message',
@@ -6,19 +7,19 @@ import { Component, h, Prop } from '@stencil/core';
   shadow: true
 })
 export class Message {
-  @Prop() status: 'none' | 'pending' | 'sent' | 'delivered' = 'none';
-
-  @Prop() triangle: 'none' | 'top' | 'bottom' = 'bottom';
-  @Prop() alignment: 'left' | 'right' = 'right';
+  @Prop() state: MessageState = 'pending';
+  @Prop() direction: MessageDirection = 'outgoing';
+  @Prop() triangle: MessageTriangle = 'bottom';
 
   render() {
-    return (      
+    const alignment = this.direction === 'outgoing' ? 'right' : 'left';
+
+    return (
       <ion-item lines="none" class={`container`}>
-        <div slot={this.alignment === 'left' ? 'start' : 'end'}
-          class={`bubble triangle-${this.triangle}-${this.alignment}`}>
-          <p>
-            <slot />
-          </p>
+        <div slot={alignment === 'left' ? 'start' : 'end'}
+          class={`bubble triangle-${this.triangle}-${alignment}`}>
+          <slot />
+        <assister-message-status state={this.state} />
         </div>
       </ion-item>
     );

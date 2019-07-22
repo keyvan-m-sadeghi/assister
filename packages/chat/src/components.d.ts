@@ -8,6 +8,9 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   AssisterInputChangeEventDetail,
+  MessageDirection,
+  MessageState,
+  MessageTriangle,
 } from './interfaces';
 
 
@@ -17,7 +20,13 @@ export namespace Components {
   }
   interface AppRoot {}
   interface AppTest {}
-  interface AssisterChat {}
+  interface AssisterChat {
+    'mapInputTextToHtml': (text: string) => any[];
+    'triangle': MessageTriangle;
+  }
+  interface AssisterCheckmark {
+    'ticks': 'one' | 'two';
+  }
   interface AssisterConversation {
     'insertToBottom': (content: any) => Promise<unknown>;
     'insertToTop': (content: any) => Promise<void>;
@@ -25,9 +34,12 @@ export namespace Components {
   interface AssisterFab {}
   interface AssisterInput {}
   interface AssisterMessage {
-    'alignment': 'left' | 'right';
-    'status': 'none' | 'pending' | 'sent' | 'delivered';
-    'triangle': 'none' | 'top' | 'bottom';
+    'direction': MessageDirection;
+    'state': MessageState;
+    'triangle': MessageTriangle;
+  }
+  interface AssisterMessageStatus {
+    'state': MessageState;
   }
 }
 
@@ -58,6 +70,12 @@ declare global {
     new (): HTMLAssisterChatElement;
   };
 
+  interface HTMLAssisterCheckmarkElement extends Components.AssisterCheckmark, HTMLStencilElement {}
+  var HTMLAssisterCheckmarkElement: {
+    prototype: HTMLAssisterCheckmarkElement;
+    new (): HTMLAssisterCheckmarkElement;
+  };
+
   interface HTMLAssisterConversationElement extends Components.AssisterConversation, HTMLStencilElement {}
   var HTMLAssisterConversationElement: {
     prototype: HTMLAssisterConversationElement;
@@ -81,15 +99,23 @@ declare global {
     prototype: HTMLAssisterMessageElement;
     new (): HTMLAssisterMessageElement;
   };
+
+  interface HTMLAssisterMessageStatusElement extends Components.AssisterMessageStatus, HTMLStencilElement {}
+  var HTMLAssisterMessageStatusElement: {
+    prototype: HTMLAssisterMessageStatusElement;
+    new (): HTMLAssisterMessageStatusElement;
+  };
   interface HTMLElementTagNameMap {
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
     'app-test': HTMLAppTestElement;
     'assister-chat': HTMLAssisterChatElement;
+    'assister-checkmark': HTMLAssisterCheckmarkElement;
     'assister-conversation': HTMLAssisterConversationElement;
     'assister-fab': HTMLAssisterFabElement;
     'assister-input': HTMLAssisterInputElement;
     'assister-message': HTMLAssisterMessageElement;
+    'assister-message-status': HTMLAssisterMessageStatusElement;
   }
 }
 
@@ -99,16 +125,25 @@ declare namespace LocalJSX {
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface AppTest extends JSXBase.HTMLAttributes<HTMLAppTestElement> {}
-  interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {}
+  interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {
+    'mapInputTextToHtml'?: (text: string) => any[];
+    'triangle'?: MessageTriangle;
+  }
+  interface AssisterCheckmark extends JSXBase.HTMLAttributes<HTMLAssisterCheckmarkElement> {
+    'ticks'?: 'one' | 'two';
+  }
   interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {}
   interface AssisterFab extends JSXBase.HTMLAttributes<HTMLAssisterFabElement> {}
   interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }
   interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
-    'alignment'?: 'left' | 'right';
-    'status'?: 'none' | 'pending' | 'sent' | 'delivered';
-    'triangle'?: 'none' | 'top' | 'bottom';
+    'direction'?: MessageDirection;
+    'state'?: MessageState;
+    'triangle'?: MessageTriangle;
+  }
+  interface AssisterMessageStatus extends JSXBase.HTMLAttributes<HTMLAssisterMessageStatusElement> {
+    'state'?: MessageState;
   }
 
   interface IntrinsicElements {
@@ -116,10 +151,12 @@ declare namespace LocalJSX {
     'app-root': AppRoot;
     'app-test': AppTest;
     'assister-chat': AssisterChat;
+    'assister-checkmark': AssisterCheckmark;
     'assister-conversation': AssisterConversation;
     'assister-fab': AssisterFab;
     'assister-input': AssisterInput;
     'assister-message': AssisterMessage;
+    'assister-message-status': AssisterMessageStatus;
   }
 }
 

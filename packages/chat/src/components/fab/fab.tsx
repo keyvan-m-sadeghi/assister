@@ -17,7 +17,9 @@ export class Fab {
       </ion-fab-button>,
       <assister-chat class="chat"
         style={{display: this.showChat ? 'block' : 'none'}}
-      />
+      >
+        <slot />
+      </assister-chat>
     ];
   }
 }
