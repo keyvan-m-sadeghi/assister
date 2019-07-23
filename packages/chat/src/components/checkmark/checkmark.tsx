@@ -10,16 +10,16 @@ export class Checkmark {
 
   render() {
     const secondTick = [
-      <div class="checkmark_kick_half"></div>,
-      <div class="checkmark_second_stem"></div>,
-      <div class="checkmark_second_kick"></div>
+      <div class="checkmark-kick-half"></div>,
+      <div class="checkmark-second-stem"></div>,
+      <div class="checkmark-second-kick"></div>
     ];
     return (
-      <span class="checkmark">
-        <div class="checkmark_stem"></div>
-        { this.ticks === 'one' && <div class="checkmark_kick"></div> }
+      <div class="container">
+        <div class="checkmark-stem"></div>
+        { this.ticks === 'one' && <div class="checkmark-kick"></div> }
         { this.ticks === 'two' && secondTick }
-      </span>
+      </div>
     );
   }
 }

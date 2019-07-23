@@ -3,6 +3,7 @@ import { MessageState } from '../../interfaces';
 
 @Component({
   tag: 'assister-message-status',
+  styleUrl: 'message-status.css',
   shadow: true
 })
 export class MessageStatus {

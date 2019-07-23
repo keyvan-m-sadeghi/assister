@@ -1,9 +1,17 @@
 {
-  "name": "chat",
+  "name": "@assister/chat",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.1",
   "description": "chat",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/interface.d.ts",
+  "unpkg": "dist/assisterchat/assisterchat.js",
+  "collection:main": "dist/collection/index.js",
+  "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/"
   ],

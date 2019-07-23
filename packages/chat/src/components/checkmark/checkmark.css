@@ -1,11 +1,11 @@
-.checkmark {
-    display:inline-block;
-    width: 9px;
+.container {
+    display: inline-block;
+    width: 18px;
     height:18px;
-    transform: rotate(45deg);
+    transform: translate(-3px, -1px) rotate(45deg);
 }
 
-.checkmark_stem {
+.checkmark-stem {
     position: absolute;
     width: 2px;
     height: 14px;
@@ -14,7 +14,7 @@
     bottom: 4px;
 }
 
-.checkmark_kick {
+.checkmark-kick {
     position: absolute;
     width: 5px;
     height: 2px;
@@ -23,7 +23,7 @@
     bottom: 4px;
 }
 
-.checkmark_kick_half {
+.checkmark-kick-half {
     position: absolute;
     width: 2px;
     height: 2px;
@@ -32,7 +32,7 @@
     bottom: 4px;
 }
 
-.checkmark_second_stem {
+.checkmark-second-stem {
     position: absolute;
     width: 2px;
     height: 14px;
@@ -41,7 +41,7 @@
     bottom: 0px;
 }
 
-.checkmark_second_kick {
+.checkmark-second-kick {
     position: absolute;
     width: 5px;
     height: 2px;

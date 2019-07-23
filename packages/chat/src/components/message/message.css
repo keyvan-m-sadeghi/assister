@@ -2,8 +2,23 @@
   padding: var(--message-padding-between);
 }
 
+.footer {
+  position: absolute;
+  right: var(--message-padding-content);
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-text {
+  color: lightslategray;
+  font-size: 15px;
+  padding-right: 2px;
+}
+
 .bubble {
-  padding: var(--message-padding-content) var(--message-padding-content) 0 var(--message-padding-content) ;
+  padding: var(--message-padding-content) var(--message-padding-content) 18px var(--message-padding-content);
+  min-width: 100px;
   position: relative;
   background-color: var(--message-fill-color);
   border-radius: var(--message-round-size);

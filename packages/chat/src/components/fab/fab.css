@@ -1,8 +1,8 @@
 .fab {
   transition: all 0.1s ease-in-out;
   position: fixed;
-  right: 3em;
-  bottom: 3em;
+  right: 2em;
+  bottom: 2em;
 }
   
 .fab:hover {
@@ -11,10 +11,10 @@
 
 .chat {
   width: 400px;
-  height: 50%;
+  height: 65%;
   position: fixed;
-  right: 5%;
-  bottom: 7em;
+  right: 2em;
+  bottom: 6em;
   box-shadow: 0 0 0.5em 0.2em #666;
   z-index: 10000;
 }

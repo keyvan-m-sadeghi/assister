@@ -20,7 +20,7 @@ export class Conversation {
 
   // TODO make this a method decorator
   @Method()
-  insertToBottom(content) {
+  async insertToBottom(content) {
     const updated = this.getUpdatePromise();
     this.bottom = [...this.bottom, content];
     return updated;

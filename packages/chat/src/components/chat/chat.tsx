@@ -17,7 +17,13 @@ export class Chat {
   handleSend(event) {
     const text = event.detail.value;
     const message = (
-      <assister-message direction="outgoing" triangle={this.triangle}>
+      <assister-message
+        direction="outgoing"
+        triangle={this.triangle}
+        footer={(new Date()).toLocaleString('en-US', {
+          hour: 'numeric', minute: 'numeric', hour12: true
+        })}
+      >
         { this.mapInputTextToHtml(text) }
       </assister-message>
     );

@@ -35,6 +35,7 @@ export namespace Components {
   interface AssisterInput {}
   interface AssisterMessage {
     'direction': MessageDirection;
+    'footer': string;
     'state': MessageState;
     'triangle': MessageTriangle;
   }
@@ -139,6 +140,7 @@ declare namespace LocalJSX {
   }
   interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
     'direction'?: MessageDirection;
+    'footer'?: string;
     'state'?: MessageState;
     'triangle'?: MessageTriangle;
   }

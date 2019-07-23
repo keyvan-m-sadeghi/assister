@@ -17,7 +17,7 @@ export class AppTest {
           </ion-list>
           <assister-fab>
             <ion-button href="/profile/ionic" expand="block">Profile page</ion-button>
-            <assister-message state="read">
+            <assister-message state="read" footer="10:00 AM">
                   <h1>Status</h1>
                   <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>
                   <p>Many people adopting them.</p>
