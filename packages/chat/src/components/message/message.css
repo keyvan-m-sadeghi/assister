@@ -1,3 +1,7 @@
+::slotted(p) {
+  margin: 0;
+}
+
 .container {
   padding: var(--message-padding-between);
 }

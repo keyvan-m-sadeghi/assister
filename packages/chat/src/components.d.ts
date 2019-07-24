@@ -15,37 +15,44 @@ import {
 
 
 export namespace Components {
+  interface AppDemo {}
   interface AppProfile {
     'name': string;
   }
   interface AppRoot {}
-  interface AppTest {}
-  interface AssisterChat {
-    'mapInputTextToHtml': (text: string) => any[];
-    'triangle': MessageTriangle;
-  }
-  interface AssisterCheckmark {
+  interface ChatCheckMark {
     'ticks': 'one' | 'two';
   }
-  interface AssisterConversation {
+  interface ChatConversation {
     'insertToBottom': (content: any) => Promise<unknown>;
     'insertToTop': (content: any) => Promise<void>;
   }
-  interface AssisterFab {}
-  interface AssisterInput {}
-  interface AssisterMessage {
+  interface ChatInput {}
+  interface ChatMessage {
     'direction': MessageDirection;
     'footer': string;
     'state': MessageState;
     'triangle': MessageTriangle;
   }
-  interface AssisterMessageStatus {
+  interface ChatMessageStatus {
     'state': MessageState;
   }
+  interface ChatPane {
+    'mapInputTextToHtml': (text: string) => any[];
+    'send': (text: string) => Promise<any>;
+    'triangle': MessageTriangle;
+  }
+  interface FabApp {}
 }
 
 declare global {
 
+
+  interface HTMLAppDemoElement extends Components.AppDemo, HTMLStencilElement {}
+  var HTMLAppDemoElement: {
+    prototype: HTMLAppDemoElement;
+    new (): HTMLAppDemoElement;
+  };
 
   interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
   var HTMLAppProfileElement: {
@@ -59,106 +66,100 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
-  interface HTMLAppTestElement extends Components.AppTest, HTMLStencilElement {}
-  var HTMLAppTestElement: {
-    prototype: HTMLAppTestElement;
-    new (): HTMLAppTestElement;
+  interface HTMLChatCheckMarkElement extends Components.ChatCheckMark, HTMLStencilElement {}
+  var HTMLChatCheckMarkElement: {
+    prototype: HTMLChatCheckMarkElement;
+    new (): HTMLChatCheckMarkElement;
   };
 
-  interface HTMLAssisterChatElement extends Components.AssisterChat, HTMLStencilElement {}
-  var HTMLAssisterChatElement: {
-    prototype: HTMLAssisterChatElement;
-    new (): HTMLAssisterChatElement;
+  interface HTMLChatConversationElement extends Components.ChatConversation, HTMLStencilElement {}
+  var HTMLChatConversationElement: {
+    prototype: HTMLChatConversationElement;
+    new (): HTMLChatConversationElement;
   };
 
-  interface HTMLAssisterCheckmarkElement extends Components.AssisterCheckmark, HTMLStencilElement {}
-  var HTMLAssisterCheckmarkElement: {
-    prototype: HTMLAssisterCheckmarkElement;
-    new (): HTMLAssisterCheckmarkElement;
+  interface HTMLChatInputElement extends Components.ChatInput, HTMLStencilElement {}
+  var HTMLChatInputElement: {
+    prototype: HTMLChatInputElement;
+    new (): HTMLChatInputElement;
   };
 
-  interface HTMLAssisterConversationElement extends Components.AssisterConversation, HTMLStencilElement {}
-  var HTMLAssisterConversationElement: {
-    prototype: HTMLAssisterConversationElement;
-    new (): HTMLAssisterConversationElement;
+  interface HTMLChatMessageElement extends Components.ChatMessage, HTMLStencilElement {}
+  var HTMLChatMessageElement: {
+    prototype: HTMLChatMessageElement;
+    new (): HTMLChatMessageElement;
   };
 
-  interface HTMLAssisterFabElement extends Components.AssisterFab, HTMLStencilElement {}
-  var HTMLAssisterFabElement: {
-    prototype: HTMLAssisterFabElement;
-    new (): HTMLAssisterFabElement;
+  interface HTMLChatMessageStatusElement extends Components.ChatMessageStatus, HTMLStencilElement {}
+  var HTMLChatMessageStatusElement: {
+    prototype: HTMLChatMessageStatusElement;
+    new (): HTMLChatMessageStatusElement;
   };
 
-  interface HTMLAssisterInputElement extends Components.AssisterInput, HTMLStencilElement {}
-  var HTMLAssisterInputElement: {
-    prototype: HTMLAssisterInputElement;
-    new (): HTMLAssisterInputElement;
+  interface HTMLChatPaneElement extends Components.ChatPane, HTMLStencilElement {}
+  var HTMLChatPaneElement: {
+    prototype: HTMLChatPaneElement;
+    new (): HTMLChatPaneElement;
   };
 
-  interface HTMLAssisterMessageElement extends Components.AssisterMessage, HTMLStencilElement {}
-  var HTMLAssisterMessageElement: {
-    prototype: HTMLAssisterMessageElement;
-    new (): HTMLAssisterMessageElement;
-  };
-
-  interface HTMLAssisterMessageStatusElement extends Components.AssisterMessageStatus, HTMLStencilElement {}
-  var HTMLAssisterMessageStatusElement: {
-    prototype: HTMLAssisterMessageStatusElement;
-    new (): HTMLAssisterMessageStatusElement;
+  interface HTMLFabAppElement extends Components.FabApp, HTMLStencilElement {}
+  var HTMLFabAppElement: {
+    prototype: HTMLFabAppElement;
+    new (): HTMLFabAppElement;
   };
   interface HTMLElementTagNameMap {
+    'app-demo': HTMLAppDemoElement;
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
-    'app-test': HTMLAppTestElement;
-    'assister-chat': HTMLAssisterChatElement;
-    'assister-checkmark': HTMLAssisterCheckmarkElement;
-    'assister-conversation': HTMLAssisterConversationElement;
-    'assister-fab': HTMLAssisterFabElement;
-    'assister-input': HTMLAssisterInputElement;
-    'assister-message': HTMLAssisterMessageElement;
-    'assister-message-status': HTMLAssisterMessageStatusElement;
+    'chat-check-mark': HTMLChatCheckMarkElement;
+    'chat-conversation': HTMLChatConversationElement;
+    'chat-input': HTMLChatInputElement;
+    'chat-message': HTMLChatMessageElement;
+    'chat-message-status': HTMLChatMessageStatusElement;
+    'chat-pane': HTMLChatPaneElement;
+    'fab-app': HTMLFabAppElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface AppDemo extends JSXBase.HTMLAttributes<HTMLAppDemoElement> {}
   interface AppProfile extends JSXBase.HTMLAttributes<HTMLAppProfileElement> {
     'name'?: string;
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
-  interface AppTest extends JSXBase.HTMLAttributes<HTMLAppTestElement> {}
-  interface AssisterChat extends JSXBase.HTMLAttributes<HTMLAssisterChatElement> {
-    'mapInputTextToHtml'?: (text: string) => any[];
-    'triangle'?: MessageTriangle;
-  }
-  interface AssisterCheckmark extends JSXBase.HTMLAttributes<HTMLAssisterCheckmarkElement> {
+  interface ChatCheckMark extends JSXBase.HTMLAttributes<HTMLChatCheckMarkElement> {
     'ticks'?: 'one' | 'two';
   }
-  interface AssisterConversation extends JSXBase.HTMLAttributes<HTMLAssisterConversationElement> {}
-  interface AssisterFab extends JSXBase.HTMLAttributes<HTMLAssisterFabElement> {}
-  interface AssisterInput extends JSXBase.HTMLAttributes<HTMLAssisterInputElement> {
+  interface ChatConversation extends JSXBase.HTMLAttributes<HTMLChatConversationElement> {}
+  interface ChatInput extends JSXBase.HTMLAttributes<HTMLChatInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }
-  interface AssisterMessage extends JSXBase.HTMLAttributes<HTMLAssisterMessageElement> {
+  interface ChatMessage extends JSXBase.HTMLAttributes<HTMLChatMessageElement> {
     'direction'?: MessageDirection;
     'footer'?: string;
     'state'?: MessageState;
     'triangle'?: MessageTriangle;
   }
-  interface AssisterMessageStatus extends JSXBase.HTMLAttributes<HTMLAssisterMessageStatusElement> {
+  interface ChatMessageStatus extends JSXBase.HTMLAttributes<HTMLChatMessageStatusElement> {
     'state'?: MessageState;
   }
+  interface ChatPane extends JSXBase.HTMLAttributes<HTMLChatPaneElement> {
+    'mapInputTextToHtml'?: (text: string) => any[];
+    'triangle'?: MessageTriangle;
+  }
+  interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {}
 
   interface IntrinsicElements {
+    'app-demo': AppDemo;
     'app-profile': AppProfile;
     'app-root': AppRoot;
-    'app-test': AppTest;
-    'assister-chat': AssisterChat;
-    'assister-checkmark': AssisterCheckmark;
-    'assister-conversation': AssisterConversation;
-    'assister-fab': AssisterFab;
-    'assister-input': AssisterInput;
-    'assister-message': AssisterMessage;
-    'assister-message-status': AssisterMessageStatus;
+    'chat-check-mark': ChatCheckMark;
+    'chat-conversation': ChatConversation;
+    'chat-input': ChatInput;
+    'chat-message': ChatMessage;
+    'chat-message-status': ChatMessageStatus;
+    'chat-pane': ChatPane;
+    'fab-app': FabApp;
   }
 }
 

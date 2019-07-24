@@ -2,7 +2,7 @@ import { Component, h, Prop } from '@stencil/core';
 import { MessageTriangle, MessageDirection, MessageState } from '../../interfaces';
 
 @Component({
-  tag: 'assister-message',
+  tag: 'chat-message',
   styleUrl: 'message.css',
   shadow: true
 })
@@ -24,7 +24,7 @@ export class Message {
             <span class="footer-text">
               {this.footer}
             </span>
-            <assister-message-status state={this.state} />
+            <chat-message-status state={this.state} />
           </div>
         </div>
       </ion-item>

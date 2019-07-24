@@ -1,7 +1,7 @@
 import { Component, h, State } from '@stencil/core';
 
 @Component({
-  tag: 'assister-fab',
+  tag: 'fab-app',
   styleUrl: 'fab.css',
   shadow: true
 })
@@ -15,11 +15,12 @@ export class Fab {
       <ion-fab-button class="fab" onClick={this.handleClick.bind(this)}>
         <ion-icon name="code-working"/>
       </ion-fab-button>,
-      <assister-chat class="chat"
-        style={{display: this.showChat ? 'block' : 'none'}}
-      >
-        <slot />
-      </assister-chat>
+      <style>
+        ::slotted(*) { '{' }
+          display: { this.showChat ? 'block' : 'none' };
+        { '}' }
+      </style>,
+      <slot />
     ];
   }
 }

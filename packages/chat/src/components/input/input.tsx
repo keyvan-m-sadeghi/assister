@@ -3,7 +3,7 @@ import { TextareaChangeEventDetail } from '@ionic/core';
 import { AssisterInputChangeEventDetail } from '../../interfaces';
 
 @Component({
-  tag: 'assister-input',
+  tag: 'chat-input',
   styleUrl: 'input.css',
   shadow: true
 })

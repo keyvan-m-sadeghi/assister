@@ -5,47 +5,47 @@
     transform: translate(-3px, -1px) rotate(45deg);
 }
 
-.checkmark-stem {
+.check-mark-stem {
     position: absolute;
     width: 2px;
     height: 14px;
-    background-color: var(--message-checkmark-color);
+    background-color: var(--message-check-mark-color);
     right: 0px;
     bottom: 4px;
 }
 
-.checkmark-kick {
+.check-mark-kick {
     position: absolute;
     width: 5px;
     height: 2px;
-    background-color: var(--message-checkmark-color);
+    background-color: var(--message-check-mark-color);
     right: 1px;
     bottom: 4px;
 }
 
-.checkmark-kick-half {
+.check-mark-kick-half {
     position: absolute;
     width: 2px;
     height: 2px;
-    background-color: var(--message-checkmark-color);
+    background-color: var(--message-check-mark-color);
     right: 1px;
     bottom: 4px;
 }
 
-.checkmark-second-stem {
+.check-mark-second-stem {
     position: absolute;
     width: 2px;
     height: 14px;
-    background-color: var(--message-checkmark-color);
+    background-color: var(--message-check-mark-color);
     right: 4px;
     bottom: 0px;
 }
 
-.checkmark-second-kick {
+.check-mark-second-kick {
     position: absolute;
     width: 5px;
     height: 2px;
-    background-color: var(--message-checkmark-color);
+    background-color: var(--message-check-mark-color);
     right: 4px;
     bottom: 0px;
 }

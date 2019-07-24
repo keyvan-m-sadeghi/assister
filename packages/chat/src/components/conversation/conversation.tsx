@@ -1,7 +1,7 @@
 import { Component, h, State, Method } from '@stencil/core';
 
 @Component({
-  tag: 'assister-conversation',
+  tag: 'chat-conversation',
   shadow: true
 })
 export class Conversation {
