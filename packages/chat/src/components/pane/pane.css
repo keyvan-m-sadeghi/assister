@@ -6,4 +6,5 @@
 }
 .content {
   height: calc(100% - 122px);
+  scroll-behavior: smooth;
 }

@@ -1,5 +1,16 @@
-import { Component, h, Prop, Method } from '@stencil/core';
+import { Component, h, Element, Prop, Method } from '@stencil/core';
 import { MessageTriangle } from '../../interfaces';
+
+function createElementsFromText(text: string): HTMLElement[] {
+  return text.split('\n').map(line => {
+    if (line === '') {
+      return document.createElement('br');
+    }
+    const pElement = document.createElement('p');
+    pElement.appendChild(document.createTextNode(line));
+    return pElement;
+  });
+}
 
 @Component({
   tag: 'chat-pane',
@@ -7,46 +18,42 @@ import { MessageTriangle } from '../../interfaces';
   shadow: true
 })
 export class Pane {
-  @Prop() mapInputTextToHtml = (text: string) =>
-    text.split('\n').map(line => line === '' ? <br /> : <p>{line}</p>);
+  @Element() pane?: HTMLChatPaneElement;
+  @Prop() mapInputTextToHtmlElements = createElementsFromText;
   @Prop() triangle: MessageTriangle = 'bottom';
 
   private content?: HTMLIonContentElement;
-  private conversation?: HTMLChatConversationElement;
 
   @Method()
   async send(text: string) {
-    const message = (
-      <chat-message
-        direction="outgoing"
-        triangle={this.triangle}
-        footer={(new Date()).toLocaleString('en-US', {
-          hour: 'numeric', minute: 'numeric', hour12: true
-        })}
-      >
-        { this.mapInputTextToHtml(text) }
-      </chat-message>
-    );
-    return this.conversation.insertToBottom(message)
-      .then(() => this.content.scrollToBottom());
+    const message = document.createElement('chat-message');
+    message.setAttribute('direction', 'outgoing');
+    message.setAttribute('triangle', this.triangle);
+    message.setAttribute('footer', new Date().toLocaleString('en-US', {
+      hour: 'numeric', minute: 'numeric', hour12: true
+    }));
+    this.mapInputTextToHtmlElements(text)
+      .map(element => message.appendChild(element));
+    this.pane.appendChild(message);
+    let height = 0;
+    for (let i = 0; i < this.pane.children.length; i++) {
+      height += this.pane.children[i].clientHeight;
+    }
+    this.content.scrollToPoint(0, height, 800);
   }
 
   render() {
     return [
         <ion-header class="header">
-          <ion-toolbar color="primary">
-            <ion-title>Assister</ion-title>
-          </ion-toolbar>
+          <slot name="header" />
         </ion-header>,
 
         <ion-content class="content"
           ref={element => this.content = element}
         >
-          <chat-conversation
-            ref={element => this.conversation = element}
-          >
+          <ion-list>
             <slot />
-          </chat-conversation>
+          </ion-list>
         </ion-content>,
 
         <ion-footer class="footer">

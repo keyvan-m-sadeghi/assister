@@ -16,7 +16,7 @@ export class Fab {
         <ion-icon name="code-working"/>
       </ion-fab-button>,
       <style>
-        ::slotted(*) { '{' }
+        ::slotted(:first-child) { '{' }
           display: { this.showChat ? 'block' : 'none' };
         { '}' }
       </style>,

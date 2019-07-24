@@ -1,8 +1,13 @@
+:host {
+  display: flex;
+}
+
 ::slotted(p) {
   margin: 0;
 }
 
-.container {
+.item {
+  width: 100%;
   padding: var(--message-padding-between);
 }
 

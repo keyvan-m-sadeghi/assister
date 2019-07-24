@@ -15,7 +15,7 @@ export class Message {
   render() {
     const alignment = this.direction === 'outgoing' ? 'right' : 'left';
     return (
-      <ion-item lines="none" class={`container`}>
+      <ion-item lines="none" class="item">
         <div slot={alignment === 'left' ? 'start' : 'end'}
           class={`bubble triangle-${this.triangle}-${alignment}`}
         >

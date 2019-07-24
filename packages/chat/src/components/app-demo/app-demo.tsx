@@ -19,6 +19,9 @@ export class AppDemo {
 
         <fab-app>
           <chat-pane>
+          <ion-toolbar slot="header" color="primary">
+            <ion-title>Assister</ion-title>
+          </ion-toolbar>
             <chat-message state="read" footer="10:00 AM">
               <h1>Status</h1>
               <p><b>Bold</b> claims have been put forward about the future of <i>assistants</i>.</p>

@@ -23,10 +23,6 @@ export namespace Components {
   interface ChatCheckMark {
     'ticks': 'one' | 'two';
   }
-  interface ChatConversation {
-    'insertToBottom': (content: any) => Promise<unknown>;
-    'insertToTop': (content: any) => Promise<void>;
-  }
   interface ChatInput {}
   interface ChatMessage {
     'direction': MessageDirection;
@@ -38,8 +34,8 @@ export namespace Components {
     'state': MessageState;
   }
   interface ChatPane {
-    'mapInputTextToHtml': (text: string) => any[];
-    'send': (text: string) => Promise<any>;
+    'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
+    'send': (text: string) => Promise<void>;
     'triangle': MessageTriangle;
   }
   interface FabApp {}
@@ -70,12 +66,6 @@ declare global {
   var HTMLChatCheckMarkElement: {
     prototype: HTMLChatCheckMarkElement;
     new (): HTMLChatCheckMarkElement;
-  };
-
-  interface HTMLChatConversationElement extends Components.ChatConversation, HTMLStencilElement {}
-  var HTMLChatConversationElement: {
-    prototype: HTMLChatConversationElement;
-    new (): HTMLChatConversationElement;
   };
 
   interface HTMLChatInputElement extends Components.ChatInput, HTMLStencilElement {}
@@ -112,7 +102,6 @@ declare global {
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
     'chat-check-mark': HTMLChatCheckMarkElement;
-    'chat-conversation': HTMLChatConversationElement;
     'chat-input': HTMLChatInputElement;
     'chat-message': HTMLChatMessageElement;
     'chat-message-status': HTMLChatMessageStatusElement;
@@ -130,7 +119,6 @@ declare namespace LocalJSX {
   interface ChatCheckMark extends JSXBase.HTMLAttributes<HTMLChatCheckMarkElement> {
     'ticks'?: 'one' | 'two';
   }
-  interface ChatConversation extends JSXBase.HTMLAttributes<HTMLChatConversationElement> {}
   interface ChatInput extends JSXBase.HTMLAttributes<HTMLChatInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }
@@ -144,7 +132,7 @@ declare namespace LocalJSX {
     'state'?: MessageState;
   }
   interface ChatPane extends JSXBase.HTMLAttributes<HTMLChatPaneElement> {
-    'mapInputTextToHtml'?: (text: string) => any[];
+    'mapInputTextToHtmlElements'?: (text: string) => HTMLElement[];
     'triangle'?: MessageTriangle;
   }
   interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {}
@@ -154,7 +142,6 @@ declare namespace LocalJSX {
     'app-profile': AppProfile;
     'app-root': AppRoot;
     'chat-check-mark': ChatCheckMark;
-    'chat-conversation': ChatConversation;
     'chat-input': ChatInput;
     'chat-message': ChatMessage;
     'chat-message-status': ChatMessageStatus;
