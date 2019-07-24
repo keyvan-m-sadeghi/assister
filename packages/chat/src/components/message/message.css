@@ -25,11 +25,18 @@
   padding-right: 2px;
 }
 
+.outgoing {
+  background-color: var(--message-outgoing-color);
+}
+
+.incoming {
+  background-color: var(--message-incoming-color);
+}
+
 .bubble {
   padding: var(--message-padding-content) var(--message-padding-content) 18px var(--message-padding-content);
   min-width: 100px;
   position: relative;
-  background-color: var(--message-fill-color);
   border-radius: var(--message-round-size);
 }
 
@@ -43,46 +50,31 @@
   float: right;
 }
 
-.triangle-top-right:after {
+.triangle {
   content: '';
 	position: absolute;
 	width: 0;
 	height: 0;
 	border: var(--message-round-size) solid;
   border-color: var(--message-fill-color) transparent transparent transparent;
+}
+
+.top-right:after {
   top: 0;
 	right: var(--message-round-size-negative);
 }
 
-.triangle-bottom-right:after {
-  content: '';
-	position: absolute;
-	width: 0;
-	height: 0;
-	border: var(--message-round-size) solid;
-  border-color: transparent transparent var(--message-fill-color) transparent;
+.bottom-right {
   bottom: 0;
 	right: var(--message-round-size-negative);
 }
 
-.triangle-bottom-left:after {
-  content: '';
-	position: absolute;
-	width: 0;
-	height: 0;
-	border: var(--message-round-size) solid;
-  border-color: transparent transparent var(--message-fill-color) transparent;
+.bottom-left {
   bottom: 0;
 	left: var(--message-round-size-negative);
 }
 
-.triangle-top-left:after {
-  content: '';
-	position: absolute;
-	width: 0;
-	height: 0;
-	border: var(--message-round-size) solid;
-  border-color: var(--message-fill-color) transparent transparent transparent;
+.top-left {
   top: 0;
   left: var(--message-round-size-negative);
 }

@@ -7,7 +7,7 @@ import { MessageTriangle, MessageDirection, MessageState } from '../../interface
   shadow: true
 })
 export class Message {
-  @Prop() state: MessageState = 'pending';
+  @Prop() state: MessageState = 'none';
   @Prop() direction: MessageDirection = 'outgoing';
   @Prop() triangle: MessageTriangle = 'bottom';
   @Prop() footer: string;
@@ -17,7 +17,7 @@ export class Message {
     return (
       <ion-item lines="none" class="item">
         <div slot={alignment === 'left' ? 'start' : 'end'}
-          class={`bubble triangle-${this.triangle}-${alignment}`}
+          class={`bubble ${this.direction}`}
         >
           <slot />
           <div class="footer">
@@ -25,6 +25,10 @@ export class Message {
               {this.footer}
             </span>
             <chat-message-status state={this.state} />
+          </div>
+          <div class={
+            `triangle ${this.direction} ${this.triangle}-${alignment}`
+          }>
           </div>
         </div>
       </ion-item>

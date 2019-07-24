@@ -31,7 +31,9 @@
 */
 
 :root {
-  --message-fill-color: cyan;
+  --message-outgoing-color: #f0fddf;
+  --message-incoming-color: white;
+  --conversation-background-color: #cfd9e5;
   --message-check-mark-color: #399BF0;
   --message-padding-content: 0.5em;
   --message-padding-between: 0.1em;

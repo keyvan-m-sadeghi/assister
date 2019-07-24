@@ -8,3 +8,7 @@
   height: calc(100% - 122px);
   scroll-behavior: smooth;
 }
+
+.list {
+  background: var(--conversation-background-color);
+}

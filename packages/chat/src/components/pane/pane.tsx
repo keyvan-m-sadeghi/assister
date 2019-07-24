@@ -51,7 +51,7 @@ export class Pane {
         <ion-content class="content"
           ref={element => this.content = element}
         >
-          <ion-list>
+          <ion-list class="list">
             <slot />
           </ion-list>
         </ion-content>,
