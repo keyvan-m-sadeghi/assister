@@ -1,10 +1,42 @@
 import { Component, h } from '@stencil/core';
 
+const responses = [
+  'Interesting!',
+  'Yeah, I thought so too.',
+  `That'd be really cool, though I'm not sure what my schedule is...
+
+  I'll let you know.`,
+  'You think so?',
+  'Great!',
+  'Ah sh**!',
+  "Well, that's new!",
+  'Alright',
+  'OK'
+]
+
+function randomResponse() {
+  const index = Math.floor(Math.random() * responses.length);
+  return responses[index];
+}
+
+const wait = () => new Promise(resolve => setTimeout(resolve, 500));
+
 @Component({
   tag: 'app-demo',
 })
 export class AppDemo {
+  private pane?: HTMLChatPaneElement;
   private fab?: HTMLFabAppElement;
+
+  handleMessage(event: CustomEvent<HTMLChatMessageElement>) {
+    const message = event.detail;
+    wait()
+      .then(() => message.state = 'delivered')
+      .then(wait)
+      .then(() => message.state = 'read')
+      .then(wait)
+      .then(() => this.pane.receive(randomResponse()));
+  }
 
   render() {
       return [
@@ -22,7 +54,10 @@ export class AppDemo {
         <fab-app
           ref={element => this.fab = element}
         >
-          <chat-pane>
+          <chat-pane
+            ref={element => this.pane = element}
+            onMessage={event => this.handleMessage(event)}
+          >
             <ion-toolbar slot="header" color="primary">
               <ion-title>Assister Chat</ion-title>
               <ion-buttons slot="primary">

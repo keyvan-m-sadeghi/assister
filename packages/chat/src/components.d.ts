@@ -38,6 +38,7 @@ export namespace Components {
   }
   interface ChatPane {
     'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
+    'receive': (text: string) => Promise<HTMLElement>;
     'send': (text: string) => Promise<HTMLElement>;
     'triangle': MessageTriangle;
   }
@@ -147,6 +148,7 @@ declare namespace LocalJSX {
   }
   interface ChatPane extends JSXBase.HTMLAttributes<HTMLChatPaneElement> {
     'mapInputTextToHtmlElements'?: (text: string) => HTMLElement[];
+    'onMessage'?: (event: CustomEvent<HTMLChatMessageElement>) => void;
     'triangle'?: MessageTriangle;
   }
   interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {
