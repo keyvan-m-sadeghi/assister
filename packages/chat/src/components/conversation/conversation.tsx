@@ -34,7 +34,7 @@ export class Conversation {
       <ion-content class="content"
         ref={element => this.content = element}
       >
-        <ion-list class="list"
+        <ion-list
           ref={element => this.list = element}
         >
           <slot />

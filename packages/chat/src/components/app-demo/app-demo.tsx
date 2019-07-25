@@ -4,6 +4,8 @@ import { Component, h } from '@stencil/core';
   tag: 'app-demo',
 })
 export class AppDemo {
+  private fab?: HTMLFabAppElement;
+
   render() {
       return [
         <ion-header>
@@ -17,10 +19,17 @@ export class AppDemo {
           </ion-list>
         </ion-content>,
 
-        <fab-app>
+        <fab-app
+          ref={element => this.fab = element}
+        >
           <chat-pane>
             <ion-toolbar slot="header" color="primary">
               <ion-title>Assister Chat</ion-title>
+              <ion-buttons slot="primary">
+                <ion-button onClick={() => this.fab.close()}>
+                  <ion-icon slot="icon-only" name="close" />
+                </ion-button>
+              </ion-buttons>
             </ion-toolbar>
             <ion-card style={{background: 'white'}}>
               <ion-card-content>
@@ -50,10 +59,8 @@ export class AppDemo {
               </p>
             </chat-message>
             <chat-message state="pending"  footer="Hello! I'm little-footer!">
-              <p>
-                This is a <b>chat-message</b>! It has <i>"footer"</i> and
-                <i>"state"</i> attributes.
-              </p>
+              <p>This is a <b>chat-message</b>!</p>
+              <p>It has <i>"footer"</i> and <i>"state"</i> attributes.</p>              
             </chat-message>
             <chat-message state="delivered" footer="10:01 AM">
               <p>This one is <i>"delivered"</i>!</p>

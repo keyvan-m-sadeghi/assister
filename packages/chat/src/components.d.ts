@@ -41,7 +41,10 @@ export namespace Components {
     'send': (text: string) => Promise<HTMLElement>;
     'triangle': MessageTriangle;
   }
-  interface FabApp {}
+  interface FabApp {
+    'close': () => Promise<void>;
+    'ionicon': string;
+  }
 }
 
 declare global {
@@ -146,7 +149,9 @@ declare namespace LocalJSX {
     'mapInputTextToHtmlElements'?: (text: string) => HTMLElement[];
     'triangle'?: MessageTriangle;
   }
-  interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {}
+  interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {
+    'ionicon'?: string;
+  }
 
   interface IntrinsicElements {
     'app-demo': AppDemo;

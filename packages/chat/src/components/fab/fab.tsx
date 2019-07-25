@@ -1,4 +1,4 @@
-import { Component, h, State } from '@stencil/core';
+import { Component, h, State, Method, Prop } from '@stencil/core';
 
 @Component({
   tag: 'fab-app',
@@ -6,18 +6,27 @@ import { Component, h, State } from '@stencil/core';
   shadow: true
 })
 export class Fab {
-  @State() showChat = true;
-  handleClick() {
-      this.showChat = !this.showChat;
+  @Prop() ionicon = "code-working";
+
+  @State() showApp = true;
+
+  @Method()
+  async close() {
+    this.showApp = false;
   }
+
+  handleClick() {
+      this.showApp = !this.showApp;
+  }
+
   render() {
     return [
       <ion-fab-button class="fab" onClick={this.handleClick.bind(this)}>
-        <ion-icon name="code-working"/>
+        <ion-icon name={this.ionicon}/>
       </ion-fab-button>,
       <style>
         ::slotted(:first-child) { '{' }
-          display: { this.showChat ? 'block' : 'none' };
+          display: { this.showApp ? 'block' : 'none' };
         { '}' }
       </style>,
       <slot />
