@@ -9,6 +9,7 @@
 .item {
   width: 100%;
   padding: var(--message-padding-between);
+  --ion-background-color: transparent;
 }
 
 .footer {
@@ -34,10 +35,12 @@
 }
 
 .bubble {
+  margin: 2px 2px 2px 2px;
   padding: var(--message-padding-content) var(--message-padding-content) 18px var(--message-padding-content);
   min-width: 100px;
   position: relative;
   border-radius: var(--message-round-size);
+  box-shadow: 0 0 1px 0 #666;
 }
 
 .align-left {
@@ -55,11 +58,11 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-	border: var(--message-round-size) solid;
-  border-color: var(--message-fill-color) transparent transparent transparent;
+  border: var(--message-round-size) solid;
+  background-color: transparent;
 }
 
-.top-right:after {
+.top-right {
   top: 0;
 	right: var(--message-round-size-negative);
 }
@@ -77,4 +80,20 @@
 .top-left {
   top: 0;
   left: var(--message-round-size-negative);
+}
+
+.top-right.outgoing {  
+  border-color: var(--message-outgoing-color) transparent transparent transparent;
+}
+
+.bottom-right.outgoing {  
+  border-color: transparent transparent var(--message-outgoing-color) transparent;
+}
+
+.top-left.incoming {  
+  border-color: var(--message-incoming-color) transparent transparent transparent;
+}
+
+.bottom-left.incoming {  
+  border-color: transparent transparent var(--message-incoming-color) transparent;
 }

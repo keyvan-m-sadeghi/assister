@@ -10,5 +10,5 @@
 }
 
 .list {
-  background: var(--conversation-background-color);
+  --ion-background-color: var(--conversation-background-color);
 }

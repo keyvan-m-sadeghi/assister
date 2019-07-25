@@ -27,6 +27,7 @@ export class Pane {
   @Method()
   async send(text: string) {
     const message = document.createElement('chat-message');
+    message.setAttribute('state', 'pending');
     message.setAttribute('direction', 'outgoing');
     message.setAttribute('triangle', this.triangle);
     message.setAttribute('footer', new Date().toLocaleString('en-US', {
@@ -40,6 +41,7 @@ export class Pane {
       height += this.pane.children[i].clientHeight;
     }
     this.content.scrollToPoint(0, height, 800);
+    return message;
   }
 
   render() {

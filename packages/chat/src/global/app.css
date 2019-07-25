@@ -33,10 +33,10 @@
 :root {
   --message-outgoing-color: #f0fddf;
   --message-incoming-color: white;
-  --conversation-background-color: #cfd9e5;
+  --conversation-background-color: lavender;
   --message-check-mark-color: #399BF0;
   --message-padding-content: 0.5em;
-  --message-padding-between: 0.1em;
+  --message-padding-between: 0;
   --message-round-size: 0.5em;
   --message-round-size-negative: calc(-1 * var(--message-round-size));
 }

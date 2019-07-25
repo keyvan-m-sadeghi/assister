@@ -22,7 +22,7 @@ export class AppDemo {
             <ion-toolbar slot="header" color="primary">
               <ion-title>Assister Chat</ion-title>
             </ion-toolbar>
-            <ion-card>
+            <ion-card style={{background: 'white'}}>
               <ion-card-content>
               <p>Chat with this <i>Simple-Bot</i>!</p>
               <p>It knows only a few responses...</p>

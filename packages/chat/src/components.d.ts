@@ -35,7 +35,7 @@ export namespace Components {
   }
   interface ChatPane {
     'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
-    'send': (text: string) => Promise<void>;
+    'send': (text: string) => Promise<HTMLElement>;
     'triangle': MessageTriangle;
   }
   interface FabApp {}
