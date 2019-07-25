@@ -23,6 +23,9 @@ export namespace Components {
   interface ChatCheckMark {
     'ticks': 'one' | 'two';
   }
+  interface ChatConversation {
+    'scrollToBottom': () => Promise<void>;
+  }
   interface ChatInput {}
   interface ChatMessage {
     'direction': MessageDirection;
@@ -68,6 +71,12 @@ declare global {
     new (): HTMLChatCheckMarkElement;
   };
 
+  interface HTMLChatConversationElement extends Components.ChatConversation, HTMLStencilElement {}
+  var HTMLChatConversationElement: {
+    prototype: HTMLChatConversationElement;
+    new (): HTMLChatConversationElement;
+  };
+
   interface HTMLChatInputElement extends Components.ChatInput, HTMLStencilElement {}
   var HTMLChatInputElement: {
     prototype: HTMLChatInputElement;
@@ -102,6 +111,7 @@ declare global {
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
     'chat-check-mark': HTMLChatCheckMarkElement;
+    'chat-conversation': HTMLChatConversationElement;
     'chat-input': HTMLChatInputElement;
     'chat-message': HTMLChatMessageElement;
     'chat-message-status': HTMLChatMessageStatusElement;
@@ -119,6 +129,7 @@ declare namespace LocalJSX {
   interface ChatCheckMark extends JSXBase.HTMLAttributes<HTMLChatCheckMarkElement> {
     'ticks'?: 'one' | 'two';
   }
+  interface ChatConversation extends JSXBase.HTMLAttributes<HTMLChatConversationElement> {}
   interface ChatInput extends JSXBase.HTMLAttributes<HTMLChatInputElement> {
     'onSend'?: (event: CustomEvent<AssisterInputChangeEventDetail>) => void;
   }
@@ -142,6 +153,7 @@ declare namespace LocalJSX {
     'app-profile': AppProfile;
     'app-root': AppRoot;
     'chat-check-mark': ChatCheckMark;
+    'chat-conversation': ChatConversation;
     'chat-input': ChatInput;
     'chat-message': ChatMessage;
     'chat-message-status': ChatMessageStatus;

@@ -1,8 +1,10 @@
 .fab {
   transition: all 0.1s ease-in-out;
   position: fixed;
-  right: 2em;
-  bottom: 2em;
+  right: 50px;
+  bottom: 50px;
+  width: 60px;
+  height: 60px;
 }
   
 .fab:hover {
@@ -13,8 +15,8 @@
   width: 400px;
   height: 65%;
   position: fixed;
-  right: 2em;
-  bottom: 6em;
+  right: 50px;
+  bottom: 130px;
   box-shadow: 0 0 0.5em 0.2em #666;
   z-index: 10000;
 }

@@ -31,6 +31,7 @@
 */
 
 :root {
+  --ion-font-family: "Roboto", "Arial", sans-serif;
   --message-outgoing-color: #f0fddf;
   --message-incoming-color: white;
   --conversation-background-color: lavender;

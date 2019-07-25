@@ -46,6 +46,7 @@ export class Input {
     return (
       <ion-item>
         <ion-textarea
+          placeholder="Type a message"
           ref={element => this.textarea = element as HTMLIonTextareaElement}
           onIonChange={event => this.handleTextChange(event)}
           onKeyDown={event => this.handleEnter(event)}
