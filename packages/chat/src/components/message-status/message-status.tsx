@@ -1,4 +1,4 @@
-import { Component, h, Prop } from '@stencil/core';
+import { Component, h, Prop, Host } from '@stencil/core';
 import { MessageState } from '../../interfaces';
 
 @Component({
@@ -10,12 +10,16 @@ export class MessageStatus {
   @Prop() state: MessageState = 'pending';
 
   render() {
-      const body = {
+      const status = {
           'none': false,
           'pending': <ion-icon name='time' />,
           'delivered': <chat-check-mark ticks="one" />,
           'read': <chat-check-mark ticks="two" />
       }[this.state];
-      return body;
+      return (
+        <Host class={this.state}>
+          { status }
+        </Host>
+      );
   }
 }
