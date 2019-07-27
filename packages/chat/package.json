@@ -1,9 +1,24 @@
 {
-  "name": "chat",
-  "private": true,
-  "version": "0.0.1",
+  "name": "@assister/chat",
+  "version": "0.0.1-alpha.3",
   "description": "chat",
   "license": "MIT",
+  "keywords":[
+    "chat",
+    "live chat",
+    "chatbot",
+    "web component",
+    "assistant"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "jsnext:main": "dist/index.mjs",
+  "es2015": "dist/chat/chat.esm.js",
+  "es2017": "dist/chat/chat.esm.js",
+  "types": "dist/types/components.d.ts",
+  "unpkg": "dist/chat/chat.esm.js",
+  "collection:main": "dist/collection/components/pane/pane.js",
+  "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/"
   ],
@@ -14,9 +29,9 @@
     "test.watch": "stencil test --spec --e2e --watch"
   },
   "dependencies": {
-    "@ionic/core": "one"
+    "@ionic/core": "latest"
   },
   "devDependencies": {
-    "@stencil/core": "1.0.0-beta.8"
+    "@stencil/core": "latest"
   }
 }
