@@ -3,11 +3,16 @@ import { Config } from '@stencil/core';
 // https://stenciljs.com/docs/config
 
 export const config: Config = {
-  // namespace: 'AssisterChat',
-  outputTargets: [{
-    type: 'www',
-    serviceWorker: null
-  }],
+  namespace: 'Chat',
+  outputTargets: [
+    {
+      type: 'www',
+      serviceWorker: null
+    },
+    {
+      type: 'dist'
+    }
+  ],
   devServer: {
     openBrowser: false
   },

@@ -21,20 +21,19 @@ export class Pane {
   @Prop() mapInputTextToHtmlElements = createElementsFromText;
   @Prop() triangle: MessageTriangle = 'bottom';
 
-  @Event() message: EventEmitter<HTMLChatMessageElement>;
+  @Event() incoming: EventEmitter<HTMLChatMessageElement>;
 
   @Element() pane?: HTMLChatPaneElement;
   private conversation?: HTMLChatConversationElement;
 
   addMessage(direction: MessageDirection, text) {
     const message = document.createElement('chat-message');
-    message.setAttribute(
-      'state', direction === 'outgoing' ? 'pending' : 'none');
-    message.setAttribute('direction', direction);
-    message.setAttribute('triangle', this.triangle);
-    message.setAttribute('footer', new Date().toLocaleString('en-US', {
+    message.state = direction === 'outgoing' ? 'pending' : 'none';
+    message.direction = direction;
+    message.triangle = this.triangle;
+    message.footer = new Date().toLocaleString('en-US', {
       hour: 'numeric', minute: 'numeric', hour12: true
-    }));
+    });
     this.mapInputTextToHtmlElements(text)
       .map(element => message.appendChild(element));
     this.pane.appendChild(message);
@@ -43,14 +42,13 @@ export class Pane {
   }
 
   @Method()
-  async receive(text: string) {
-    console.log('heeee')
-    return this.addMessage('incoming', text)
+  async addOutgoingMessage(text: string) {
+    return this.addMessage('outgoing', text)
   }
 
   @Method()
-  async send(text: string) {
-    return this.addMessage('outgoing', text)
+  async addIncomingMessage(text: string) {
+    return this.addMessage('incoming', text)
   }
 
   render() {
@@ -68,8 +66,8 @@ export class Pane {
         <ion-footer class="footer">
           <chat-input
             onSend={
-              event => this.send(event.detail.value)
-                .then(message => this.message.emit(message))
+              event => this.addOutgoingMessage(event.detail.value)
+                .then(message => this.incoming.emit(message))
             }
           />
         </ion-footer>

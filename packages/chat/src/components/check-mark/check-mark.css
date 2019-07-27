@@ -2,7 +2,7 @@
     display: inline-block;
     width: 18px;
     height:18px;
-    transform: translate(-3px, -1px) rotate(45deg);
+    transform: translate(-3px, 2px) rotate(45deg);
 }
 
 .check-mark-stem {

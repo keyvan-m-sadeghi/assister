@@ -13,7 +13,6 @@ import {
   MessageTriangle,
 } from './interfaces';
 
-
 export namespace Components {
   interface AppDemo {}
   interface AppProfile {
@@ -37,9 +36,9 @@ export namespace Components {
     'state': MessageState;
   }
   interface ChatPane {
+    'addIncomingMessage': (text: string) => Promise<HTMLElement>;
+    'addOutgoingMessage': (text: string) => Promise<HTMLElement>;
     'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
-    'receive': (text: string) => Promise<HTMLElement>;
-    'send': (text: string) => Promise<HTMLElement>;
     'triangle': MessageTriangle;
   }
   interface FabApp {
@@ -148,7 +147,7 @@ declare namespace LocalJSX {
   }
   interface ChatPane extends JSXBase.HTMLAttributes<HTMLChatPaneElement> {
     'mapInputTextToHtmlElements'?: (text: string) => HTMLElement[];
-    'onMessage'?: (event: CustomEvent<HTMLChatMessageElement>) => void;
+    'onIncoming'?: (event: CustomEvent<HTMLChatMessageElement>) => void;
     'triangle'?: MessageTriangle;
   }
   interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {

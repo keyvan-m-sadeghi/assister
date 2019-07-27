@@ -17,12 +17,13 @@
   right: var(--message-padding-content);
   bottom: 2px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .footer-text {
+  /* margin-bottom: 3px; */
   color: lightslategray;
-  font-size: 11px;
+  font-size: 12px;
   padding-right: 2px;
 }
 

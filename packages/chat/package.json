@@ -1,16 +1,15 @@
 {
   "name": "@assister/chat",
-  "private": true,
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "chat",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "es2015": "dist/esm/index.mjs",
-  "es2017": "dist/esm/index.mjs",
+  "main": "dist/chat/chat.esm.js",
+  "module": "dist/chat/chat.esm.js",
+  "es2015": "dist/chat/chat.esm.js",
+  "es2017": "dist/chat/chat.esm.js",
   "types": "dist/types/interface.d.ts",
-  "unpkg": "dist/assisterchat/assisterchat.js",
-  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/chat/chat.esm.js",
+  "collection:main": "dist/collection/components/pane/pane.js",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/"
@@ -22,9 +21,9 @@
     "test.watch": "stencil test --spec --e2e --watch"
   },
   "dependencies": {
-    "@ionic/core": "one"
+    "@ionic/core": "latest"
   },
   "devDependencies": {
-    "@stencil/core": "1.0.0-beta.8"
+    "@stencil/core": "latest"
   }
 }

@@ -29,13 +29,14 @@ export class AppDemo {
   private fab?: HTMLFabAppElement;
 
   handleMessage(event: CustomEvent<HTMLChatMessageElement>) {
+    console.log(event)
     const message = event.detail;
     wait()
       .then(() => message.state = 'delivered')
       .then(wait)
       .then(() => message.state = 'read')
       .then(wait)
-      .then(() => this.pane.receive(randomResponse()));
+      .then(() => this.pane.addIncomingMessage(randomResponse()));
   }
 
   render() {
@@ -56,7 +57,7 @@ export class AppDemo {
         >
           <chat-pane
             ref={element => this.pane = element}
-            onMessage={event => this.handleMessage(event)}
+            onIncoming={event => this.handleMessage(event)}
           >
             <ion-toolbar slot="header" color="primary">
               <ion-title>Assister Chat</ion-title>

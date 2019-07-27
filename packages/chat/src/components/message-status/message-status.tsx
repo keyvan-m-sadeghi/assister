@@ -12,7 +12,7 @@ export class MessageStatus {
   render() {
       const status = {
           'none': false,
-          'pending': <ion-icon name='time' />,
+          'pending': <ion-icon name='time' class="pending" />,
           'delivered': <chat-check-mark ticks="one" />,
           'read': <chat-check-mark ticks="two" />
       }[this.state];
