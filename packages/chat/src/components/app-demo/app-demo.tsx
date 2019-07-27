@@ -48,7 +48,9 @@ export class AppDemo {
         </ion-header>,
         <ion-content>
           <ion-list>
-            { Array.from({length: 100}, () => <p>I'm here for scroll!</p>) }
+            <ion-item style={{height: '3000px'}}>
+              I'm here for scroll!
+            </ion-item>
           </ion-list>
         </ion-content>,
 

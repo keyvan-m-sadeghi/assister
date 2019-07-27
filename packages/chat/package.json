@@ -1,8 +1,15 @@
 {
   "name": "@assister/chat",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "chat",
   "license": "MIT",
+  "keywords":[
+    "chat",
+    "live chat",
+    "chatbot",
+    "web component",
+    "assistant"
+  ],
   "main": "dist/chat/chat.esm.js",
   "module": "dist/chat/chat.esm.js",
   "es2015": "dist/chat/chat.esm.js",
