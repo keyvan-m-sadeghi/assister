@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40assister%2Fchat.svg)](https://www.npmjs.com/package/@assister/chat)
+
 # Assister Chat
 
 Chat Web Components
