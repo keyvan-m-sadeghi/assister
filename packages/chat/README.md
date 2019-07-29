@@ -6,7 +6,7 @@ Chat Web Components
 
 ![Demo Gif](https://i.imgur.com/gt0TjLS.gif)
 
-[Demo](https://assister.ai/chat/)
+[Live Demo](https://assister.ai/chat/)
 
 ## Install
 
@@ -14,6 +14,7 @@ Chat Web Components
 
 ```html
 <script type="module" src="https://unpkg.com/@assister/chat@latest/dist/chat/chat.esm.js"></script>
+<script nomodule src="https://unpkg.com/@assister/chat@latest/dist/chat/chat.js"></script>
 <link href="https://unpkg.com/@assister/chat@latest/dist/chat/chat.css" rel="stylesheet">
 ```
 

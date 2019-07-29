@@ -28,6 +28,10 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assister-ai/assister.git"
+  },
   "dependencies": {
     "@ionic/core": "latest"
   },
