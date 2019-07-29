@@ -14,11 +14,6 @@ import {
 } from './interfaces';
 
 export namespace Components {
-  interface AppDemo {}
-  interface AppProfile {
-    'name': string;
-  }
-  interface AppRoot {}
   interface ChatCheckMark {
     'ticks': 'one' | 'two';
   }
@@ -49,24 +44,6 @@ export namespace Components {
 
 declare global {
 
-
-  interface HTMLAppDemoElement extends Components.AppDemo, HTMLStencilElement {}
-  var HTMLAppDemoElement: {
-    prototype: HTMLAppDemoElement;
-    new (): HTMLAppDemoElement;
-  };
-
-  interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
-  };
-
-  interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
-  var HTMLAppRootElement: {
-    prototype: HTMLAppRootElement;
-    new (): HTMLAppRootElement;
-  };
 
   interface HTMLChatCheckMarkElement extends Components.ChatCheckMark, HTMLStencilElement {}
   var HTMLChatCheckMarkElement: {
@@ -110,9 +87,6 @@ declare global {
     new (): HTMLFabAppElement;
   };
   interface HTMLElementTagNameMap {
-    'app-demo': HTMLAppDemoElement;
-    'app-profile': HTMLAppProfileElement;
-    'app-root': HTMLAppRootElement;
     'chat-check-mark': HTMLChatCheckMarkElement;
     'chat-conversation': HTMLChatConversationElement;
     'chat-input': HTMLChatInputElement;
@@ -124,11 +98,6 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface AppDemo extends JSXBase.HTMLAttributes<HTMLAppDemoElement> {}
-  interface AppProfile extends JSXBase.HTMLAttributes<HTMLAppProfileElement> {
-    'name'?: string;
-  }
-  interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface ChatCheckMark extends JSXBase.HTMLAttributes<HTMLChatCheckMarkElement> {
     'ticks'?: 'one' | 'two';
   }
@@ -155,9 +124,6 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'app-demo': AppDemo;
-    'app-profile': AppProfile;
-    'app-root': AppRoot;
     'chat-check-mark': ChatCheckMark;
     'chat-conversation': ChatConversation;
     'chat-input': ChatInput;

@@ -4,6 +4,8 @@
 
 Chat Web Components
 
+![Demo Gif](https://i.imgur.com/gt0TjLS.gif)
+
 [Demo](https://assister.ai/chat/)
 
 ## Install
@@ -20,6 +22,19 @@ Chat Web Components
 ```sh
 npm install @assister/chat --save
 ```
+
+## Components
+
+### All-in-one
+
+- [chat-pane](https://github.com/assister-ai/assister/tree/master/packages/chat/src/components/pane)
+
+### View only
+
+- [chat-message](https://github.com/assister-ai/assister/tree/master/packages/chat/src/components/message)
+- [chat-input](https://github.com/assister-ai/assister/tree/master/packages/chat/src/components/input)
+- [chat-conversation](https://github.com/assister-ai/assister/tree/master/packages/chat/src/components/conversation)
+- [fab-app](https://github.com/assister-ai/assister/tree/master/packages/chat/src/components/fab)
 
 ## Usage
 
