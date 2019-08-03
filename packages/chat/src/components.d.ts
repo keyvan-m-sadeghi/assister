@@ -8,6 +8,7 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   AssisterInputChangeEventDetail,
+  IncomingEventDetail,
   MessageDirection,
   MessageState,
   MessageTriangle,
@@ -31,6 +32,7 @@ export namespace Components {
     'state': MessageState;
   }
   interface ChatPane {
+    'addCard': ({ text, image }: { text?: string; image?: string; }) => Promise<HTMLElement>;
     'addIncomingMessage': (text: string) => Promise<HTMLElement>;
     'addOutgoingMessage': (text: string) => Promise<HTMLElement>;
     'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
@@ -116,7 +118,7 @@ declare namespace LocalJSX {
   }
   interface ChatPane extends JSXBase.HTMLAttributes<HTMLChatPaneElement> {
     'mapInputTextToHtmlElements'?: (text: string) => HTMLElement[];
-    'onIncoming'?: (event: CustomEvent<HTMLChatMessageElement>) => void;
+    'onIncoming'?: (event: CustomEvent<IncomingEventDetail>) => void;
     'triangle'?: MessageTriangle;
   }
   interface FabApp extends JSXBase.HTMLAttributes<HTMLFabAppElement> {

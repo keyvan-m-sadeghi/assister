@@ -7,3 +7,8 @@ export type MessageTriangle = 'none' | 'top' | 'bottom';
 export interface AssisterInputChangeEventDetail {
   value: string;
 }
+
+export interface IncomingEventDetail {
+  text: string,
+  element: HTMLChatMessageElement
+}
