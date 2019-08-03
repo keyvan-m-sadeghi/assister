@@ -1,5 +1,5 @@
 import { Component, h, Element, Event, EventEmitter, Prop, Method } from '@stencil/core';
-import { MessageTriangle, MessageDirection } from '../../interfaces';
+import { MessageTriangle, MessageDirection, IncomingEventDetail } from '../../interfaces';
 
 function createElementsFromText(text: string): HTMLElement[] {
   return text.split('\n').map(line => {
@@ -21,7 +21,7 @@ export class Pane {
   @Prop() mapInputTextToHtmlElements = createElementsFromText;
   @Prop() triangle: MessageTriangle = 'bottom';
 
-  @Event() incoming: EventEmitter<HTMLChatMessageElement>;
+  @Event() incoming: EventEmitter<IncomingEventDetail>;
 
   @Element() pane?: HTMLChatPaneElement;
   private conversation?: HTMLChatConversationElement;
@@ -51,6 +51,26 @@ export class Pane {
     return this.addMessage('incoming', text)
   }
 
+  @Method()
+  async addCard({text, image}: {text?: string, image?: string}): Promise<HTMLElement> {
+    const card = document.createElement('ion-card');
+    card.setAttribute('style', 'background: white;');
+    if (image) {
+      const imgElement = document.createElement('img');
+      imgElement.src = image;
+      card.appendChild(imgElement);
+    }
+    if (text) {
+      const contentElement = document.createElement('ion-card-content');
+      this.mapInputTextToHtmlElements(text)
+        .map(element => contentElement.appendChild(element));
+      card.appendChild(contentElement);
+    }
+    this.pane.appendChild(card);
+    this.conversation.scrollToBottom();
+    return card;
+  }
+
   render() {
     return [
         <ion-header class="header">
@@ -67,7 +87,10 @@ export class Pane {
           <chat-input
             onSend={
               event => this.addOutgoingMessage(event.detail.value)
-                .then(message => this.incoming.emit(message))
+                .then(message => this.incoming.emit({
+                  element: message,
+                  text: event.detail.value
+                }))
             }
           />
         </ion-footer>

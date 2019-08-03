@@ -49,7 +49,7 @@
       document.getElementById('close').addEventListener('click', () => fab.close());
       const pane = document.getElementById('pane');
       function handleIncomingMessage(event) {
-        const message = event.detail;
+        const message = event.detail.element;
         wait()
           .then(() => message.state = 'delivered')
           .then(wait)

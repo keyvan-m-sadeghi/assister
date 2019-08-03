@@ -1,9 +1,9 @@
 {
   "name": "@assister/chat",
-  "version": "0.0.1-alpha.4",
-  "description": "chat",
+  "version": "0.0.1-alpha.5",
+  "description": "WhatsApp/Telegram inspired Chatbot and live chat Web Components",
   "license": "MIT",
-  "keywords":[
+  "keywords": [
     "chat",
     "live chat",
     "chatbot",
@@ -16,9 +16,9 @@
   "es2015": "dist/chat/chat.esm.js",
   "es2017": "dist/chat/chat.esm.js",
   "types": "dist/types/components.d.ts",
-  "unpkg": "dist/chat/chat.esm.js",
-  "collection:main": "dist/collection/components/pane/pane.js",
   "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/components/pane/pane.js",
+  "unpkg": "dist/chat/chat.js",
   "files": [
     "dist/"
   ],
@@ -26,7 +26,8 @@
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watch"
+    "test.watch": "stencil test --spec --e2e --watch",
+    "link": "npm link"
   },
   "repository": {
     "type": "git",

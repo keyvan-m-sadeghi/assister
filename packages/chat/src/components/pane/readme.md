@@ -15,12 +15,22 @@
 
 ## Events
 
-| Event      | Description | Type               |
-| ---------- | ----------- | ------------------ |
-| `incoming` |             | `CustomEvent<any>` |
+| Event      | Description | Type                               |
+| ---------- | ----------- | ---------------------------------- |
+| `incoming` |             | `CustomEvent<IncomingEventDetail>` |
 
 
 ## Methods
+
+### `addCard({ text, image }: { text?: string; image?: string; }) => Promise<HTMLElement>`
+
+
+
+#### Returns
+
+Type: `Promise<HTMLElement>`
+
+
 
 ### `addIncomingMessage(text: string) => Promise<HTMLElement>`
 
@@ -48,6 +58,8 @@ Type: `Promise<HTMLElement>`
 ### Depends on
 
 - [chat-message](../message)
+- ion-card
+- ion-card-content
 - ion-header
 - [chat-conversation](../conversation)
 - ion-footer
@@ -57,6 +69,8 @@ Type: `Promise<HTMLElement>`
 ```mermaid
 graph TD;
   chat-pane --> chat-message
+  chat-pane --> ion-card
+  chat-pane --> ion-card-content
   chat-pane --> ion-header
   chat-pane --> chat-conversation
   chat-pane --> ion-footer
@@ -67,6 +81,7 @@ graph TD;
   ion-item --> ion-ripple-effect
   chat-message-status --> ion-icon
   chat-message-status --> chat-check-mark
+  ion-card --> ion-ripple-effect
   chat-conversation --> ion-content
   chat-conversation --> ion-list
   chat-input --> ion-icon
