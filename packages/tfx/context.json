@@ -1,0 +1,125 @@
+{
+  "@context": [
+    {
+      "@context": {
+        "@version": 1.1,
+        "@base": "http://intent.land/tfx/0.0.1/",
+        "tfx": "http://intent.land/tfx/0.0.1/",
+        "schema": "http://schema.org/",
+        "name": {
+          "@id": "tfx:name",
+          "@type": "schema:name"
+        },
+        "description": "tfx:description",
+        "command": "tfx:command",
+        "extends": {
+          "@id": "tfx:extends",
+          "@type": "@id"
+        },
+        "terminology": {
+          "@id": "tfx:terminology",
+          "@container": "@id"
+        },
+        "terms": {
+          "@id": "tfx:term",
+          "@container": "@id"
+        },
+        "cases": {
+          "@id": "tfx:case",
+          "@container": "@set"
+        },
+        "pattern": {
+          "@id": "tfx:pattern",
+          "@type": "schema:StructuredValue"
+        },
+        "examples": {
+          "@id": "tfx:example",
+          "@container": "@set",
+          "@type": "schema:Text"
+        },
+        "execution": {
+          "@id": "tfx:execution",
+          "@container": "@id"
+        },
+        "functions": {
+          "@id": "tfx:function",
+          "@container": "@id"
+        },
+        "type": {
+          "@id": "tfx:type",
+          "@type": "@id"
+        },
+        "variables": {
+          "@id": "tfx:variable",
+          "@container": "@id"
+        },
+        "commands": {
+          "@id": "tfx:command",
+          "@container": "@id"
+        },
+        "term": {
+          "@id": "tfx:term",
+          "@type": "@id"
+        },
+        "map": {
+          "@id": "tfx:map",
+          "@type": "schema:StructuredValue"
+        },
+        "intent": {
+          "@id": "tfx:intent",
+          "@type": "schema:StructuredValue"
+        },
+        "effects": {
+          "@id": "tfx:effect",
+          "@container": "@set",
+          "@type": "schema:StructuredValue"
+        }
+      },
+      "@id": "./",
+      "@graph": [
+        {
+          "@id": "name",
+          "@type": "schema:Property",
+          "schema:domainIncludes": [
+            "tfx:term",
+            "tfx:command"
+          ],
+          "schema:rangeIncludes": "schema:name"
+        },
+        {
+          "@id": "command",
+          "@type": "schema:DefinedTerm"
+        },
+        {
+          "@id": "terms",
+          "@type": "schema:DefinedTermSet"
+        },
+        {
+          "@id": "term",
+          "@type": "schema:DefinedTerm"
+        },
+        {
+          "@id": "case",
+          "@type": "schema:Property",
+          "schema:domainIncludes": [
+            "tfx:term",
+            "tfx:command"
+          ],
+          "schema:rangeIncludes": "schema:StructuredValue"
+        },
+        {
+          "@id": "description",
+          "@type": "schema:description",
+          "schema:domainIncludes": [
+            "tfx:term",
+            "tfx:command"
+          ],
+          "schema:rangeIncludes": "schema:StructuredValue"
+        }
+      ]
+    },
+    {
+      "@base": "http://assister.ai/demo/"
+    }
+  ]
+}

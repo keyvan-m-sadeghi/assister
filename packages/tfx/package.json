@@ -1,0 +1,36 @@
+{
+  "name": "@assister/tfx",
+  "version": "0.0.1-alpha.1",
+  "description": "Web Components for Terms and Functions",
+  "main": "elements.js",
+  "unpkg": "elements.js",
+  "scripts": {
+    "start": "es-dev-server --watch",
+    "test": "xo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/assister-ai/assister.git"
+  },
+  "keywords": [
+    "tfx",
+    "web components",
+    "json-ld"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/assister-ai/assister/issues"
+  },
+  "homepage": "https://github.com/assister-ai/assister#readme",
+  "devDependencies": {
+    "es-dev-server": "^1.10.4",
+    "xo": "^0.24.0"
+  },
+  "xo": {
+    "space": 2,
+    "envs": [
+      "browser"
+    ]
+  }
+}
