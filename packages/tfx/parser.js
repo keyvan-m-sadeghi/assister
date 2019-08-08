@@ -9,8 +9,11 @@ function fetchVersion() {
 }
 
 function parse(tfxDefinition) {
-  return fetchFile('./context.json')
-    .then(response => JSON.stringify(response, null, 2));
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element
+  Array.from(tfxDefinition.children).map(child => console.log(child.localName))
+  return 'empty';
+  // return fetchFile('./context.json')
+  //   .then(response => JSON.stringify(response, null, 2));
 }
 
 export {parse};
