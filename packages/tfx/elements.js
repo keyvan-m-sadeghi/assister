@@ -1,4 +1,4 @@
-class TFXDefinition extends HTMLElement {
+class HTMLTFXDefinitionElement extends HTMLElement {
   constructor() {
     super();
     window.addEventListener('DOMContentLoaded', () => {
@@ -14,13 +14,18 @@ class TFXDefinition extends HTMLElement {
         .then(({parse}) => parse)
         .then(parse => parse(this))
         .then(jsonLD => {
+          console.log(jsonLD)
           jsonLDElement.innerHTML = jsonLD;
         });
       update();
       const observer = new MutationObserver(update);
-      observer.observe(this, {childList: true});
+      observer.observe(this, {subtree: true, attributes: true});
     });    
+  }
+
+  get jsonLDId() {
+    return window.location.toString();
   }
 }
 
-customElements.define('tfx-definitions', TFXDefinition);
+customElements.define('tfx-definition', HTMLTFXDefinitionElement);

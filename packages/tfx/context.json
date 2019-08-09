@@ -3,8 +3,8 @@
     {
       "@context": {
         "@version": 1.1,
-        "@base": "http://intent.land/tfx/0.0.1/",
-        "tfx": "http://intent.land/tfx/0.0.1/",
+        "@base": "https://unpkg.com/@assister/tfx@${version}/context.json/",
+        "tfx": "https://intent.land/@assister/tfx@${version}/",
         "schema": "http://schema.org/",
         "name": {
           "@id": "tfx:name",
@@ -117,9 +117,6 @@
           "schema:rangeIncludes": "schema:StructuredValue"
         }
       ]
-    },
-    {
-      "@base": "http://assister.ai/demo/"
     }
   ]
 }
