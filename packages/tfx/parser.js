@@ -1,180 +1,173 @@
+function spread(jsonLD, child) {
+  const childSpreadMap = {
+    object: () => ({
+      ...jsonLD,
+      ...{
+        [child.jsonLDKey]: {
+          ...(jsonLD[child.jsonLDKey] || {}),
+          ...{[child.jsonLDId]: child.toJsonLD()}
+        }
+      }
+    }),
+    array: () => ({
+      ...jsonLD,
+      ...{
+        [child.jsonLDKey]: [
+          ...(jsonLD[child.jsonLDKey] || []),
+          child.toJsonLD()
+        ]
+      }
+    }),
+    none: () => ({
+      ...jsonLD,
+      ...{[child.jsonLDKey]: child.toJsonLD()}
+    })
+  };
+  return childSpreadMap[child.jsonLDSpreadType]();
+}
+
+const elementTFXAssignmentMap = {};
+
+function parseChild(element) {
+  return elementTFXAssignmentMap[element.localName](element);
+}
+
+function parseChildren(element, initialJsonLD = {}) {
+  return [...element.children]
+    .map(parseChild)
+    .reduce((jsonLD, child) => spread(jsonLD, child), initialJsonLD);
+}
+
 const nameRegistry = {};
 
 function getId(name) {
   if (!nameRegistry[name]) {
     throw new RangeError(`name "${name}" is not defined.`);
   }
+
   return nameRegistry[name];
 }
 
-function spread(jsonLD, child) {
-  const childSpreadMap = {
-    object: () => {
-      jsonLD[child.jsonLDKey] = jsonLD[child.jsonLDKey] || {};
-      jsonLD[child.jsonLDKey] =
-        {...jsonLD[child.jsonLDKey], ...{[child.jsonLDId]: child.toJsonLD()}};
-      return jsonLD;
-    },
-    array: () => {
-      jsonLD[child.jsonLDKey] = jsonLD[child.jsonLDKey] || [];
-      jsonLD[child.jsonLDKey] =
-        [...jsonLD[child.jsonLDKey], ...[child.toJsonLD()]];
-      return jsonLD;
-    },
-    none: () => {
-      jsonLD[child.jsonLDKey] = jsonLD[child.jsonLDKey] || {};
-      jsonLD[child.jsonLDKey] =
-        {...jsonLD[child.jsonLDKey], ...child.toJsonLD()};
-      return jsonLD;
-    }
-  };
-  return childSpreadMap[child.jsonLDSpreadType]();
-}
-
-function parseChildren(element, initialJsonLD = {}) {
-  return Array.from(element.children)
-  .reduce((jsonLD, child) => spread(jsonLD, child), initialJsonLD);
-}
-
-class AbstractTFXElement extends HTMLElement {
-  get name() {
-    return this.getAttribute('name');
-  }
-  get jsonLDId() {
-    const name = this.name ||
-      `${this.jsonLDKey}/${Array.from(this.parentElement.children).indexOf(this)}`;
-    const id = `${this.parentElement.jsonLDId}/${this.jsonLDKey}/${name}`;
-    nameRegistry[this.name] = id;
-    return id;
-  }
-  get jsonLDKey() {
-    throw new Error('Not Implemented');
-  }
-  get jsonLDSpreadType() {
-    throw new Error('Not Implemented');
-  }
-
-}
-
 const attributeConversionMap = {
-  'extends': value => getId(value)
+  extends: value => getId(value)
 };
 
-function defineTFXElement({
-  tagName,
+function specifyTFXElementParseArguments({
+  htmlTag,
   jsonLDKey,
   jsonLDSpreadType,
   toJsonLD = element => parseChildren(element),
   optionals = [],
-  required = ['name'],
-  }) {
-  const tfxElement = class extends AbstractTFXElement {
-    get jsonLDKey() {
-      return jsonLDKey;
+  required = ['name']
+}) {
+  const assignTFXProperties = element => Object.defineProperties(element, {
+    name: {get: () => element.getAttribute('name')},
+    jsonLDId: {
+      get: () => {
+        const name = element.name ||
+          `${element.jsonLDKey}/${
+            [...element.parentElement.children].indexOf(element)
+          }`;
+        const parentJsonLDId = element.parentElement.jsonLDId;
+        const id = `${
+          parentJsonLDId === '' ? '' : `${parentJsonLDId}/`
+        }${element.jsonLDKey}/${name}`;
+        nameRegistry[element.name] = id;
+        return id;
+      }
+    },
+    jsonLDKey: {value: jsonLDKey},
+    jsonLDSpreadType: {value: jsonLDSpreadType},
+    toJsonLD: {
+      value: () => {
+        const spread = keys => keys.reduce((jsonLD, key) => {
+          const convert = attributeConversionMap[key] || (value => value);
+          return {
+            ...jsonLD,
+            ...(
+              element.hasAttribute(key) ?
+                {[key]: convert(element.getAttribute(key))} : {}
+            )
+          };
+        }, {});
+        required.map(key => {
+          if (!element.hasAttribute(key)) {
+            throw new TypeError(
+              `<${element.localName}> must have "${key}" attribute.`
+            );
+          }
+        });
+        return {...toJsonLD(element), ...spread(required), ...spread(optionals)};
+      }
     }
-    get jsonLDSpreadType() {
-      return jsonLDSpreadType;
-    }
-    toJsonLD() {      
-      const spread = keys => keys.reduce((jsonLD, key) => {
-        const convert = attributeConversionMap[key] || (value => value);
-        return {
-          ...jsonLD,
-          ...(
-            this.hasAttribute(key) ?
-              {[key]: convert(this.getAttribute(key))} : {}
-          )
-        }
-      }, {});
-      required.map(key => {
-        if (!this.hasAttribute(key)) {
-          throw new TypeError(
-            `<${this.localName}> must have a "${key}" attribute.`
-          );
-        }
-      });
-      return {...toJsonLD(this), ...spread(required), ...spread(optionals)};
-    }
-  };
-  customElements.define(tagName, tfxElement);
+  });
+  elementTFXAssignmentMap[htmlTag] = assignTFXProperties;
 }
 
-defineTFXElement({
-  tagName: 'tfx-term',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-term',
   jsonLDKey: 'terms',
   jsonLDSpreadType: 'object',
   optionals: ['extends']
 });
 
-defineTFXElement({
-  tagName: 'tfx-case',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-case',
   jsonLDKey: 'cases',
   jsonLDSpreadType: 'array',
   required: ['pattern']
 });
 
-defineTFXElement({
-  tagName: 'tfx-module',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-module',
   jsonLDKey: 'modules',
   jsonLDSpreadType: 'object',
   required: ['name', 'src']
 });
 
-defineTFXElement({
-  tagName: 'tfx-function',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-function',
   jsonLDKey: 'functions',
-  jsonLDSpreadType: 'object',
+  jsonLDSpreadType: 'object'
 });
 
-defineTFXElement({
-  tagName: 'tfx-variable',
-  jsonLDKey: 'variable',
-  jsonLDSpreadType: 'object',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-variable',
+  jsonLDKey: 'variables',
+  jsonLDSpreadType: 'object'
 });
 
-defineTFXElement({
-  tagName: 'tfx-intent',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-intent',
   jsonLDKey: 'intents',
-  jsonLDSpreadType: 'object',
+  jsonLDSpreadType: 'object'
 });
 
-defineTFXElement({
-  tagName: 'tfx-effect',
+specifyTFXElementParseArguments({
+  htmlTag: 'tfx-effect',
   jsonLDKey: 'effects',
   jsonLDSpreadType: 'array',
   required: ['action']
 });
 
-function fetchFile(relativePath) {
-  return fetch(relativePath)
+function fetchFile(path) {
+  return fetch(path)
     .then(result => result.json());
 }
 
-function fetchVersion() {
-  return fetchFile('./package.json')
-    .then(packageJson => packageJson.version);
-}
-
 function parse(tfxDefinitionElement) {
-  return Promise.all([fetchFile('./context.json'), fetchVersion()])
-    .then(([jsonLD, tfxVersion]) => ({
+  tfxDefinitionElement.jsonLDId = '';
+  return fetchFile('./context.json')
+    .then(jsonLD => ({
       ...jsonLD,
       ...{
         '@context': [
-          {
-            ...jsonLD['@context'][0],
-            ...{
-              '@context': {
-                '@base': jsonLD['@context'][0]['@context']['@base']
-                  .replace('${version}', tfxVersion),
-                'tfx': jsonLD['@context'][0]['@context']['tfx']
-                  .replace('${version}', tfxVersion),
-              }
-            }
-          }
+          ...jsonLD['@context'],
+          {'@base': tfxDefinitionElement.baseURI}
         ]
       },
-      '@id': tfxDefinitionElement.jsonLDId,
+      '@type': 'schema:DefinedTermSet',
+      '@id': '',
       ...parseChildren(tfxDefinitionElement)
     }))
     .then(jsonLD => JSON.stringify(jsonLD, null, 2));

@@ -3,8 +3,8 @@
     {
       "@context": {
         "@version": 1.1,
-        "@base": "https://unpkg.com/@assister/tfx@${version}/context.json/",
-        "tfx": "https://intent.land/@assister/tfx@${version}/",
+        "@base": "https://unpkg.com/@assister/tfx@0.0.1-alpha.1/context.json/",
+        "tfx": "https://intent.land/@assister/tfx@0.0.1-alpha.1/",
         "schema": "http://schema.org/",
         "name": {
           "@id": "tfx:name",

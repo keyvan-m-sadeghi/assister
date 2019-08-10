@@ -22,10 +22,6 @@ class HTMLTFXDefinitionElement extends HTMLElement {
       observer.observe(this, {subtree: true, attributes: true});
     });    
   }
-
-  get jsonLDId() {
-    return window.location.toString();
-  }
 }
 
 customElements.define('tfx-definition', HTMLTFXDefinitionElement);
