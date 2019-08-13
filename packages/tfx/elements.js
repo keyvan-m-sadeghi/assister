@@ -13,6 +13,12 @@ class HTMLTFXDefinitionElement extends HTMLElement {
       const update = () => import(parserPath)
         .then(({parse}) => parse)
         .then(parse => parse(this))
+        .then(jsonLD => Promise.all([jsonLD, import('./node_modules/jsonld/dist/jsonld.js')]))
+        .then(([jsonLD, _]) => {
+          jsonld.toRDF(jsonLD, {format: 'application/n-quads'}).then(console.log);
+          return jsonLD;
+        })
+        .then(jsonLD => JSON.stringify(jsonLD, null, 2))
         .then(jsonLD => {
           console.log(jsonLD)
           jsonLDElement.innerHTML = jsonLD;

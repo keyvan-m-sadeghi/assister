@@ -25,6 +25,7 @@
   "homepage": "https://github.com/assister-ai/assister#readme",
   "devDependencies": {
     "es-dev-server": "^1.10.4",
+    "jsonld": "^1.6.2",
     "xo": "^0.24.0"
   },
   "xo": {
