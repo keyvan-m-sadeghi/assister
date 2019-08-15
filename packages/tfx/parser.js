@@ -1,5 +1,5 @@
 import {registry} from './registry.js';
-import {fetchFile, fetchVersion} from './utils.js'
+import {fetchFile} from './utils.js'
 
 function spread(jsonLD, child) {
   const childSpreadMap = {
