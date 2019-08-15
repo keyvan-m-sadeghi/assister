@@ -3,7 +3,7 @@
   "version": "0.0.1-alpha.1",
   "description": "Web Components for Terms and Functions",
   "main": "elements.js",
-  "unpkg": "elements.js",
+  "unpkg": "context.json",
   "scripts": {
     "start": "es-dev-server --watch",
     "test": "xo"
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/assister-ai/assister#readme",
   "devDependencies": {
     "es-dev-server": "^1.10.4",
+    "jsonld": "^1.6.2",
     "xo": "^0.24.0"
   },
   "xo": {

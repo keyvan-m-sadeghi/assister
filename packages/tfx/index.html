@@ -1,9 +1,52 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script type="module" src="./elements.js"></script>
+    <script src="./elements.js"></script>
   </head>
   <body>
-    <tfx-definitions></tfx-definitions>
+    <tfx-definition>
+      <tfx-term name="type">
+        <tfx-case pattern="number"></tfx-case>
+        <tfx-case pattern="date"></tfx-case>
+      </tfx-term>
+      <tfx-term name="cell" pattern="${'A':'Z' 0:N}">
+        <tfx-case pattern="${'A':'Z' 0:N}"></tfx-case>
+      </tfx-term>
+      <tfx-term name="range"
+          description="A ${range} is an (interval)[https://en.wikipedia.org/wiki/Interval_(mathematics)] of ${cell}s with a ${start} and an ${end}"
+          more="https://www.computerhope.com/jargon/r/range.htm"
+      >
+          <tfx-term name="start" extends="cell"></tfx-term>
+          <tfx-term name="end" extends="cell"></tfx-term>
+          <tfx-case pattern="${start ':' end}"></tfx-case>
+      </tfx-term>
+      <tfx-term name="selection"
+          pattern="${((cell ',') | (range ',')) ... cell | range}"
+      ></tfx-term>
+
+      <tfx-module name="sheet" src="./sheet.js">
+        <tfx-function name="format"></tfx-function>
+        <tfx-function name="setCurrentSelection"></tfx-function>
+
+        <tfx-variable name="types"></tfx-variable>
+        <tfx-variable name="currentSelection"></tfx-variable>
+      </tfx-module>
+
+      <tfx-intent name="format">
+        <tfx-variable name="selection" term="selection"></tfx-variable>
+        <tfx-variable name="type" term="type" map="type => types[type]">
+        </tfx-variable>
+
+        <tfx-case pattern="format as ${type}"
+          action="format(currentSelection, type)"
+        >
+        </tfx-case>
+        <tfx-case pattern="format ${selection} as ${type}">
+          <tfx-effect action="setCurrentSelection(selection)"></tfx-effect>
+        </tfx-case>
+
+      </tfx-intent>
+    </tfx-definition>
+    <!-- <tfx-definition version="0.0.1-alpha.1"></tfx-definition> -->
   </body>
 </html>

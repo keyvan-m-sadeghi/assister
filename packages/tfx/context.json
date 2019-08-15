@@ -3,22 +3,25 @@
     {
       "@context": {
         "@version": 1.1,
-        "@base": "http://intent.land/tfx/0.0.1/",
-        "tfx": "http://intent.land/tfx/0.0.1/",
+        "@base": "https://unpkg.com/@assister/tfx@0.0.1-alpha.1/",
+        "tfx": "https://unpkg.com/@assister/tfx@0.0.1-alpha.1/",
         "schema": "http://schema.org/",
         "name": {
           "@id": "tfx:name",
           "@type": "schema:name"
         },
-        "description": "tfx:description",
+        "description": {
+          "@id": "tfx:description",
+          "@type": "schema:StructuredValue"
+        },
+        "more": {
+          "@id": "tfx:more",
+          "@type": "schema:URL"
+        },
         "command": "tfx:command",
         "extends": {
           "@id": "tfx:extends",
           "@type": "@id"
-        },
-        "terminology": {
-          "@id": "tfx:terminology",
-          "@container": "@id"
         },
         "terms": {
           "@id": "tfx:term",
@@ -53,8 +56,8 @@
           "@id": "tfx:variable",
           "@container": "@id"
         },
-        "commands": {
-          "@id": "tfx:command",
+        "intents": {
+          "@id": "tfx:intent",
           "@container": "@id"
         },
         "term": {
@@ -65,8 +68,8 @@
           "@id": "tfx:map",
           "@type": "schema:StructuredValue"
         },
-        "intent": {
-          "@id": "tfx:intent",
+        "action": {
+          "@id": "tfx:action",
           "@type": "schema:StructuredValue"
         },
         "effects": {
@@ -75,7 +78,7 @@
           "@type": "schema:StructuredValue"
         }
       },
-      "@id": "./",
+      "@id": "",
       "@graph": [
         {
           "@id": "name",
@@ -87,16 +90,12 @@
           "schema:rangeIncludes": "schema:name"
         },
         {
-          "@id": "command",
-          "@type": "schema:DefinedTerm"
-        },
-        {
-          "@id": "terms",
-          "@type": "schema:DefinedTermSet"
+          "@id": "intent",
+          "@type": "schema:hasDefinedTerm"
         },
         {
           "@id": "term",
-          "@type": "schema:DefinedTerm"
+          "@type": "schema:hasDefinedTerm"
         },
         {
           "@id": "case",
@@ -117,9 +116,6 @@
           "schema:rangeIncludes": "schema:StructuredValue"
         }
       ]
-    },
-    {
-      "@base": "http://assister.ai/demo/"
     }
   ]
 }
