@@ -1,6 +1,7 @@
 import {registry} from './registry.js';
+import {fetchFile, fetchVersion} from './utils.js'
 
-function assign(jsonLD, child) {
+function spread(jsonLD, child) {
   const childSpreadMap = {
     object: () => ({
       ...jsonLD,
@@ -28,7 +29,10 @@ function assign(jsonLD, child) {
     none: () => ({
       ...jsonLD,
       ...{
-        [child.jsonLDKey]: child.toJsonLD()
+        [child.jsonLDKey]: {
+          '@id': child.jsonLDId,
+          ...child.toJsonLD()
+        }
       }
     })
   };
@@ -41,22 +45,23 @@ function parseChild(element) {
   return elementTFXAssignmentMap[element.localName](element);
 }
 
-function parseChildren(element, initialJsonLD = {}) {
+function parseChildren(element) {
   return [...element.children]
     .map(parseChild)
-    .reduce((jsonLD, child) => assign(jsonLD, child), initialJsonLD);
+    .reduce((jsonLD, child) => spread(jsonLD, child), {});
 }
 
 function specifyTFXElementParseArguments({
   htmlTag,
   jsonLDType,
-  jsonLDKey,
-  jsonLDSpreadType = 'none',
   required = ['name'],
   optionals = [],
+  jsonLDSpreadType = 'none',
+  jsonLDKey,
+  children = true,
   conversions = {},
-  children = true
 }) {
+  optionals = [...optionals, 'description', 'more'];
   const assignTFXProperties = element => Object.defineProperties(element, {
     name: {get: () => element.getAttribute('name')},
     jsonLDId: {
@@ -78,8 +83,8 @@ function specifyTFXElementParseArguments({
     jsonLDSpreadType: {value: jsonLDSpreadType},
     toJsonLD: {
       value: () => {
-        const spread = keys => keys.reduce((jsonLD, key) => {
-          const convert = conversions[key] || (value => value);
+        const assign = keys => keys.reduce((jsonLD, key) => {
+          const convert = conversions[key] || (value => value);          
           return {
             ...jsonLD,
             ...(
@@ -91,14 +96,16 @@ function specifyTFXElementParseArguments({
         required.map(key => {
           if (!element.hasAttribute(key)) {
             throw new TypeError(
-              `<${element.localName}> must have "${key}" attribute.`
+              `<${element.localName}> "${
+                element.jsonLDId
+              }" must have "${key}" attribute.`
             );
           }
         });
         return {
           "@type": jsonLDType,
-          ...spread(required),
-          ...spread(optionals),
+          ...assign(required),
+          ...assign(optionals),
           ...(children ? parseChildren(element) : {})
         };
       }
@@ -107,14 +114,10 @@ function specifyTFXElementParseArguments({
   elementTFXAssignmentMap[htmlTag] = assignTFXProperties;
 }
 
-function fetchFile(path) {
-  return fetch(path)
-    .then(result => result.json());
-}
-
 function parse(tfxDefinitionElement) {
   Object.defineProperty(tfxDefinitionElement, 'jsonLDId', {value: ''});
   return import('./definitions.js')
+    .then(({definitions}) => definitions.map(specifyTFXElementParseArguments))
     .then(() => fetchFile('./context.json'))
     .then(jsonLD => ({
       ...jsonLD,
@@ -130,4 +133,4 @@ function parse(tfxDefinitionElement) {
     }));
 }
 
-export {parse, specifyTFXElementParseArguments};
+export {parse};

@@ -10,7 +10,14 @@
           "@id": "tfx:name",
           "@type": "schema:name"
         },
-        "description": "tfx:description",
+        "description": {
+          "@id": "tfx:description",
+          "@type": "schema:StructuredValue"
+        },
+        "more": {
+          "@id": "tfx:more",
+          "@type": "schema:URL"
+        },
         "command": "tfx:command",
         "extends": {
           "@id": "tfx:extends",
