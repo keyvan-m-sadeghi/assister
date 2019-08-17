@@ -22,7 +22,7 @@ class TFxDefinitionElement extends HTMLElement {
         })
         .then(jsonLD => JSON.stringify(jsonLD, null, 2))
         .then(jsonLD => {
-          // console.log(jsonLD)
+          console.log(jsonLD)
           jsonLDElement.innerHTML = jsonLD;
         });
       update();

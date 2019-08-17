@@ -1,6 +1,10 @@
 import {definitions} from './definitions.js';
+import {Registry} from './registry.js';
 
-const execution = new Map();
+const registry = new Registry();
+
+const jsonLDElementWatchSet = new Set();
+let execute;
 
 const grab = (parent, childKey) => {
   const spreadTypeMap = {};
@@ -8,7 +12,11 @@ const grab = (parent, childKey) => {
     spreadTypeMap[jsonLDKey] = jsonLDSpreadType;
   });
   const grabMap = {
-    object: (parent, childKey) => Object.values(parent[childKey]),
+    object: (parent, childKey) => Object.entries(parent[childKey])
+      .map(([id, child]) => ({
+        '@id': id,
+        ...child
+      })),
     array: (parent, childKey) => [...parent[childKey]],
     none: (parent, childKey) => [parent[childKey]]
   };
@@ -16,18 +24,39 @@ const grab = (parent, childKey) => {
 };
 
 function getAbsolutePath(baseURI, relativeURI) {
+  if (!relativeURI.startsWith('./')) {
+    return relativeURI;
+  }
   baseURI = baseURI.slice(-1) != '/' ? `${baseURI}/` : baseURI;
   return `${baseURI}${relativeURI.slice(2)}`;
 }
 
-function parse(jsonLD, baseURI) {
+function transpileExecutionFunction(jsonLD) {
+  const baseURI = jsonLD['@context'].slice(-1)[0]['@base'];
+  // const modules =
+  const functionText =`
+  // return Promise.all([
+  //   // import('./module1.js').then(({function1, variable1}) => {function1, variable1}),
+  //   // import('./module2.js').then(({function2, variable2}) => {function2, variable2}),
+  // ])
+  //   .then(modules => modules.reduce((aggregated, names) => ({
+  //     ...aggregated,
+  //     ...names
+  //   }), {}))
+  //   // .then(({function1, variable1, function2, variable2}) => {
+  //   .then(({}) => {
+  //     terms
+  //     return 42;
+  //   })
+  `;
   const globalScope = {};
   const importName = (child, parent) =>
     import(getAbsolutePath(baseURI, parent.src))
       .then(module => {
         globalScope[child.name] = module[child.name];
-      });      
-  Promise.all([
+      })
+      .then(() => registry.register(child.name, child['@id']));
+  return Promise.all([
     ...grab(jsonLD, 'modules')
       .map(moduleJsonLD => Promise.all([
         ...grab(moduleJsonLD, 'functions')
@@ -36,9 +65,31 @@ function parse(jsonLD, baseURI) {
           .map(variableJsonLD => importName(variableJsonLD, moduleJsonLD))
       ]))
   ])
+    // .then(
+    //   () => grab(jsonLD, 'intents')
+    //     .map(intentJsonLD => {
+    //       const intentScope = {...globalScope};
+    //       grab(intentJsonLD, 'variables')
+    //         .map(variableJsonLD => {
+    //           Object.defineProperty(intentScope, variableJsonLD.name, {
+    //             get: () => new Function(
+    //               `{${Object.keys(intentScope).join(',')}}`,
+    //               `return ${variableJsonLD.map || 'value => value'}`
+    //               )
+    //                 .call(null, intentScope)
+    //                 .call(
+    //                   null,
+    //                   intentScope['@global']['@terms'][variableJsonLD.term]
+    //                 )
+    //           });
+    //         })
+    //       execution[intentJsonLD.name] = intentScope;
+    //     })
+    // )
     .then(() => globalScope.setCurrentSelection('foo'))
     .then(() => console.log(globalScope))
     .then(() => {
+      console.log(registry.scopes)
       const bar = new Function(`{${Object.keys(globalScope).join(',')}}`, 'return currentSelection');
       window.bar = () => bar(globalScope);
     });
@@ -47,14 +98,16 @@ function parse(jsonLD, baseURI) {
 }
 
 function watch(jsonLDElement) {
-  if (execution.has(jsonLDElement)) {
+  if (jsonLDElementWatchSet.has(jsonLDElement)) {
     return;
   }
   const observer = new MutationObserver(() => {
     const jsonLD = JSON.parse(jsonLDElement.innerHTML);
-    execution.set(jsonLDElement, parse(jsonLD, jsonLDElement.baseURI));
+    jsonLDElementWatchSet.add(jsonLDElement);
+    console.log(jsonLDElementWatchSet)
+    transpileExecutionFunction(jsonLD, jsonLDElement.baseURI)
     console.log(jsonLD)
-    window.foo = () => parse(jsonLD, jsonLDElement.baseURI)
+    window.foo = () => transpileExecutionFunction(jsonLD)
   });
   observer.observe(jsonLDElement, {childList:true, subtree: true});
   jsonLDElement.observer = observer;

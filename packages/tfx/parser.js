@@ -67,9 +67,7 @@ function specifyTFXElementParseArguments({
     jsonLDId: {
       get: () => {
         const name = element.name ||
-          `${element.jsonLDKey}/${
-            [...element.parentElement.children].indexOf(element)
-          }`;
+            [...element.parentElement.children].indexOf(element);
         const parentJsonLDId = element.parentElement.jsonLDId;
         const id = `${
           parentJsonLDId === '' ? '' : `${parentJsonLDId}/`

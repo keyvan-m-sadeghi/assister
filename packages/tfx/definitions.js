@@ -44,7 +44,7 @@ export const definitions = [
   {
     htmlTag: 'tfx-effect',
     jsonLDType: 'tfx:effect',
-    required: ['action'],
+    required: [],
     jsonLDSpreadType: 'array',
     jsonLDKey: 'effects'
   }

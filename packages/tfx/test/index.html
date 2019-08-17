@@ -12,43 +12,46 @@
         <tfx-variable name="types"></tfx-variable>
         <tfx-variable name="currentSelection"></tfx-variable>
       </tfx-module>
-  
-      <tfx-function name="getType" evaluate="type => types[type]">        
-      </tfx-function>
 
       <tfx-term name="type">
-        <tfx-case pattern="number" evaluate="getType"></tfx-case>
-        <tfx-case pattern="date" evaluate="getType"></tfx-case>
+        <tfx-case pattern="number" resolve="type => types[type]"></tfx-case>
+        <tfx-case pattern="date" resolve="type => types[type]"></tfx-case>
       </tfx-term>
+
       <tfx-term name="cell">
-        <tfx-case pattern="${'A':'Z' 0:N}"
-          evaluate="([column, row]) => [[row, column], [row, column]]"
+        <tfx-case pattern="${'A':'Z' 1:}"
+          resolve="([column, row]) => [row, column]"
         >
         </tfx-case>
       </tfx-term>
+
       <tfx-term name="range"
           description="A ${range} is an (interval)[https://en.wikipedia.org/wiki/Interval_(mathematics)] of ${cell}s with a ${start} and an ${end}"
           more="https://www.computerhope.com/jargon/r/range.htm"
       >
-        <tfx-case pattern="${cell ':' cell}"></tfx-case>
+        <tfx-case pattern="${cell ':' cell}"
+          resolve="([start, end]) => [start, end]">
+        </tfx-case>
       </tfx-term>
-      <tfx-term name="selection"
-          pattern="${((cell ',') | (range ',')) ... cell | range}"
-      ></tfx-term>
 
-      <tfx-intent name="format">
+      <tfx-term name="selection">
+        <tfx-case pattern="${((cell ',') | (range ',')) ... cell | range}"
+          convert="{cell: cell => [cell, cell]}"
+        >
+        </tfx-case>
+      </tfx-term>
 
+      <tfx-term name="format">
         <tfx-case pattern="format as ${type}"
-          evaluate="([type]) => format(currentSelection, type)"
+          resolve="([type]) => format(currentSelection, type)"
         >
         </tfx-case>
         <tfx-case pattern="format ${selection} as ${type}"
-          evaluate="([selection, type]) => format(selection, type)"
+          resolve="([selection, type]) => { format(selection, type); return selection; }"
+          then="selection => setCurrentSelection(selection)"
         >
-          <tfx-effect evaluate="() => setCurrentSelection(selection)"></tfx-effect>
         </tfx-case>
-
-      </tfx-intent>
+      </tfx-term>
     </tfx-definition>
     <!-- <tfx-definition version="0.0.1-alpha.1"></tfx-definition> -->
   </body>
