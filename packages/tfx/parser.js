@@ -36,7 +36,7 @@ function spread(jsonLD, child) {
       }
     })
   };
-  return childSpreadMap[child.jsonLDSpreadType]();
+  return childSpreadMap[child.jsonLDContainerType]();
 }
 
 const elementTFXAssignmentMap = {};
@@ -56,7 +56,7 @@ function specifyTFXElementParseArguments({
   jsonLDType,
   required = ['name'],
   optionals = [],
-  jsonLDSpreadType = 'none',
+  jsonLDContainerType = 'none',
   jsonLDKey,
   children = true,
   conversions = {},
@@ -78,7 +78,7 @@ function specifyTFXElementParseArguments({
     },
     jsonLDKey: {value: jsonLDKey},
     jsonLDType: {value: jsonLDType},
-    jsonLDSpreadType: {value: jsonLDSpreadType},
+    jsonLDContainerType: {value: jsonLDContainerType},
     toJsonLD: {
       value: () => {
         const assign = keys => keys.reduce((jsonLD, key) => {

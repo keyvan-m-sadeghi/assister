@@ -1,15 +1,10 @@
 import {definitions} from './definitions.js';
 import {Registry} from './registry.js';
 
-const registry = new Registry();
-
-const jsonLDElementWatchSet = new Set();
-let execute;
-
 const grab = (parent, childKey) => {
   const spreadTypeMap = {};
-  definitions.map(({jsonLDKey, jsonLDSpreadType}) => {
-    spreadTypeMap[jsonLDKey] = jsonLDSpreadType;
+  definitions.map(({jsonLDKey, jsonLDContainerType}) => {
+    spreadTypeMap[jsonLDKey] = jsonLDContainerType;
   });
   const grabMap = {
     object: (parent, childKey) => Object.entries(parent[childKey])
@@ -31,83 +26,58 @@ function getAbsolutePath(baseURI, relativeURI) {
   return `${baseURI}${relativeURI.slice(2)}`;
 }
 
-function transpileExecutionFunction(jsonLD) {
+const execution = new Map();
+
+function transpile(jsonLD, executionKey) {
   const baseURI = jsonLD['@context'].slice(-1)[0]['@base'];
-  // const modules =
-  const functionText =`
-  // return Promise.all([
-  //   // import('./module1.js').then(({function1, variable1}) => {function1, variable1}),
-  //   // import('./module2.js').then(({function2, variable2}) => {function2, variable2}),
-  // ])
-  //   .then(modules => modules.reduce((aggregated, names) => ({
-  //     ...aggregated,
-  //     ...names
-  //   }), {}))
-  //   // .then(({function1, variable1, function2, variable2}) => {
-  //   .then(({}) => {
-  //     terms
-  //     return 42;
-  //   })
-  `;
-  const globalScope = {};
-  const importName = (child, parent) =>
-    import(getAbsolutePath(baseURI, parent.src))
-      .then(module => {
-        globalScope[child.name] = module[child.name];
-      })
-      .then(() => registry.register(child.name, child['@id']));
-  return Promise.all([
-    ...grab(jsonLD, 'modules')
-      .map(moduleJsonLD => Promise.all([
+  const pathMembersMap = grab(jsonLD, 'modules')
+    .reduce((aggregated, moduleJsonLD) => ({
+      ...aggregated,
+      [getAbsolutePath(baseURI, moduleJsonLD.src)]: [
         ...grab(moduleJsonLD, 'functions')
-          .map(functionJsonLD => importName(functionJsonLD, moduleJsonLD)),
+          .map(functionJsonLD => functionJsonLD.name),
         ...grab(moduleJsonLD, 'variables')
-          .map(variableJsonLD => importName(variableJsonLD, moduleJsonLD))
-      ]))
-  ])
-    // .then(
-    //   () => grab(jsonLD, 'intents')
-    //     .map(intentJsonLD => {
-    //       const intentScope = {...globalScope};
-    //       grab(intentJsonLD, 'variables')
-    //         .map(variableJsonLD => {
-    //           Object.defineProperty(intentScope, variableJsonLD.name, {
-    //             get: () => new Function(
-    //               `{${Object.keys(intentScope).join(',')}}`,
-    //               `return ${variableJsonLD.map || 'value => value'}`
-    //               )
-    //                 .call(null, intentScope)
-    //                 .call(
-    //                   null,
-    //                   intentScope['@global']['@terms'][variableJsonLD.term]
-    //                 )
-    //           });
-    //         })
-    //       execution[intentJsonLD.name] = intentScope;
-    //     })
-    // )
-    .then(() => globalScope.setCurrentSelection('foo'))
-    .then(() => console.log(globalScope))
-    .then(() => {
-      console.log(registry.scopes)
-      const bar = new Function(`{${Object.keys(globalScope).join(',')}}`, 'return currentSelection');
-      window.bar = () => bar(globalScope);
-    });
-  // Object.entries(jsonLD.intents).map((id, intent) => {
-  // });
+          .map(variableJsonLD => variableJsonLD.name),
+      ].join(', ')
+    }), {});
+  const executionFunctionBody = `
+  return Promise.all([${
+    Object.entries(pathMembersMap).map(([path, members]) =>  `
+      // import('./module1.js')
+      //  .then(({function1, variable1}) => {function1, variable1}),
+      // import('./module2.js')
+      //  .then(({function2, variable2}) => {function2, variable2})
+      import('${path}')
+        .then((${`{${members}}`}) => ${`({${members}})`})
+    `).join(',\n')
+  }])
+    .then(modules => modules.reduce((aggregated, members) => ({
+      ...aggregated,
+      ...members
+    }), {}))
+    // .then(({function1, variable1, function2, variable2}) => {
+    .then((${`{${Object.values(pathMembersMap).join(', ')}}`}) => {
+      // terms
+      return types;
+    })
+  `;
+  // grab(jsonLD, 'terms')
+  //   .reduce((aggregated, termJsonLD) => ({
+  //     ...aggregated,
+  //     [termJsonLD.name]: (...args, caseID) => grab(termJsonLD, 'cases')
+  //       .reduce((caseResolveMap, caseJsonLD) => {(
+  //         ...caseResolveMap,
+  //         [caseJsonLD['@id']]: 2
+  //       )}, {})
+  //   }), {})
+  execution.set(executionKey, Function(executionFunctionBody));
 }
 
 function watch(jsonLDElement) {
-  if (jsonLDElementWatchSet.has(jsonLDElement)) {
-    return;
-  }
   const observer = new MutationObserver(() => {
     const jsonLD = JSON.parse(jsonLDElement.innerHTML);
-    jsonLDElementWatchSet.add(jsonLDElement);
-    console.log(jsonLDElementWatchSet)
-    transpileExecutionFunction(jsonLD, jsonLDElement.baseURI)
-    console.log(jsonLD)
-    window.foo = () => transpileExecutionFunction(jsonLD)
+    transpile(jsonLD, jsonLDElement)
+    console.log(execution.get(jsonLDElement)())
   });
   observer.observe(jsonLDElement, {childList:true, subtree: true});
   jsonLDElement.observer = observer;
