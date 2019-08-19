@@ -13,6 +13,7 @@ export const definitions = [
     htmlTag: 'tfx-case',
     jsonLDType: 'tfx:case',
     required: ['pattern'],
+    optionals: ['resolve', 'then', 'convert'],
     jsonLDContainerType: 'object',
     jsonLDKey: 'cases'
   },

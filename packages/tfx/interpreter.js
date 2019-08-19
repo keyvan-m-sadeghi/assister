@@ -57,19 +57,57 @@ function transpile(jsonLD, executionKey) {
     }), {}))
     // .then(({function1, variable1, function2, variable2}) => {
     .then((${`{${Object.values(pathMembersMap).join(', ')}}`}) => {
-      // terms
-      return types;
+      // Input from term parsing example: [{term: 'term1', value: 'value1'}, ...]      
+      return {
+        ${grab(jsonLD, 'terms')
+          .reduce((concatenated, termJsonLD) => concatenated +
+            grab(termJsonLD, 'cases')
+              .map(caseJsonLD => `'${caseJsonLD['@id']}': termValuePairs => {
+                const convert = () => Promise.resolve()
+                  .then(() =>  Promise.all(
+                    termValuePairs
+                    .map(({term, value}) => Promise.resolve(value)
+                      .then(${
+                        caseJsonLD.convert &&
+                        `${caseJsonLD.convert}[term] || (value => value)` ||
+                        'value => value'
+                      })
+                    )
+                  ));
+                const resolve = ${caseJsonLD.resolve || 'value => value'};
+                const then = ${caseJsonLD.then || '_ => {}'};
+
+                let currentStage = 'convert';
+                const throwError = error => {
+                  throw new Error(
+                    'Error in "' +
+                    currentStage +
+                    '" of "${caseJsonLD['@id']}" execution: ' +
+                    error.message
+                  );
+                };
+                const changeStage = stage => value => {
+                  currentStage = stage;
+                  return value;
+                };
+                const result = convert()
+                  .then(changeStage('resolve'))
+                  .then(resolve);
+                return result
+                  .then(changeStage('then'))
+                  .then(then)
+                  .catch(throwError)
+                  .then(() => result)
+                  ;
+                },
+`
+            ).join('')
+          , '')
+        }
+      };
     })
   `;
-  // grab(jsonLD, 'terms')
-  //   .reduce((aggregated, termJsonLD) => ({
-  //     ...aggregated,
-  //     [termJsonLD.name]: (...args, caseID) => grab(termJsonLD, 'cases')
-  //       .reduce((caseResolveMap, caseJsonLD) => {(
-  //         ...caseResolveMap,
-  //         [caseJsonLD['@id']]: 2
-  //       )}, {})
-  //   }), {})
+  // console.log(executionFunctionBody)
   execution.set(executionKey, Function(executionFunctionBody));
 }
 
@@ -77,7 +115,16 @@ function watch(jsonLDElement) {
   const observer = new MutationObserver(() => {
     const jsonLD = JSON.parse(jsonLDElement.innerHTML);
     transpile(jsonLD, jsonLDElement)
-    console.log(execution.get(jsonLDElement)())
+    execution.get(jsonLDElement)()
+    .then(v => {console.log(v.toString()); return v;})
+      .then(cases => cases['terms/selection/cases/0'])
+      .then(v => {console.log(v.toString()); return v;})
+      .then(invoke => invoke([
+        {term: 'cell', value: 'foo'},
+        {term: 'range', value: 'bar'},
+        {term: 'range', value: 'baz'},
+      ]))
+      .then(console.log)
   });
   observer.observe(jsonLDElement, {childList:true, subtree: true});
   jsonLDElement.observer = observer;

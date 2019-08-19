@@ -4,13 +4,14 @@ const types = {
 };
 
 function format(selection) {
-  return selection;
+  console.log(`formated ${selection}`);
 }
 
 let currentSelection = 'A1';
 
 function setCurrentSelection(value) {
   currentSelection = value;
+  console.log(`set currentSelection to "${value}"`);
 }
 
 export {types, format, currentSelection, setCurrentSelection};
