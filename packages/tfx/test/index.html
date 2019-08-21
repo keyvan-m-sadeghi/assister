@@ -14,8 +14,8 @@
       </tfx-module>
 
       <tfx-term name="type">
-        <tfx-case pattern="number" resolve="type => types[type]"></tfx-case>
-        <tfx-case pattern="date" resolve="type => types[type]"></tfx-case>
+        <tfx-case pattern="number" resolve="() => types['number']"></tfx-case>
+        <tfx-case pattern="date" resolve="() => types['date']"></tfx-case>
       </tfx-term>
 
       <tfx-term name="cell">
@@ -36,7 +36,7 @@
 
       <tfx-term name="selection">
         <tfx-case pattern="${((cell ',') | (range ',')) ... cell | range}"
-          convert="{cell: cell => [cell, cell]}"
+          convert="{cell: value => [value, value]}"
         >
         </tfx-case>
       </tfx-term>

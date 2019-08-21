@@ -14,7 +14,7 @@ export const definitions = [
     jsonLDType: 'tfx:case',
     required: ['pattern'],
     optionals: ['resolve', 'then', 'convert'],
-    jsonLDContainerType: 'object',
+    jsonLDContainerType: 'array',
     jsonLDKey: 'cases'
   },
   {
@@ -35,18 +35,5 @@ export const definitions = [
     jsonLDType: 'tfx:variable',
     jsonLDContainerType: 'object',
     jsonLDKey: 'variables'
-  },
-  {
-    htmlTag: 'tfx-intent',
-    jsonLDType: 'tfx:intent',
-    jsonLDContainerType: 'object',
-    jsonLDKey: 'intents'
-  },
-  {
-    htmlTag: 'tfx-effect',
-    jsonLDType: 'tfx:effect',
-    required: [],
-    jsonLDContainerType: 'array',
-    jsonLDKey: 'effects'
   }
 ];

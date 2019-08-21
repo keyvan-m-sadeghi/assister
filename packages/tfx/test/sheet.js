@@ -1,10 +1,10 @@
 const types = {
-  'number': Number,
-  'date': Date
+  number: Number,
+  date: Date
 };
 
-function format(selection) {
-  console.log(`formated ${selection}`);
+function format(selection, type) {
+  console.log(`formated "${selection}" as "${type}"`);
 }
 
 let currentSelection = 'A1';

@@ -1,5 +1,4 @@
 import {definitions} from './definitions.js';
-import {Registry} from './registry.js';
 
 const grab = (parent, childKey) => {
   const spreadTypeMap = {};
@@ -22,111 +21,163 @@ function getAbsolutePath(baseURI, relativeURI) {
   if (!relativeURI.startsWith('./')) {
     return relativeURI;
   }
+
   baseURI = baseURI.slice(-1) != '/' ? `${baseURI}/` : baseURI;
   return `${baseURI}${relativeURI.slice(2)}`;
 }
 
 const execution = new Map();
 
-function transpile(jsonLD, executionKey) {
+function transpileModules(jsonLD) {
   const baseURI = jsonLD['@context'].slice(-1)[0]['@base'];
+  const combinedNames = new Set();
+  const addName = jsonLD => {
+    combinedNames.add(jsonLD.name);
+    return jsonLD.name;
+  };
   const pathMembersMap = grab(jsonLD, 'modules')
     .reduce((aggregated, moduleJsonLD) => ({
       ...aggregated,
       [getAbsolutePath(baseURI, moduleJsonLD.src)]: [
         ...grab(moduleJsonLD, 'functions')
-          .map(functionJsonLD => functionJsonLD.name),
+          .map(addName),
         ...grab(moduleJsonLD, 'variables')
-          .map(variableJsonLD => variableJsonLD.name),
+          .map(addName)
       ].join(', ')
     }), {});
-  const executionFunctionBody = `
-  return Promise.all([${
-    Object.entries(pathMembersMap).map(([path, members]) =>  `
-      // import('./module1.js')
-      //  .then(({function1, variable1}) => {function1, variable1}),
-      // import('./module2.js')
-      //  .then(({function2, variable2}) => {function2, variable2})
-      import('${path}')
-        .then((${`{${members}}`}) => ${`({${members}})`})
-    `).join(',\n')
-  }])
-    .then(modules => modules.reduce((aggregated, members) => ({
-      ...aggregated,
-      ...members
-    }), {}))
-    // .then(({function1, variable1, function2, variable2}) => {
-    .then((${`{${Object.values(pathMembersMap).join(', ')}}`}) => {
-      // Input from term parsing example: [{term: 'term1', value: 'value1'}, ...]      
-      return {
-        ${grab(jsonLD, 'terms')
-          .reduce((concatenated, termJsonLD) => concatenated +
-            grab(termJsonLD, 'cases')
-              .map(caseJsonLD => `'${caseJsonLD['@id']}': termValuePairs => {
-                const convert = () => Promise.resolve()
-                  .then(() =>  Promise.all(
-                    termValuePairs
-                    .map(({term, value}) => Promise.resolve(value)
-                      .then(${
-                        caseJsonLD.convert &&
-                        `${caseJsonLD.convert}[term] || (value => value)` ||
-                        'value => value'
-                      })
-                    )
-                  ));
-                const resolve = ${caseJsonLD.resolve || 'value => value'};
-                const then = ${caseJsonLD.then || '_ => {}'};
+    const imports = Object.entries(pathMembersMap)
+      .map(([path, members]) => `
+        import('${path}')
+          .then((${`{${members}}`}) => ${`({${members}})`}),
+      `)
+      .join('')
+    const combined = `({${Array.from(combinedNames).join(', ')}}) => {
+        EXECUTION
+      }
+    `;
+    const transpiled = () => Promise.all([
+      IMPORTS
+    ])
+      .then(
+        modules => modules.reduce((combinedMembers, members) => ({
+          ...combinedMembers,
+          ...members
+        }), {})
+      )
+      .then(
+        COMBINED
+      );
+    return transpiled
+      .toString()
+      .replace('IMPORTS', imports)
+      .replace('COMBINED', combined);
+}
 
-                let currentStage = 'convert';
-                const throwError = error => {
-                  throw new Error(
-                    'Error in "' +
-                    currentStage +
-                    '" of "${caseJsonLD['@id']}" execution: ' +
-                    error.message
-                  );
-                };
-                const changeStage = stage => value => {
-                  currentStage = stage;
-                  return value;
-                };
-                const result = convert()
-                  .then(changeStage('resolve'))
-                  .then(resolve);
-                return result
-                  .then(changeStage('then'))
-                  .then(then)
-                  .catch(throwError)
-                  .then(() => result)
-                  ;
-                },
-`
-            ).join('')
-          , '')
-        }
+function transpileExecution(jsonLD) {
+  const transpiled = () => {
+    const executeCase = ({caseID, conversions, resolve, then}) => nameValuePairs => {
+      const convert = () => Promise.all(nameValuePairs
+        // Input from term parsing example: [{name: 'term1', value: 'value1'}, ...]
+        .map(({name, value}) => Promise.resolve(
+          (conversions[name] || (value => value))(value)
+        ))
+      );
+      let currentStage = 'convert';
+      const throwError = error => {
+        console.warn(`Error in "${currentStage}" of "${
+          caseID
+        }" execution`);
+        throw error;
       };
-    })
-  `;
-  // console.log(executionFunctionBody)
-  execution.set(executionKey, Function(executionFunctionBody));
+      const changeStage = stage => value => {
+        currentStage = stage;
+        return value;
+      };
+      const result = convert()
+        .then(changeStage('resolve'))
+        .then(resolve);
+      return result
+        .then(changeStage('then'))
+        .then(then)
+        .catch(throwError)
+        .then(() => result)
+        ;
+    }
+    const cases = {
+      CASES
+    };
+    return Object.entries(cases)
+      .reduce((caseExecuteMap, [caseID, {conversions, resolve, then}]) => ({
+        ...caseExecuteMap,
+        [caseID]: executeCase({caseID, conversions, resolve, then})
+      })
+      , {});
+  };
+  return transpiled.toString();
+}
+
+function transpile(jsonLD, executionKey) {
+  const transpileCaseKey = ({jsonLDKey, defaultFunction}) => caseJsonLD =>
+    `${caseJsonLD[jsonLDKey] || defaultFunction.toString()}`;
+  const transpileResolve = transpileCaseKey({
+    jsonLDKey: 'resolve',
+    defaultFunction: value => value
+  });
+  const transpileThen = transpileCaseKey({
+    jsonLDKey: 'then',
+    defaultFunction: () => {}
+  });
+  const transpileConvert = caseJsonLD => caseJsonLD.convert ||
+    '{}'; // default convert is an empty object
+
+  const cases = grab(jsonLD, 'terms')
+    .map(termJsonLD => grab(termJsonLD, 'cases')
+        .map(caseJsonLD =>
+        `'${caseJsonLD['@id']}': {
+          conversions: ${transpileConvert(caseJsonLD)},
+          resolve: ${transpileResolve(caseJsonLD)},
+          then: ${transpileThen(caseJsonLD)}
+        }`
+        )
+        .join(',\n')
+    )
+    .join(',\n');
+  const executionFunctionBody = `return (${transpileModules(jsonLD)})()`
+    .replace('EXECUTION', `return (${transpileExecution(jsonLD)})();`)
+    .replace('CASES', cases);
+  console.log(executionFunctionBody)
+  execution.set(executionKey, new Function(executionFunctionBody));
 }
 
 function watch(jsonLDElement) {
   const observer = new MutationObserver(() => {
     const jsonLD = JSON.parse(jsonLDElement.innerHTML);
-    transpile(jsonLD, jsonLDElement)
+    transpile(jsonLD, jsonLDElement);
     execution.get(jsonLDElement)()
-    .then(v => {console.log(v.toString()); return v;})
+      .then(v => {
+        console.log(v); return v;
+      })
       .then(cases => cases['terms/selection/cases/0'])
-      .then(v => {console.log(v.toString()); return v;})
       .then(invoke => invoke([
-        {term: 'cell', value: 'foo'},
-        {term: 'range', value: 'bar'},
-        {term: 'range', value: 'baz'},
+        {name: 'cell', value: 'foo'},
+        {name: 'range', value: 'bar'},
+        {name: 'range', value: 'baz'}
       ]))
-      .then(console.log)
+      .then(console.log);
+
+      // execution.get(jsonLDElement)()
+      //   .then(v => {
+      //     console.log(v); return v;
+      //   })
+      //   .then(cases => cases['terms/format/cases/1'])
+      //   .then(invoke => invoke([
+      //     {name: 'cell', value: 'foo'},
+      //     {name: 'range', value: 'bar'},
+      //     {name: 'range', value: 'baz'}
+      //   ]))
+      //   .then(console.log);
   });
-  observer.observe(jsonLDElement, {childList:true, subtree: true});
+  observer.observe(jsonLDElement, {childList: true, subtree: true});
   jsonLDElement.observer = observer;
 }
 

@@ -35,13 +35,16 @@ class Registry {
     if (!this.scopes[scope]) {
       throw new RangeError(`scope "${scope}" is not defined in TFx registry.`);
     }
+
     let id = this.scopes[scope][name];
     if (!id) {
       id = this.scopes['@global'][name];
     }
+
     if (!id) {
       throw new RangeError(`name "${name}" is not defined in TFx registry.`);
     }
+
     return id;
   }
 }
