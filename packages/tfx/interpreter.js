@@ -35,6 +35,7 @@ function transpileModules(jsonLD) {
     combinedNames.add(jsonLD.name);
     return jsonLD.name;
   };
+
   const pathMembersMap = grab(jsonLD, 'modules')
     .reduce((aggregated, moduleJsonLD) => ({
       ...aggregated,
@@ -45,40 +46,47 @@ function transpileModules(jsonLD) {
           .map(addName)
       ].join(', ')
     }), {});
-    const imports = Object.entries(pathMembersMap)
-      .map(([path, members]) => `
+  const imports = Object.entries(pathMembersMap)
+    .map(([path, members]) => `
         import('${path}')
           .then((${`{${members}}`}) => ${`({${members}})`}),
       `)
-      .join('')
-    const combined = `({${Array.from(combinedNames).join(', ')}}) => {
-        EXECUTION
+    .join('');
+  const combined = `({${[...combinedNames].join(', ')}})`;
+
+  // Below is the template for the final returned execution function
+  const transpiled = () => Promise.all([
+    IMPORTS
+  ])
+    .then(
+      modules => modules.reduce((combinedMembers, members) => ({
+        ...combinedMembers,
+        ...members
+      }), {})
+    )
+    .then(
+      COMBINED => {
+        EXECUTION;
       }
-    `;
-    const transpiled = () => Promise.all([
-      IMPORTS
-    ])
-      .then(
-        modules => modules.reduce((combinedMembers, members) => ({
-          ...combinedMembers,
-          ...members
-        }), {})
-      )
-      .then(
-        COMBINED
-      );
-    return transpiled
-      .toString()
-      .replace('IMPORTS', imports)
-      .replace('COMBINED', combined);
+    );
+  return transpiled
+    .toString()
+    .replace('IMPORTS', imports)
+    .replace('COMBINED', combined);
 }
 
 function transpileExecution(jsonLD) {
   const transpiled = () => {
-    const executeCase = ({caseID, conversions, resolve, then}) => nameValuePairs => {
+    const executeCase = ({
+      caseID,
+      conversions,
+      resolve,
+      then
+    }) => nameValuePairs => {
       const convert = () => Promise.all(nameValuePairs
-        // Input from term parsing example: [{name: 'term1', value: 'value1'}, ...]
+        // Input from term parsing: [{name: 'term1', value: 'value1'}, ...]
         .map(({name, value}) => Promise.resolve(
+          // Default conversion is value => value
           (conversions[name] || (value => value))(value)
         ))
       );
@@ -89,10 +97,12 @@ function transpileExecution(jsonLD) {
         }" execution`);
         throw error;
       };
+
       const changeStage = stage => value => {
         currentStage = stage;
         return value;
       };
+
       const result = convert()
         .then(changeStage('resolve'))
         .then(resolve);
@@ -100,9 +110,9 @@ function transpileExecution(jsonLD) {
         .then(changeStage('then'))
         .then(then)
         .catch(throwError)
-        .then(() => result)
-        ;
-    }
+        .then(() => result);
+    };
+
     const cases = {
       CASES
     };
@@ -113,10 +123,7 @@ function transpileExecution(jsonLD) {
       })
       , {});
   };
-  return transpiled.toString();
-}
 
-function transpile(jsonLD, executionKey) {
   const transpileCaseKey = ({jsonLDKey, defaultFunction}) => caseJsonLD =>
     `${caseJsonLD[jsonLDKey] || defaultFunction.toString()}`;
   const transpileResolve = transpileCaseKey({
@@ -128,24 +135,29 @@ function transpile(jsonLD, executionKey) {
     defaultFunction: () => {}
   });
   const transpileConvert = caseJsonLD => caseJsonLD.convert ||
-    '{}'; // default convert is an empty object
+    '{}'; // Default convert is an empty object
 
   const cases = grab(jsonLD, 'terms')
     .map(termJsonLD => grab(termJsonLD, 'cases')
-        .map(caseJsonLD =>
+      .map(caseJsonLD =>
         `'${caseJsonLD['@id']}': {
           conversions: ${transpileConvert(caseJsonLD)},
           resolve: ${transpileResolve(caseJsonLD)},
           then: ${transpileThen(caseJsonLD)}
         }`
-        )
-        .join(',\n')
+      )
+      .join(',\n')
     )
     .join(',\n');
-  const executionFunctionBody = `return (${transpileModules(jsonLD)})()`
-    .replace('EXECUTION', `return (${transpileExecution(jsonLD)})();`)
+
+  return transpiled.toString()
     .replace('CASES', cases);
-  console.log(executionFunctionBody)
+}
+
+function transpile(jsonLD, executionKey) {
+  const executionFunctionBody = `return (${transpileModules(jsonLD)})();`
+    .replace('EXECUTION', `return (${transpileExecution(jsonLD)})();`);
+  console.log(executionFunctionBody);
   execution.set(executionKey, new Function(executionFunctionBody));
 }
 
@@ -165,17 +177,17 @@ function watch(jsonLDElement) {
       ]))
       .then(console.log);
 
-      // execution.get(jsonLDElement)()
-      //   .then(v => {
-      //     console.log(v); return v;
-      //   })
-      //   .then(cases => cases['terms/format/cases/1'])
-      //   .then(invoke => invoke([
-      //     {name: 'cell', value: 'foo'},
-      //     {name: 'range', value: 'bar'},
-      //     {name: 'range', value: 'baz'}
-      //   ]))
-      //   .then(console.log);
+    // execution.get(jsonLDElement)()
+    //   .then(v => {
+    //     console.log(v); return v;
+    //   })
+    //   .then(cases => cases['terms/format/cases/1'])
+    //   .then(invoke => invoke([
+    //     {name: 'cell', value: 'foo'},
+    //     {name: 'range', value: 'bar'},
+    //     {name: 'range', value: 'baz'}
+    //   ]))
+    //   .then(console.log);
   });
   observer.observe(jsonLDElement, {childList: true, subtree: true});
   jsonLDElement.observer = observer;
