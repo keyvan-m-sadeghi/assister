@@ -1,35 +1,59 @@
-class TFxDefinitionElement extends HTMLElement {
+function observe(htmlTFxDefinitionElement) {
+  const jsonLDElement = document.createElement('script');
+  jsonLDElement.setAttribute('type', 'application/ld+json');
+  document.querySelector('head').append(jsonLDElement);
+  let tfxModule = './index.js';
+  if (htmlTFxDefinitionElement.hasAttribute('version')) {
+    const tfxVersion = htmlTFxDefinitionElement.getAttribute('version');
+    tfxModule = `https://unpkg.com/@assister/tfx@${tfxVersion}/index.js`
+  }
+  const update = () => import(tfxModule)
+    .then(({parse, watch}) => {
+      watch(jsonLDElement);
+      return parse(htmlTFxDefinitionElement)
+    })
+    .then(jsonLD => {
+      jsonLDElement.textContent = JSON.stringify(jsonLD, null, 2);
+      jsonLDElement.dispatchEvent(
+        new CustomEvent('TFxJsonLDAdded',
+          {
+            detail: {
+              jsonLD,
+              jsonLDElement
+            }
+          }
+        )
+      )
+    });
+  update();
+  const observer = new MutationObserver(update);
+  observer.observe(htmlTFxDefinitionElement, {subtree: true, attributes: true});
+}
+
+function onDOMContentLoaded(callback) {
+  window.addEventListener('DOMContentLoaded', callback);
+}
+
+class HTMLTFxDefinitionElement extends HTMLElement {
   constructor() {
     super();
-    window.addEventListener('DOMContentLoaded', () => {
-      const jsonLDElement = document.createElement('script');
-      jsonLDElement.setAttribute('type', 'application/ld+json');
-      document.querySelector('head').append(jsonLDElement);
-      let tfxModule = './index.js';
-      if (this.hasAttribute('version')) {
-        const tfxVersion = this.getAttribute('version');
-        tfxModule = `https://unpkg.com/@assister/tfx@${tfxVersion}/index.js`
-      }
-      const update = () => import(tfxModule)
-        .then(({parse, watch}) => {
-          watch(jsonLDElement);
-          return parse(this)
-        })
-        .then(jsonLD => Promise.all([jsonLD, import('./node_modules/jsonld/dist/jsonld.js')]))
-        .then(([jsonLD, _]) => {
-          // jsonld.toRDF(jsonLD, {format: 'application/n-quads'}).then(console.log);
-          return jsonLD;
-        })
-        .then(jsonLD => JSON.stringify(jsonLD, null, 2))
-        .then(jsonLD => {
-          console.log(jsonLD)
-          jsonLDElement.innerHTML = jsonLD;
-        });
-      update();
-      const observer = new MutationObserver(update);
-      observer.observe(this, {subtree: true, attributes: true});
-    });
+    onDOMContentLoaded(() => observe(this));
   }
 }
 
-customElements.define('tfx-definition', TFxDefinitionElement);
+function polyfillWebComponent() {
+  onDOMContentLoaded(() => {
+    for (
+      const [_, tfxDefinitionElement]
+      of document.querySelectorAll('tfx-definition').entries()
+    ) {
+      observe(tfxDefinitionElement);
+    }
+  });
+}
+
+if (!window.customElements) {
+  polyfillWebComponent();
+} else {
+  customElements.define('tfx-definition', HTMLTFxDefinitionElement);
+}

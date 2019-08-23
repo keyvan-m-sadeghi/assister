@@ -6,7 +6,7 @@
   "unpkg": "context.json",
   "scripts": {
     "start": "es-dev-server --watch",
-    "test": "xo"
+    "test": "ava --timeout=10s"
   },
   "repository": {
     "type": "git",
@@ -24,9 +24,16 @@
   },
   "homepage": "https://github.com/assister-ai/assister#readme",
   "devDependencies": {
+    "ava": "^2.3.0",
     "es-dev-server": "^1.10.4",
+    "jsdom": "^15.1.1",
     "jsonld": "^1.6.2",
     "xo": "^0.24.0"
+  },
+  "ava": {
+    "files": [
+      "test/test.js"
+    ]
   },
   "xo": {
     "space": 2,

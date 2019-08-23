@@ -92,7 +92,7 @@ function transpileExecution(jsonLD) {
       );
       let currentStage = 'convert';
       const throwError = error => {
-        console.warn(`Error in "${currentStage}" of "${
+        console.warn(`Error in "${currentStage}" stage of "${
           caseID
         }" execution`);
         throw error;
@@ -103,14 +103,14 @@ function transpileExecution(jsonLD) {
         return value;
       };
 
-      const result = convert()
+      const executionFunction = convert()
         .then(changeStage('resolve'))
         .then(resolve);
-      return result
+      return executionFunction
         .then(changeStage('then'))
         .then(then)
         .catch(throwError)
-        .then(() => result);
+        .then(() => executionFunction);
     };
 
     const cases = {

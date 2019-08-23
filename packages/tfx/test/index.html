@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script src="./../elements.js"></script>
+    <script src="./elements.js"></script>
+    <script src="./test/test-in-browser.js"></script>
   </head>
   <body>
     <tfx-definition>
@@ -30,12 +31,13 @@
           more="https://www.computerhope.com/jargon/r/range.htm"
       >
         <tfx-case pattern="${cell ':' cell}"
-          resolve="([start, end]) => [start, end]">
+          resolve="([start, end]) => [start, end]"
+        >
         </tfx-case>
       </tfx-term>
 
       <tfx-term name="selection">
-        <tfx-case pattern="${((cell ',') | (range ',')) ... cell | range}"
+        <tfx-case pattern="${((cell ',') | (range ',')) ... (cell | range)}"
           convert="{cell: value => [value, value]}"
         >
         </tfx-case>
