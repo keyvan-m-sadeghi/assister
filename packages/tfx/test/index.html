@@ -6,12 +6,11 @@
   </head>
   <body>
     <tfx-definition>
-      <tfx-module name="sheet" src="./sheet.js">
-        <tfx-function name="format"></tfx-function>
-        <tfx-function name="setCurrentSelection"></tfx-function>
-
-        <tfx-variable name="types"></tfx-variable>
-        <tfx-variable name="currentSelection"></tfx-variable>
+      <tfx-module name="sheet" src="./test/sheet.js">
+        <tfx-import name="format"></tfx-import>
+        <tfx-import name="setCurrentSelection"></tfx-import>
+        <tfx-import name="types"></tfx-import>
+        <tfx-import name="currentSelection"></tfx-import>
       </tfx-module>
 
       <tfx-term name="type">

@@ -25,15 +25,9 @@ export const definitions = [
     jsonLDKey: 'modules'
   },
   {
-    htmlTag: 'tfx-function',
-    jsonLDType: 'tfx:function',
+    htmlTag: 'tfx-import',
+    jsonLDType: 'tfx:import',
     jsonLDContainerType: 'object',
-    jsonLDKey: 'functions'
-  },
-  {
-    htmlTag: 'tfx-variable',
-    jsonLDType: 'tfx:variable',
-    jsonLDContainerType: 'object',
-    jsonLDKey: 'variables'
+    jsonLDKey: 'imports'
   }
 ];

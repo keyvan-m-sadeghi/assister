@@ -17,15 +17,6 @@ const grab = (parent, childKey) => {
   return grabMap[spreadTypeMap[childKey]](parent, childKey);
 };
 
-function getAbsolutePath(baseURI, relativeURI) {
-  if (!relativeURI.startsWith('./')) {
-    return relativeURI;
-  }
-
-  baseURI = baseURI.slice(-1) != '/' ? `${baseURI}/` : baseURI;
-  return `${baseURI}${relativeURI.slice(2)}`;
-}
-
 const execution = new Map();
 
 function transpileModules(jsonLD) {
@@ -37,14 +28,12 @@ function transpileModules(jsonLD) {
   };
 
   const pathMembersMap = grab(jsonLD, 'modules')
-    .reduce((aggregated, moduleJsonLD) => ({
-      ...aggregated,
-      [getAbsolutePath(baseURI, moduleJsonLD.src)]: [
-        ...grab(moduleJsonLD, 'functions')
-          .map(addName),
-        ...grab(moduleJsonLD, 'variables')
+    .reduce((pathMembers, moduleJsonLD) => ({
+      ...pathMembers,
+      [(new URL(moduleJsonLD.src, baseURI)).href]:
+        grab(moduleJsonLD, 'imports')
           .map(addName)
-      ].join(', ')
+          .join(', ')
     }), {});
   const imports = Object.entries(pathMembersMap)
     .map(([path, members]) => `
