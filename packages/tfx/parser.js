@@ -54,14 +54,13 @@ function parseChildren(element) {
 function specifyTFXElementParseArguments({
   htmlTag,
   jsonLDType,
-  required = ['name'],
+  required = [],
   optionals = [],
   jsonLDContainerType = 'none',
   jsonLDKey,
   children = true,
   conversions = {},
 }) {
-  optionals = [...optionals, 'description', 'more'];
   const assignTFXProperties = element => Object.defineProperties(element, {
     name: {get: () => element.getAttribute('name')},
     jsonLDId: {

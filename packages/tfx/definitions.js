@@ -4,6 +4,8 @@ export const definitions = [
   {
     htmlTag: 'tfx-term',
     jsonLDType: 'tfx:term',
+    required: ['name'],
+    optionals: ['description', 'more'],
     jsonLDContainerType: 'object',
     jsonLDKey: 'terms',
     optionals: ['extends'],
@@ -20,13 +22,14 @@ export const definitions = [
   {
     htmlTag: 'tfx-module',
     jsonLDType: 'tfx:module',
-    required: ['name', 'src'],
+    required: ['src'],
     jsonLDContainerType: 'object',
     jsonLDKey: 'modules'
   },
   {
     htmlTag: 'tfx-import',
     jsonLDType: 'tfx:import',
+    required: ['name'],
     jsonLDContainerType: 'object',
     jsonLDKey: 'imports'
   }
