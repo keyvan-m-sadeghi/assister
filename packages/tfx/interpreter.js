@@ -17,8 +17,6 @@ const grab = (parent, childKey) => {
   return grabMap[spreadTypeMap[childKey]](parent, childKey);
 };
 
-const execution = new Map();
-
 function transpileModules(jsonLD) {
   const baseURI = jsonLD['@context'].slice(-1)[0]['@base'];
   const combinedNames = new Set();
@@ -143,47 +141,29 @@ function transpileExecution(jsonLD) {
     .replace('CASES', cases);
 }
 
-function transpile(jsonLD, executionKey) {
+function transpile(jsonLD) {
   const executionFunctionBody = `return (${transpileModules(jsonLD)})();`
     .replace('EXECUTION', `return (${transpileExecution(jsonLD)})();`);
-  console.log(executionFunctionBody);
-  execution.set(executionKey, new Function(executionFunctionBody));
+  // console.log(executionFunctionBody);
+  return new Function(executionFunctionBody);
 }
 
 function watch(jsonLDElement) {
   const observer = new MutationObserver(() => {
     const jsonLD = JSON.parse(jsonLDElement.innerHTML);
-    transpile(jsonLD, jsonLDElement);
-    execution.get(jsonLDElement)()
-      .then(v => {
-        console.log(v); return v;
-      })
-      .then(cases => cases['terms/selection/cases/0'])
-      .then(invoke => invoke([
-        {name: 'cell', value: 'foo'},
-        {name: 'range', value: 'bar'},
-        {name: 'range', value: 'baz'}
-      ]))
-      .then(console.log);
-
-    // execution.get(jsonLDElement)()
-    //   .then(v => {
-    //     console.log(v); return v;
-    //   })
-    //   .then(cases => cases['terms/format/cases/1'])
-    //   .then(invoke => invoke([
-    //     {name: 'cell', value: 'foo'},
-    //     {name: 'range', value: 'bar'},
-    //     {name: 'range', value: 'baz'}
-    //   ]))
-    //   .then(console.log);
+    transpile(jsonLD)()
+      .then(cases => jsonLDElement.dispatchEvent(
+        new CustomEvent('TFxJsonLDExecutionReady', {
+            detail: {
+              jsonLDElement,
+              cases
+            }
+          }
+        )
+      ));
   });
   observer.observe(jsonLDElement, {childList: true, subtree: true});
   jsonLDElement.observer = observer;
 }
 
-function interpret(command) {
-  return command;
-}
-
-export {interpret, watch};
+export {watch, transpile};

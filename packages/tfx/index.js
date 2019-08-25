@@ -1,2 +1,2 @@
 export {parse} from './parser.js';
-export {interpret, watch} from './interpreter.js';
+export {watch, transpile} from './interpreter.js';

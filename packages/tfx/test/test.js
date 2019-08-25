@@ -1,4 +1,4 @@
-// Tests in Node.js are pending until dynamic imports are implemented in jsdom:
+// Tests in Node.js are not possible until dynamic imports are implemented in jsdom:
 // https://github.com/jsdom/jsdom/issues/2651
 
 const fs = require('fs');
@@ -10,7 +10,7 @@ virtualConsole.sendTo(console);
 
 class FileResourceLoader extends ResourceLoader {
   fetch(urlString, options) {
-    urlString = `file:///home/user/assister/packages/tfx/elements.js`;
+    urlString = 'file:///home/user/assister/packages/tfx/elements.js';
     return super.fetch(urlString, options);
   }
 }
@@ -18,7 +18,7 @@ class FileResourceLoader extends ResourceLoader {
 const resources = new FileResourceLoader({
   proxy: 'http://localhost:8080',
   strictSSL: false
-})
+});
 
 const {window: {document}} = new JSDOM(
   fs.readFileSync('./test/index.html', {encoding: 'utf8'}),
@@ -27,9 +27,9 @@ const {window: {document}} = new JSDOM(
     resources,
     runScripts: 'dangerously'
   }
-)
+);
 
-console.log(document.querySelector('tfx-definition'))
+console.log(document.querySelector('tfx-definition'));
 
 // jsonld.toRDF(jsonLD, {format: 'application/n-quads'}).then(console.log);
 
