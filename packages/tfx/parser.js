@@ -1,5 +1,5 @@
 import {registry} from './registry.js';
-import {fetchFile, fetchVersion} from './utils.js'
+import {fetchFile} from './utils.js'
 
 function spread(jsonLD, child) {
   const childSpreadMap = {
@@ -36,7 +36,7 @@ function spread(jsonLD, child) {
       }
     })
   };
-  return childSpreadMap[child.jsonLDSpreadType]();
+  return childSpreadMap[child.jsonLDContainerType]();
 }
 
 const elementTFXAssignmentMap = {};
@@ -54,22 +54,19 @@ function parseChildren(element) {
 function specifyTFXElementParseArguments({
   htmlTag,
   jsonLDType,
-  required = ['name'],
+  required = [],
   optionals = [],
-  jsonLDSpreadType = 'none',
+  jsonLDContainerType = 'none',
   jsonLDKey,
   children = true,
   conversions = {},
 }) {
-  optionals = [...optionals, 'description', 'more'];
   const assignTFXProperties = element => Object.defineProperties(element, {
     name: {get: () => element.getAttribute('name')},
     jsonLDId: {
       get: () => {
         const name = element.name ||
-          `${element.jsonLDKey}/${
-            [...element.parentElement.children].indexOf(element)
-          }`;
+            [...element.parentElement.children].indexOf(element);
         const parentJsonLDId = element.parentElement.jsonLDId;
         const id = `${
           parentJsonLDId === '' ? '' : `${parentJsonLDId}/`
@@ -80,7 +77,7 @@ function specifyTFXElementParseArguments({
     },
     jsonLDKey: {value: jsonLDKey},
     jsonLDType: {value: jsonLDType},
-    jsonLDSpreadType: {value: jsonLDSpreadType},
+    jsonLDContainerType: {value: jsonLDContainerType},
     toJsonLD: {
       value: () => {
         const assign = keys => keys.reduce((jsonLD, key) => {

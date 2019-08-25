@@ -4,7 +4,9 @@ export const definitions = [
   {
     htmlTag: 'tfx-term',
     jsonLDType: 'tfx:term',
-    jsonLDSpreadType: 'object',
+    required: ['name'],
+    optionals: ['description', 'more'],
+    jsonLDContainerType: 'object',
     jsonLDKey: 'terms',
     optionals: ['extends'],
     conversions: {extends: name => registry.getId(name)}
@@ -13,39 +15,22 @@ export const definitions = [
     htmlTag: 'tfx-case',
     jsonLDType: 'tfx:case',
     required: ['pattern'],
-    jsonLDSpreadType: 'array',
+    optionals: ['resolve', 'then', 'convert'],
+    jsonLDContainerType: 'array',
     jsonLDKey: 'cases'
   },
   {
     htmlTag: 'tfx-module',
     jsonLDType: 'tfx:module',
-    required: ['name', 'src'],
-    jsonLDSpreadType: 'object',
+    required: ['src'],
+    jsonLDContainerType: 'object',
     jsonLDKey: 'modules'
   },
   {
-    htmlTag: 'tfx-function',
-    jsonLDType: 'tfx:function',
-    jsonLDSpreadType: 'object',
-    jsonLDKey: 'functions'
-  },
-  {
-    htmlTag: 'tfx-variable',
-    jsonLDType: 'tfx:variable',
-    jsonLDSpreadType: 'object',
-    jsonLDKey: 'variables'
-  },
-  {
-    htmlTag: 'tfx-intent',
-    jsonLDType: 'tfx:intent',
-    jsonLDSpreadType: 'object',
-    jsonLDKey: 'intents'
-  },
-  {
-    htmlTag: 'tfx-effect',
-    jsonLDType: 'tfx:effect',
-    required: ['action'],
-    jsonLDSpreadType: 'array',
-    jsonLDKey: 'effects'
+    htmlTag: 'tfx-import',
+    jsonLDType: 'tfx:import',
+    required: ['name'],
+    jsonLDContainerType: 'object',
+    jsonLDKey: 'imports'
   }
 ];
