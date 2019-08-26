@@ -7,8 +7,7 @@ document.addEventListener('TFxJsonLDExecutionReady', async ({
     cases
   }
 }) => {
-  const context = await fetchFile('./context.json');
-  jsonLD['@context'][0] = context;
+  // jsonLD['@context'][0] = await fetchFile('./context.json');
   console.log(await jsonld.toRDF(jsonLD, {format: 'application/n-quads'}));
   console.log(jsonLD);
   let scenario;
