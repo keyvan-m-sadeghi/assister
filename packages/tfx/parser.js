@@ -119,7 +119,7 @@ function parse(tfxDefinitionElement) {
     .then((tfxVersion) => ({
       ...{
         '@context': [
-          `https://unpkg.com/@assister/tfx@${tfxVersion}/`,
+          `https://unpkg.com/@assister/tfx@${tfxVersion}`,
           {'@base': tfxDefinitionElement.baseURI}
         ]
       },
