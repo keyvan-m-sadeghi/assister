@@ -1,5 +1,5 @@
 import {registry} from './registry.js';
-import {fetchFile} from './utils.js'
+import {fetchVersion} from './utils.js'
 
 function spread(jsonLD, child) {
   const childSpreadMap = {
@@ -115,12 +115,11 @@ function parse(tfxDefinitionElement) {
   Object.defineProperty(tfxDefinitionElement, 'jsonLDId', {value: ''});
   return import('./definitions.js')
     .then(({definitions}) => definitions.map(specifyTFXElementParseArguments))
-    .then(() => fetchFile('./context.json'))
-    .then(jsonLD => ({
-      ...jsonLD,
+    .then(() => fetchVersion())
+    .then((tfxVersion) => ({
       ...{
         '@context': [
-          ...jsonLD['@context'],
+          `https://unpkg.com/@assister/tfx@${tfxVersion}`,
           {'@base': tfxDefinitionElement.baseURI}
         ]
       },
