@@ -156,6 +156,7 @@ function watch(jsonLDElement) {
         new CustomEvent('TFxJsonLDExecutionReady', {
             detail: {
               jsonLDElement,
+              jsonLD,
               cases
             }
           }
