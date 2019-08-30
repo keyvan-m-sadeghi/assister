@@ -1,6 +1,6 @@
 import {definitions} from './definitions.js';
 
-const grab = (parent, childKey) => {
+function grab(parent, childKey) {
   const spreadTypeMap = {};
   definitions.map(({jsonLDKey, jsonLDContainerType}) => {
     spreadTypeMap[jsonLDKey] = jsonLDContainerType;
@@ -154,12 +154,12 @@ function watch(jsonLDElement) {
     transpile(jsonLD)()
       .then(cases => jsonLDElement.dispatchEvent(
         new CustomEvent('TFxJsonLDExecutionReady', {
-            detail: {
-              jsonLDElement,
-              jsonLD,
-              cases
-            }
+          detail: {
+            jsonLDElement,
+            jsonLD,
+            cases
           }
+        }
         )
       ));
   });
@@ -167,4 +167,4 @@ function watch(jsonLDElement) {
   jsonLDElement.observer = observer;
 }
 
-export {watch, transpile};
+export {grab, watch, transpile};

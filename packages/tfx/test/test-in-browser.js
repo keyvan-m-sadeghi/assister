@@ -1,7 +1,7 @@
 import '../node_modules/jsonld/dist/jsonld.js';
 import {fetchFile} from '../utils.js';
 
-document.addEventListener('TFxJsonLDExecutionReady', async ({
+document.addEventListener('TFxJsonLDExecutionReadyd', async ({
   detail: {
     jsonLD,
     cases
@@ -25,5 +25,4 @@ document.addEventListener('TFxJsonLDExecutionReady', async ({
     {name: 'range', value: 'baz'}
   ]);
   console.log(scenario);
-
 }, true);

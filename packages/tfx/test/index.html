@@ -19,7 +19,10 @@
       </tfx-term>
 
       <tfx-term name="cell">
-        <tfx-case pattern="${'A':'Z' 1:}"
+        <tfx-case pattern="${
+          #string({case: 'upper', characters: 'alphabetic'})
+          #number({start: 1})
+        }"
           resolve="([column, row]) => [row, column]"
         >
         </tfx-case>
@@ -36,6 +39,10 @@
       </tfx-term>
 
       <tfx-term name="selection">
+        <!-- TODO: implement macros -->
+        <!-- <tfx-case pattern="${#repeat!(cell, range, {separator: ','})}"
+          convert="{cell: value => [value, value]}"
+        > -->
         <tfx-case pattern="${((cell ',') | (range ',')) ... (cell | range)}"
           convert="{cell: value => [value, value]}"
         >
