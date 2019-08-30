@@ -1,7 +1,6 @@
 import '../node_modules/jsonld/dist/jsonld.js';
-import {fetchFile} from '../utils.js';
 
-document.addEventListener('TFxJsonLDExecutionReadyd', async ({
+document.addEventListener('TFxJsonLDExecutionReady', async ({
   detail: {
     jsonLD,
     cases

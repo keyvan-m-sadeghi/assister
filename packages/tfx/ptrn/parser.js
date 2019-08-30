@@ -93,20 +93,9 @@ class PTRNParser extends CstParser {
     const $ = this;
 
     $.RULE('string', () => {
-      let value = '';
-      const appendLiteral = (token) => {
-        value += token.image;
-        if (token.tokenType.name === identifier.name) {
-          value += ' ';
-        }
-      };
       $.CONSUME(quote);
-      $.MANY(() => appendLiteral($.CONSUME(literal)));
+      $.MANY(() => $.CONSUME(literal));
       $.CONSUME2(quote);
-      return {
-        type: 'string',
-        value
-      };
     });
 
     $.RULE('callOptions', () => {
@@ -187,7 +176,7 @@ export function parse(text) {
   const lexed = lexer.tokenize(text);
   const parser = new PTRNParser();
   parser.input = lexed.tokens;
-  const abstractSyntaxTree = parser.string();
+  const abstractSyntaxTree = parser.pattern();
   if (parser.errors.length > 0) {
     console.error(parser.errors);
     throw parser.errors[0];
@@ -196,5 +185,3 @@ export function parse(text) {
 }
 
 // console.log(parse("   ' } ... . foo | \${bar ...}"));
-window.a = parse("   'sege soote ...'   ");
-console.log(a);
