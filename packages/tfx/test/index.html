@@ -13,6 +13,9 @@
         <tfx-import name="currentSelection"></tfx-import>
       </tfx-module>
 
+      <!-- <tfx-meta resolve="() => ({language: 'english'})">
+      </tfx-meta> -->
+
       <tfx-term name="type">
         <tfx-case pattern="number" resolve="() => types['number']"></tfx-case>
         <tfx-case pattern="date" resolve="() => types['date']"></tfx-case>
@@ -21,7 +24,7 @@
       <tfx-term name="cell">
         <tfx-case pattern="${
           #string({case: 'upper', characters: 'alphabetic'})
-          #number({start: 1})
+          #number({range: {start: 1}})
         }"
           resolve="([column, row]) => [row, column]"
         >
@@ -39,14 +42,15 @@
       </tfx-term>
 
       <tfx-term name="selection">
-        <!-- TODO: implement macros -->
-        <!-- <tfx-case pattern="${#repeat!(cell, range, {separator: ','})}"
-          convert="{cell: value => [value, value]}"
-        > -->
-        <tfx-case pattern="${((cell ',') | (range ',')) ... (cell | range)}"
+        <tfx-case pattern="${#repeat!(cell, range, {separator: ','})}"
           convert="{cell: value => [value, value]}"
         >
         </tfx-case>
+        <!-- The above evaluates to:
+        <tfx-case pattern="${[[cell ','] | [range ',']] ... [cell | range]}"
+          convert="{cell: value => [value, value]}"
+        >
+        </tfx-case> -->
       </tfx-term>
 
       <tfx-term name="format">

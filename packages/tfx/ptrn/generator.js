@@ -1,4 +1,4 @@
-import {parse} from './parser.js';
+import {parse} from './ast.js';
 import {grab} from '../interpreter.js';
 import 'https://unpkg.com/chevrotain@6.1.0/lib/chevrotain.js';
 // const chevrotain = require('chevrotain');
