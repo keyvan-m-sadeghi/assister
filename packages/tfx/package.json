@@ -25,6 +25,7 @@
   "homepage": "https://github.com/assister-ai/assister#readme",
   "devDependencies": {
     "ava": "^2.3.0",
+    "chevrotain": "^6.1.0",
     "es-dev-server": "^1.10.4",
     "jsdom": "^15.1.1",
     "jsonld": "^1.6.2",

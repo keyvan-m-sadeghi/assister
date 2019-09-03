@@ -13,13 +13,19 @@
         <tfx-import name="currentSelection"></tfx-import>
       </tfx-module>
 
+      <!-- <tfx-meta resolve="() => ({language: 'english'})">
+      </tfx-meta> -->
+
       <tfx-term name="type">
         <tfx-case pattern="number" resolve="() => types['number']"></tfx-case>
         <tfx-case pattern="date" resolve="() => types['date']"></tfx-case>
       </tfx-term>
 
       <tfx-term name="cell">
-        <tfx-case pattern="${'A':'Z' 1:}"
+        <tfx-case pattern="${
+          #string({case: 'upper', characters: 'alphabetic'})
+          #number({range: {start: 1}})
+        }"
           resolve="([column, row]) => [row, column]"
         >
         </tfx-case>
@@ -36,10 +42,15 @@
       </tfx-term>
 
       <tfx-term name="selection">
-        <tfx-case pattern="${((cell ',') | (range ',')) ... (cell | range)}"
+        <tfx-case pattern="${#repeat!(cell, range, {separator: ','})}"
           convert="{cell: value => [value, value]}"
         >
         </tfx-case>
+        <!-- The above evaluates to: -->
+        <!-- <tfx-case pattern="${[[cell ','] | [range ',']] ... [cell | range]}"
+          convert="{cell: value => [value, value]}"
+        >
+        </tfx-case> -->
       </tfx-term>
 
       <tfx-term name="format">
