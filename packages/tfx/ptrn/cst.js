@@ -12,7 +12,7 @@ class PTRNParser extends CstParser {
 
     $.RULE('string', () => {
       $.CONSUME(tokens.stringStart);
-      $.CONSUME(tokens.string);
+      $.CONSUME(tokens.stringContent);
       $.CONSUME(tokens.stringEnd);
     });
 
@@ -47,7 +47,7 @@ class PTRNParser extends CstParser {
       $.AT_LEAST_ONE_SEP({
         SEP: tokens.comma,
         DEF: () => $.OR([
-          {ALT: () => $.CONSUME(tokens.identifier)},
+          {ALT: () => $.SUBRULE($.termOrMacro)},
           {ALT: () => $.SUBRULE($.options)}
         ])
       });
@@ -68,10 +68,10 @@ class PTRNParser extends CstParser {
       {ALT: () => $.SUBRULE($.group)}
     ]));
 
-    $.RULE('repetition', () => $.AT_LEAST_ONE(() => {
+    $.RULE('repetition', () => {
       $.SUBRULE($.unit);
       $.OPTION(() => $.CONSUME(tokens.star));
-    }));
+    });
 
     $.RULE('concatenation', () => $.AT_LEAST_ONE(() => {
       $.SUBRULE($.repetition);
@@ -97,16 +97,15 @@ class PTRNParser extends CstParser {
     });
 
     $.RULE('pattern', () => $.AT_LEAST_ONE(() => $.OR([
-        {ALT: () => $.SUBRULE($.template)},
-        {ALT: () => $.CONSUME(tokens.literal)}
-      ])
-    ));
+      {ALT: () => $.CONSUME(tokens.literal)},
+      {ALT: () => $.SUBRULE($.template)}
+    ])));
 
     this.performSelfAnalysis();
   }
 }
 
-export function parseCST(ptrnText) {
+export function parse(ptrnText) {
   const lexResult = lexer.tokenize(ptrnText);
   let error = lexResult.errors[0];
   if (error) {
@@ -125,7 +124,7 @@ export function parseCST(ptrnText) {
   }
   return {
     concreteSyntaxTree,
-    BasePTRNVisitor: parser.getBaseCstVisitorConstructor()
+    BasePTRNVisitor: parser.getBaseCstVisitorConstructorWithDefaults()
   };
 }
 

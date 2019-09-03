@@ -39,8 +39,8 @@ const stringEnd = createToken({
   pop_mode: true
 });
 
-const stringBody = createToken({
-  name: 'stringBody',
+const stringContent = createToken({
+  name: 'stringContent',
   pattern: /[^']+/
 });
 
@@ -129,7 +129,7 @@ const multiModeLexerDefinition = {
       templateEnd
     ],
     string: [
-      stringBody,
+      stringContent,
       stringEnd
     ],
     options: [
@@ -144,6 +144,8 @@ const multiModeLexerDefinition = {
     call: [
       whitespace,
       identifier,
+      macroSign,
+      callStart,
       comma,
       optionsStart,
       callEnd
@@ -161,7 +163,7 @@ export const tokens = {
   templateEnd,
   stringStart,
   stringEnd,
-  string: stringBody,
+  stringContent,
   star,
   groupStart,
   groupEnd,
