@@ -1,7 +1,30 @@
 import * as cst from './cst.js';
 
+class Tracker {
+  constructor() {
+    this.terminals = new Set();
+    this.macros = new Map();
+  }
+
+  addTerminal(text) {
+    this.terminals.add(text);
+  }
+
+  addMacro(macroASTNode) {
+    let current = this.macros.get(macroASTNode.name) || [];
+    const alreadyExists = current
+      .some(macro => macro.value == macroASTNode.value);
+    if (!alreadyExists) {
+      current = [...current, macroASTNode];
+    }
+    this.macros.set(macroASTNode.name, current);
+  }
+}
+
 export function parse(ptrnText) {
   const {concreteSyntaxTree, BasePTRNVisitor} = cst.parse(ptrnText);
+
+  const tracker = new Tracker();
 
   const tokenToASTNode = token => ({
     type: token.tokenType.name,
@@ -10,9 +33,6 @@ export function parse(ptrnText) {
     endOffset: token.endOffset
   });
 
-  const chopValueFromText = child => ptrnText
-    .slice(child.location.startOffset, child.location.endOffset + 1);
-
   const childToASTNode = child => ({
     type: child.name,
     value: chopValueFromText(child),
@@ -20,7 +40,8 @@ export function parse(ptrnText) {
     endOffset: child.location.endOffset
   });
 
-  
+  const chopValueFromText = child => ptrnText
+    .slice(child.location.startOffset, child.location.endOffset + 1);  
 
   class PTRNToASTVisitor extends BasePTRNVisitor {
     constructor() {
@@ -57,11 +78,20 @@ export function parse(ptrnText) {
     }
 
     pattern(ctx) {
-      return this.getChildrenAndSortAsAppeared({
-        parent: ctx,
-        tokenChildNames: ['literal'],
-        ruleChildNames: ['template']
-      });
+      const rootNode = {
+        value: ptrnText,
+        macros: tracker.macros,
+        terminals: tracker.terminals,
+        children: this.getChildrenAndSortAsAppeared({
+          parent: ctx,
+          tokenChildNames: ['literal'],
+          ruleChildNames: ['template']
+        })
+      };
+      rootNode.children
+        .filter(child => child.type === 'literal')
+        .map((child) => tracker.addTerminal(child.value));
+      return rootNode;
     }
 
     template(ctx) {
@@ -129,10 +159,17 @@ export function parse(ptrnText) {
     }
 
     unit(ctx) {
-      return this.addParentWithSingleChild({
+      const unitNode = this.addParentWithSingleChild({
         parent: ctx,
         parentName: 'unit'
       });
+      const unit = unitNode.unit;
+      if (unit.type === 'stringContent') {
+        tracker.addTerminal(unit.value);
+      } else if (unit.type === 'macro') {        
+        tracker.addMacro(unit);
+      }
+      return unitNode;
     }
 
     string(ctx) {
