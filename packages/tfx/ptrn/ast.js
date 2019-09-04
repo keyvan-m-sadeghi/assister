@@ -124,7 +124,7 @@ export function parse(ptrnText) {
       return this.addParentOnlyIfMoreThanOneChild({
         parent: ctx,
         parentName: 'concatenation',
-        childName: 'repetition'
+        childName: 'option'
       });
     }
 
@@ -140,6 +140,15 @@ export function parse(ptrnText) {
         };
       }
       return this.visit(parent[childName]);
+    }
+
+    option(ctx) {
+      return this.addParentOnlyIfChildHasOption({
+        parent: ctx,
+        parentName: 'option',
+        childName: 'repetition',
+        optionName: 'emptyAllowed'
+      });
     }
 
     repetition(ctx) {

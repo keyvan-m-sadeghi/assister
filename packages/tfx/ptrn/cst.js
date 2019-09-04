@@ -69,12 +69,17 @@ class PTRNParser extends CstParser {
     ]));
 
     $.RULE('repetition', () => {
-      $.SUBRULE($.unit);
       $.OPTION(() => $.CONSUME(tokens.star));
+      $.SUBRULE($.unit);
+    });
+
+    $.RULE('option', () => {
+      $.SUBRULE($.repetition);
+      $.OPTION(() => $.CONSUME(tokens.emptyAllowed));
     });
 
     $.RULE('concatenation', () => $.AT_LEAST_ONE(() => {
-      $.SUBRULE($.repetition);
+      $.SUBRULE($.option);
     }));
 
     $.RULE('alternation', () => {

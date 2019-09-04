@@ -49,6 +49,11 @@ const star = createToken({
   pattern: /\.\.\./,
 });
 
+const emptyAllowed = createToken({
+  name: 'emptyAllowed',
+  pattern: /\?/,
+});
+
 const groupStart = createToken({
   name: 'groupStart',
   pattern: /\[/
@@ -104,7 +109,7 @@ const macroSign = createToken({
 
 const identifier = createToken({
   name: 'identifier',
-  pattern: /[^ '{}\[\]\(\):,\|(\.\.\.)!]+/
+  pattern: /[^ '{}\[\]\(\):,\|(\.\.\.)\?!]+/
 });
 
 // Define a Multi Mode Lexer
@@ -125,6 +130,7 @@ const multiModeLexerDefinition = {
       optionsStart,
       or,
       star,
+      emptyAllowed,
       macroSign,
       templateEnd
     ],
@@ -165,6 +171,7 @@ export const tokens = {
   stringEnd,
   stringContent,
   star,
+  emptyAllowed,
   groupStart,
   groupEnd,
   callStart,
