@@ -75,14 +75,14 @@ const callEnd = createToken({
   pop_mode: true
 });
 
-const optionsStart = createToken({
-  name: 'optionsStart',
+const objectStart = createToken({
+  name: 'objectStart',
   pattern: /{/,
-  push_mode: 'options'
+  push_mode: 'object'
 });
 
-const optionsEnd = createToken({
-  name: 'optionsEnd',
+const objectEnd = createToken({
+  name: 'objectEnd',
   pattern: /}/,
   pop_mode: true
 });
@@ -127,7 +127,7 @@ const multiModeLexerDefinition = {
       groupEnd,
       identifier,
       callStart,
-      optionsStart,
+      objectStart,
       or,
       star,
       emptyAllowed,
@@ -138,14 +138,14 @@ const multiModeLexerDefinition = {
       stringContent,
       stringEnd
     ],
-    options: [
+    object: [
       whitespace,
       colon,
       stringStart,
       identifier,
-      optionsStart,
+      objectStart,
       comma,
-      optionsEnd
+      objectEnd
     ],
     call: [
       whitespace,
@@ -153,7 +153,7 @@ const multiModeLexerDefinition = {
       macroSign,
       callStart,
       comma,
-      optionsStart,
+      objectStart,
       callEnd
     ]
   },
@@ -176,8 +176,8 @@ export const tokens = {
   groupEnd,
   callStart,
   callEnd,
-  optionsStart,
-  optionsEnd,
+  objectStart,
+  objectEnd,
   colon,
   comma,
   or,

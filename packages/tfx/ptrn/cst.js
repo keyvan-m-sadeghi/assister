@@ -22,22 +22,22 @@ class PTRNParser extends CstParser {
       $.OR([
         {ALT: () => $.SUBRULE($.string)},
         {ALT: () => $.CONSUME2(tokens.identifier)},
-        {ALT: () => $.SUBRULE($.options)},
+        {ALT: () => $.SUBRULE($.object)},
       ]);
     });
 
-    $.RULE('options', () => {
-      $.CONSUME(tokens.optionsStart);
+    $.RULE('object', () => {
+      $.CONSUME(tokens.objectStart);
       $.AT_LEAST_ONE_SEP({
         SEP: tokens.comma,
         DEF: () => $.SUBRULE($.keyValue)
       });
-      $.CONSUME(tokens.optionsEnd);
+      $.CONSUME(tokens.objectEnd);
     });
 
     $.RULE('termCall', () => {
       $.CONSUME(tokens.callStart);
-      $.SUBRULE($.options);
+      $.SUBRULE($.object);
       $.CONSUME(tokens.callEnd);
     });
 
@@ -48,7 +48,7 @@ class PTRNParser extends CstParser {
         SEP: tokens.comma,
         DEF: () => $.OR([
           {ALT: () => $.SUBRULE($.termOrMacro)},
-          {ALT: () => $.SUBRULE($.options)}
+          {ALT: () => $.SUBRULE($.object)}
         ])
       });
       $.CONSUME(tokens.callEnd);

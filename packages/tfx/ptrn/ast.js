@@ -52,7 +52,8 @@ export function parse(ptrnText) {
     getChildrenAndSortAsAppeared({
       parent,
       tokenChildNames = [],
-      ruleChildNames = []
+      ruleChildNames = [],
+      convertRuleChildToASTNode = false
     }) {
       const children = [];
       tokenChildNames
@@ -66,10 +67,12 @@ export function parse(ptrnText) {
         .map(childName => {
           if (parent[childName]) {
             parent[childName]
-              .map(child => children.push({
-                ...childToASTNode(child),
+              .map(child => children.push(({
+                ...(convertRuleChildToASTNode ?
+                  childToASTNode(child) : {}
+                ),
                 ...this.visit(child)
-              }))
+              })));
           }
         });
       return children.sort(
@@ -85,7 +88,8 @@ export function parse(ptrnText) {
         children: this.getChildrenAndSortAsAppeared({
           parent: ctx,
           tokenChildNames: ['literal'],
-          ruleChildNames: ['template']
+          ruleChildNames: ['template'],
+          convertRuleChildToASTNode: true
         })
       };
       rootNode.children
@@ -185,6 +189,31 @@ export function parse(ptrnText) {
       return tokenToASTNode(ctx.stringContent[0]);
     }
 
+    keyValue(ctx) {
+      const key = ctx.identifier[0].image;
+      let value;
+      if (ctx.identifier[1]) {
+      // If value is identifier
+      // it should be one of the JSON accepted types
+        value = JSON.parse(ctx.identifier[1].image);
+      } else if (ctx.string) {
+        value = this.visit(ctx.string).value;
+      } else { // value is object
+        value = this.visit(ctx.object);
+      }
+      return [key, value];
+    }
+
+    object(ctx) {
+      const keyValues = ctx.keyValue
+        .map(child => this.visit(child));
+      return keyValues
+        .reduce((object, [key, value]) => ({
+          ...object,
+          [key]: value
+        }), {})
+    }
+
     termOrMacro(ctx) {
       const identifier = ctx.identifier[0];
       const type = ctx.macroCall ? 'macro' : 'term';
@@ -208,20 +237,20 @@ export function parse(ptrnText) {
 
     termCall(ctx) {
       return {
-        callArgs: [childToASTNode(ctx.options[0]).value]
+        callArgs: [this.visit(ctx.object[0])]
       }
     }
 
     macroCall(ctx) {
       const children = this.getChildrenAndSortAsAppeared({
         parent: ctx,
-        ruleChildNames: ['termOrMacro', 'options']
+        ruleChildNames: ['termOrMacro', 'object'],
       });
       return {
         callArgs: children
           .map(child => 
             child.type === 'term' || child.type === 'macro' ?
-              `\`${child.value}\`` : child.value
+              child.value : child
           )
       };
     }
