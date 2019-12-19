@@ -12,24 +12,37 @@ export class Message {
   @Prop() triangle: MessageTriangle = 'bottom';
   @Prop() footer: string;
 
+  get footerExists() {
+    return this.footer || this.state != 'none';
+  }
+
   render() {
     const alignment = this.direction === 'outgoing' ? 'right' : 'left';
     return (
       <ion-item lines="none" class="item">
-        <div slot={alignment === 'left' ? 'start' : 'end'}
-          class={`bubble ${this.direction}`}
+        <div slot={alignment === 'left' ? 'start' : 'end'} class={
+            `bubble ${this.direction} ${
+              this.footerExists ? 'bubble-footer-padding' : ''
+            }`
+          }
         >
           <slot />
           <div class="footer">
-            <span class="footer-text">
-              {this.footer}
-            </span>
+            {
+              this.footer &&
+              <span class="footer-text">
+                {this.footer}
+              </span>
+            }
             <chat-message-status state={this.state} />
           </div>
-          <div class={
-            `triangle ${this.direction} ${this.triangle}-${alignment}`
-          }>
-          </div>
+          {
+            this.triangle != "none" &&
+            <div class={
+              `triangle ${this.direction} ${this.triangle}-${alignment}`
+            }>
+            </div>
+          }
         </div>
       </ion-item>
     );

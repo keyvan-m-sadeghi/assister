@@ -37,11 +37,15 @@
 
 .bubble {
   margin: 2px 2px 2px 2px;
-  padding: var(--message-padding-content) var(--message-padding-content) 18px var(--message-padding-content);
+  padding: var(--message-padding-content) var(--message-padding-content) var(--message-padding-content) var(--message-padding-content);
   min-width: 100px;
   position: relative;
   border-radius: var(--message-round-size);
   box-shadow: 0 0 1px 0 #666;
+}
+
+.bubble-footer-padding {
+  padding-bottom: 18px;
 }
 
 .align-left {
