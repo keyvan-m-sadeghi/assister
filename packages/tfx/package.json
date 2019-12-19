@@ -2,9 +2,10 @@
   "name": "@assister/tfx",
   "version": "0.0.1-alpha.2",
   "description": "Web Components for Terms and Functions",
-  "main": "elements.js",
-  "unpkg": "context.json",
+  "main": "context.json",
+  "module": "src/index.js",
   "scripts": {
+    "build": "rollup -c",
     "start": "es-dev-server --watch",
     "test": "ava --timeout=10s"
   },
@@ -29,6 +30,7 @@
     "es-dev-server": "^1.10.4",
     "jsdom": "^15.1.1",
     "jsonld": "^1.6.2",
+    "rollup": "^1.21.4",
     "xo": "^0.24.0"
   },
   "ava": {

@@ -1,5 +1,7 @@
-import {registry} from './registry.js';
-import {fetchVersion} from './utils.js'
+import {registry} from './registry';
+import {fetchVersion} from './utils';
+import {std} from './std/index.js';
+import {definitions} from './definitions'
 
 function spread(jsonLD, child) {
   const childSpreadMap = {
@@ -111,22 +113,33 @@ function specifyTFXElementParseArguments({
   elementTFXAssignmentMap[htmlTag] = assignTFXProperties;
 }
 
-function parse(tfxDefinitionElement) {
+async function parse(tfxDefinitionElement) {
   Object.defineProperty(tfxDefinitionElement, 'jsonLDId', {value: ''});
-  return import('./definitions.js')
-    .then(({definitions}) => definitions.map(specifyTFXElementParseArguments))
-    .then(() => fetchVersion())
-    .then((tfxVersion) => ({
-      ...{
-        '@context': [
-          `https://unpkg.com/@assister/tfx@${tfxVersion}`,
-          {'@base': tfxDefinitionElement.baseURI}
-        ]
+  definitions.map(specifyTFXElementParseArguments);
+  const tfxVersion = await fetchVersion();
+  let jsonLD = {
+    ...{
+      '@context': [
+        `https://unpkg.com/@assister/tfx@${tfxVersion}`,
+        {'@base': tfxDefinitionElement.baseURI}
+      ]
+    },
+    '@type': 'schema:DefinedTermSet',
+    '@id': '',
+    ...parseChildren(tfxDefinitionElement),
+  };
+  jsonLD = {
+      ...jsonLD,
+      terms: {
+        ...jsonLD.terms,
+        ...std.terms
       },
-      '@type': 'schema:DefinedTermSet',
-      '@id': '',
-      ...parseChildren(tfxDefinitionElement)
-    }));
+      macros: {
+        ...jsonLD.macros,
+        ...std.macros
+      }
+  };
+  return jsonLD;
 }
 
 export {parse};

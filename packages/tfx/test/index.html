@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script src="./elements.js"></script>
     <script type="module" src="./test/test-in-browser.js"></script>
   </head>
   <body>
     <tfx-definition>
-      <tfx-module src="./test/sheet.js">
+      <tfx-module src="./test/sheet.js" oninpu="() => console.log('weee')">
         <tfx-import name="format"></tfx-import>
         <tfx-import name="setCurrentSelection"></tfx-import>
         <tfx-import name="types"></tfx-import>
