@@ -23,6 +23,8 @@ export class RasaBot {
    * Rasa server address
    */
   @Prop({reflectToAttr: true}) server: string;
+  @Prop({reflectToAttr: true}) token?: string;
+  @Prop({reflectToAttr: true}) theme: 'WhatsApp' | 'Simple' = 'WhatsApp';
   @Prop({reflectToAttr: true}) conversation: string = uuidv4();
   @Prop({reflectToAttr: true}) header: string = 'Assistant';
   @Prop({reflectToAttr: true}) gap: 'none' | 'short' | 'long' = 'long';
@@ -31,17 +33,24 @@ export class RasaBot {
 
   handleIncomingMessage(event: CustomEvent<IncomingEventDetail>) {
     const chatMessageElement = event.detail.element;
-    fetch(`${this.server}/conversations/${this.conversation}/messages`, {
+    if (this.theme === 'Simple') {
+      chatMessageElement.state = 'none';
+      chatMessageElement.footer = '';
+    }
+    this.sendMessage(event.detail.text);
+  }
+
+  sendMessage(text) {
+    fetch(`${this.server}/conversations/${this.conversation}/messages?token=${
+      this.token}`, {
       method: 'POST',
-      body: JSON.stringify({text: event.detail.text, sender: 'user'}),
+      body: JSON.stringify({text, sender: 'user'}),
       headers:{
         'Content-Type': 'application/json'
       }
     })
-      .then(() => chatMessageElement.state = 'delivered')
       .then(() => this.predictUntilListen())
-      .then(wait(mapDuration(this.gap)))
-      .then(() => chatMessageElement.state = 'read')
+      .then(wait(mapDuration(this.gap)));
   }
 
   predictUntilListen(execution?) {
@@ -58,13 +67,21 @@ export class RasaBot {
             if (message.image) {
               this.pane.addCard({image: message.image});
             }
+            if (message.buttons) {
+              message.buttons.map(button => this.pane.addButton({
+                text: button.title,
+                action: () => this.sendMessage(button.payload)
+              }));
+            }
           });
       });
     }
-    fetch(`${this.server}/conversations/${this.conversation}/predict`, {method: 'POST'})
+    fetch(`${this.server}/conversations/${this.conversation}/predict?token=${
+      this.token}`, {method: 'POST'})
     .then(result => result.json())
     .then(response => response.scores[0].action)
-    .then(action => fetch(`${this.server}/conversations/${this.conversation}/execute`, {
+    .then(action => fetch(`${this.server}/conversations/${
+      this.conversation}/execute?token=${this.token}`, {
       method: 'POST',
       body: JSON.stringify({name: action}),
       headers:{
@@ -76,7 +93,7 @@ export class RasaBot {
   }
 
   componentDidLoad() {
-    this.predictUntilListen();
+    this.sendMessage('hi');
   }
 
   render() {
