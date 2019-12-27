@@ -13,6 +13,8 @@
 | `gap`          | `gap`          |                     | `"long" \| "none" \| "short"` | `'long'`      |
 | `header`       | `header`       |                     | `string`                      | `'Assistant'` |
 | `server`       | `server`       | Rasa server address | `string`                      | `undefined`   |
+| `theme`        | `theme`        |                     | `"Simple" \| "WhatsApp"`      | `'WhatsApp'`  |
+| `token`        | `token`        |                     | `string`                      | `undefined`   |
 
 
 ## Dependencies
@@ -44,6 +46,7 @@ graph TD;
   chat-pane --> chat-message
   chat-pane --> ion-card
   chat-pane --> ion-card-content
+  chat-pane --> ion-button
   chat-pane --> ion-header
   chat-pane --> chat-conversation
   chat-pane --> ion-footer
@@ -55,12 +58,12 @@ graph TD;
   chat-message-status --> ion-icon
   chat-message-status --> chat-check-mark
   ion-card --> ion-ripple-effect
+  ion-button --> ion-ripple-effect
   chat-conversation --> ion-content
   chat-conversation --> ion-list
   chat-input --> ion-icon
   chat-input --> ion-item
   chat-input --> ion-textarea
-  ion-button --> ion-ripple-effect
   style rasa-bot fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
