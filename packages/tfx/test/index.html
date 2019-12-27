@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="./elements.js"></script>
+    <script type="module" src="./test/test-in-browser.js"></script>
+  </head>
+  <body>
+    <tfx-definition>
+      <tfx-module src="./test/sheet.js">
+        <tfx-import name="format"></tfx-import>
+        <tfx-import name="setCurrentSelection"></tfx-import>
+        <tfx-import name="types"></tfx-import>
+        <tfx-import name="currentSelection"></tfx-import>
+      </tfx-module>
+
+      <!-- <tfx-meta resolve="() => ({language: 'english'})">
+      </tfx-meta> -->
+
+      <tfx-term name="type">
+        <tfx-case pattern="number" resolve="() => types['number']"></tfx-case>
+        <tfx-case pattern="date" resolve="() => types['date']"></tfx-case>
+      </tfx-term>
+
+      <tfx-term name="cell">
+        <tfx-case pattern="${
+          #string({case: 'upper', characters: 'alphabetic'})
+          #number({range: {start: 1}})
+        }"
+          resolve="([column, row]) => [row, column]"
+        >
+        </tfx-case>
+      </tfx-term>
+
+      <tfx-term name="range"
+          description="A ${range} is an (interval)[https://en.wikipedia.org/wiki/Interval_(mathematics)] of ${cell}s with a ${start} and an ${end}"
+          more="https://www.computerhope.com/jargon/r/range.htm"
+      >
+        <tfx-case pattern="${cell ':' cell}"
+          resolve="([start, end]) => [start, end]"
+        >
+        </tfx-case>
+      </tfx-term>
+
+      <tfx-term name="selection">
+        <tfx-case pattern="${#repeat!(cell, range, {separator: ','})}"
+          convert="{cell: value => [value, value]}"
+        >
+        </tfx-case>
+        <!-- The above evaluates to: -->
+        <!-- <tfx-case pattern="${[[cell ','] | [range ',']] ... [cell | range]}"
+          convert="{cell: value => [value, value]}"
+        >
+        </tfx-case> -->
+      </tfx-term>
+
+      <tfx-term name="format">
+        <tfx-case pattern="format as ${type}"
+          resolve="([type]) => format(currentSelection, type)"
+        >
+        </tfx-case>
+        <tfx-case pattern="format ${selection} as ${type}"
+          resolve="([selection, type]) => { format(selection, type); return selection; }"
+          then="selection => setCurrentSelection(selection)"
+        >
+        </tfx-case>
+      </tfx-term>
+    </tfx-definition>
+    <!-- <tfx-definition version="0.0.1-alpha.1"></tfx-definition> -->
+  </body>
+</html>

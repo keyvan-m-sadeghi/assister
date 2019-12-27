@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "https://unpkg.com/@assister/tfx@0.0.1-alpha.2/",
+    "tfx": "https://unpkg.com/@assister/tfx@0.0.1-alpha.2/",
+    "schema": "http://schema.org/",
+    "name": {
+      "@id": "tfx:name",
+      "@type": "schema:name"
+    },
+    "description": {
+      "@id": "tfx:description",
+      "@type": "schema:StructuredValue"
+    },
+    "more": {
+      "@id": "tfx:more",
+      "@type": "schema:URL"
+    },
+    "commands": {
+      "@id": "tfx:commands",
+      "@container": "@set"
+    },
+    "terms": {
+      "@id": "tfx:term",
+      "@container": "@id"
+    },
+    "cases": {
+      "@id": "tfx:case",
+      "@container": "@set"
+    },
+    "pattern": {
+      "@id": "tfx:pattern",
+      "@type": "schema:StructuredValue"
+    },
+    "examples": {
+      "@id": "tfx:example",
+      "@container": "@set",
+      "@type": "schema:Text"
+    },
+    "imports": {
+      "@id": "tfx:import",
+      "@container": "@id"
+    },
+    "type": {
+      "@id": "tfx:type",
+      "@type": "@id"
+    },
+    "intents": {
+      "@id": "tfx:intent",
+      "@container": "@id"
+    },
+    "resolve": {
+      "@id": "tfx:resolve",
+      "@type": "schema:StructuredValue"
+    },
+    "convert": {
+      "@id": "tfx:convert",
+      "@type": "schema:StructuredValue"
+    },
+    "then": {
+      "@id": "tfx:then",
+      "@type": "schema:StructuredValue"
+    }
+  },
+  "@id": "",
+  "@graph": [
+    {
+      "@id": "name",
+      "@type": "schema:Property",
+      "schema:domainIncludes": [
+        "tfx:term",
+        "tfx:command"
+      ],
+      "schema:rangeIncludes": "schema:name"
+    },
+    {
+      "@id": "term",
+      "@type": "schema:hasDefinedTerm"
+    },
+    {
+      "@id": "case",
+      "@type": "schema:Property",
+      "schema:domainIncludes": [
+        "tfx:term",
+        "tfx:command"
+      ],
+      "schema:rangeIncludes": "schema:StructuredValue"
+    },
+    {
+      "@id": "description",
+      "@type": "schema:description",
+      "schema:domainIncludes": [
+        "tfx:term",
+        "tfx:command"
+      ],
+      "schema:rangeIncludes": "schema:StructuredValue"
+    }
+  ]
+}
