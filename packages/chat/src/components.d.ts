@@ -33,10 +33,12 @@ export namespace Components {
     'state': MessageState;
   }
   interface ChatPane {
+    'addButton': ({ text, action }: { text: string; action: () => any; }) => Promise<HTMLElement>;
     'addCard': ({ text, image }: { text?: string; image?: string; }) => Promise<HTMLElement>;
     'addIncomingMessage': (text: string) => Promise<HTMLElement>;
     'addOutgoingMessage': (text: string) => Promise<HTMLElement>;
     'mapInputTextToHtmlElements': (text: string) => HTMLElement[];
+    'scrollToBottom': () => Promise<any>;
     'triangle': MessageTriangle;
   }
   interface FabApp {

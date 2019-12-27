@@ -26,7 +26,7 @@ export class Conversation {
     for (let i = 0; i < children.length; i++) {
       height += children[i].clientHeight;
     }
-    return this.content.scrollToPoint(0, height, 800);
+    return this.content.scrollToPoint(0, height * 2, 800);
   }
 
   render() {

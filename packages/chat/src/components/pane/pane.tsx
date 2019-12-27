@@ -42,6 +42,11 @@ export class Pane {
   }
 
   @Method()
+  async scrollToBottom() {
+    return this.conversation.scrollToBottom();
+  }
+
+  @Method()
   async addOutgoingMessage(text: string) {
     return this.addMessage('outgoing', text)
   }
@@ -69,6 +74,17 @@ export class Pane {
     this.pane.appendChild(card);
     this.conversation.scrollToBottom();
     return card;
+  }
+
+  @Method()
+  async addButton({text, action}: {text: string, action: () => any}): Promise<HTMLElement> {
+    const button = document.createElement('ion-button');
+    button.expand = 'block';
+    button.textContent = text;
+    button.onclick = action;
+    this.pane.appendChild(button);
+    this.conversation.scrollToBottom();
+    return button;
   }
 
   render() {
