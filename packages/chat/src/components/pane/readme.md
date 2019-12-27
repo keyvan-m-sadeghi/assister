@@ -22,6 +22,16 @@
 
 ## Methods
 
+### `addButton({ text, action }: { text: string; action: () => any; }) => Promise<HTMLElement>`
+
+
+
+#### Returns
+
+Type: `Promise<HTMLElement>`
+
+
+
 ### `addCard({ text, image }: { text?: string; image?: string; }) => Promise<HTMLElement>`
 
 
@@ -52,6 +62,16 @@ Type: `Promise<HTMLElement>`
 
 
 
+### `scrollToBottom() => Promise<any>`
+
+
+
+#### Returns
+
+Type: `Promise<any>`
+
+
+
 
 ## Dependencies
 
@@ -60,6 +80,7 @@ Type: `Promise<HTMLElement>`
 - [chat-message](../message)
 - ion-card
 - ion-card-content
+- ion-button
 - ion-header
 - [chat-conversation](../conversation)
 - ion-footer
@@ -71,6 +92,7 @@ graph TD;
   chat-pane --> chat-message
   chat-pane --> ion-card
   chat-pane --> ion-card-content
+  chat-pane --> ion-button
   chat-pane --> ion-header
   chat-pane --> chat-conversation
   chat-pane --> ion-footer
@@ -82,6 +104,7 @@ graph TD;
   chat-message-status --> ion-icon
   chat-message-status --> chat-check-mark
   ion-card --> ion-ripple-effect
+  ion-button --> ion-ripple-effect
   chat-conversation --> ion-content
   chat-conversation --> ion-list
   chat-input --> ion-icon
