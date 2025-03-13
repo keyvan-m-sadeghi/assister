@@ -1,6 +1,6 @@
 # Assister
 
-Private Open General Assistant Platform, [Request For Comments]([https://github.com/keyvan-m-sadeghi/assister/blob/assister-conception/rfcs/text/assister-conception/README.md](https://github.com/keyvan-m-sadeghi/assister/tree/master/rfcs/text/assister-conception))
+Private Open General Assistant Platform, [Request For Comments](https://github.com/keyvan-m-sadeghi/assister/blob/assister-conception/rfcs/text/assister-conception/README.md](https://github.com/keyvan-m-sadeghi/assister/tree/master/rfcs/text/assister-conception)
 
 Assister is a collection of software packages that help builders create
 **Natural Language User Interfaces**. These UIs can range from simple chatbots
